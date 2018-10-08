@@ -11,6 +11,10 @@
 * -Given two pointers dest and src where src is a null-terminating string, copy the contents of src into dest.
 * -Given two pointers dest and src to null-terminating strings, append the contents of src to the end of dest.
 * You won't need malloc to write these functions, though it would be useful to test them. Let me know if you have any questions.
+
+strings can be stored either
+char str1[] = "Hello"
+char *str2 = "Goodbye"
 */
 
 
@@ -19,7 +23,7 @@
 #include <stdlib.h>
 
 //Const pointer will not hcange what is pointed to)
-int strlength(const char* s) {
+int str_len(const char* s) {
 	int string_length;
 
 	// Array method
@@ -35,10 +39,35 @@ int strlength(const char* s) {
 	return string_length;
 }
 
+int str_find(const char* c, const char* s) {
+
+/*	strings can be stored either
+* stores &
+ex: 
+char * str - pointer variables 
+str=&str1
+
+char str1[] = "Hello"
+char *str2 = "Goodbye"
+*/
+	char str1[] = "Hello";
+	char *str2 = "Goodbye";
+
+	printf("%s\n", str1);
+	printf("%s\n", str2);
+
+	printf("%x %x %s\n", &str1, str1, str1);
+	printf("address: %x -->value: %x %s\n", &str2, str2, str2);
+	return 0;
+}
+
 
 int main (int argc, char**argv) {
-	int l = strlength("Barad"); // goes to literal memory
+	int l = str_len("Barad"); // goes to literal memory
 	printf ("l = %d\n", l);
 
+	str_find("a", "adfaf");
+
+	return 0;
 }
 
