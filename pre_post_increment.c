@@ -14,31 +14,26 @@
 */
 
 
-
 #include <stdio.h>
 #include <stdlib.h>
 
-//Const pointer will not hcange what is pointed to)
-int strlength(const char* s) {
-	int string_length;
 
-	// Array method
-	for (int i=0; s[i] != '\0'; i++) {
-		printf("s[%d] = %c\n", i,s[i] );
-		
-		// add 2 to account for i)zero index +1, null terminator element
-		string_length = i+2; 
-	}
+int main (int argc, char **argv) {
+	
+	int num1, num2;
 
-	//pointer methods.
-		
-	return string_length;
-}
+	printf("Prefix and Postfix operators...(num = 10)\n");
+	num1 = 10;
+	/* POSTFIX operators Notice num2 is 10, the assignment is done first, then incremented*/
+	num2 = num1++; // num2 = 10, num1 = 11
 
+	printf("num2 = num1++; so num2=%d and num = %d\n", num2, num1);
 
-int main (int argc, char**argv) {
-	int l = strlength("Barad"); // goes to literal memory
-	printf ("l = %d\n", l);
+	num1 = 10;
+
+	/*PREFIX operators, in this case the variable num1 is updated first, then assigned to num2*/
+	num2 = ++num1; // num2 = 11, num1 =11
+	printf("num2 = ++num1; so num2 = %d and num1 = %d\n", num2, num1);
+
 
 }
-
