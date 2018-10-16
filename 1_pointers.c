@@ -128,32 +128,42 @@ int last_occur(const char* c, const char* s) {
 	Smaller in this context literally means less than.
 	insane inssanity
 */
-int diff_str(const char* s1, const char* s2 ){
-	int loop_on=1;
-	int match_found = 0;
-	int j=0;
-	int index=0;
 
+int diff_str(const char* s1, const char* s2 )
+{
 	//algorithm is good. use do while to fix.
-	for (int i=0; match_found == 0 &&  s1[i] != '\0'; i++){
-		// iterate through second s2 string
-		do {
-			printf("s1[%d]=%c  s2[%d]=%c\n", i, s1[i], j,s2[j]);
-			j++;
-
-		} while (s1[i] != s2[j] && s2[j] != '\0');
-		
-		if (s1[i] == s2[j]) {
-			printf("match found s1[%d]=%c s2[%d]=%c\n", i,s1[i],j,s2[j] );
-			match_found = 1;
-			index=i;
-		}
-	
+	if (s1 == s2) {
+		return 0;
 	}
+	for (int i=0; s1[i] != '\0' || s2[i] != '\0'; i++ ){
+	
+		printf("s1[%d]=%c  s2[%d]=%c\n", i, s1[i], i,s2[i]);
+		// if first diff char found
+		if (s1[i] != s2[i]){
+			printf("Diff char detected--->s1[%d]=%c  s2[%d]=%c\n", i, s1[i], i,s2[i]);
+			return s1[i] < s2[i] ? -1 : 1;
+		}
+		
+	} 
 
-
-	return s1[index] == s2[j] ? 1: -1;
+	return 0; //nothing else found
+	
 }
+
+/* 5 -Given two pointers dest and src where src is a null-terminating string, 
+	copy the contents of src into dest.
+*/
+	des_str pointer 
+// int stringCopy(char* dest_str, const char* src_str) {
+// 	int i=0;
+// 	do{
+// 		dest_str[i] = src_str[i];
+// 		if (src_str[i+1] == '/0') {
+
+// 		}
+
+// 	} while (src_str[i] != '/0')
+// }
 
 /* Main driver class */
 int main (int argc, char**argv) {
@@ -166,9 +176,9 @@ int main (int argc, char**argv) {
 	// int loccur=last_occur("a", "insanafas");
 	// printf("last occur pos: %d\n", loccur);
 
-	int test=diff_str("once", "bounce");
+	// int diff=diff_str("bounce", "bounce");
 
-	printf("test: %d", test );
+	// printf("different str test: %d\n", diff );
 
 	return 0;
 }
