@@ -153,7 +153,7 @@ int diff_str(const char* s1, const char* s2 )
 /* 5 -Given two pointers dest and src where src is a null-terminating string, 
 	copy the contents of src into dest.
 */
-	des_str pointer 
+	// des_str pointer 
 // int stringCopy(char* dest_str, const char* src_str) {
 // 	int i=0;
 // 	do{
@@ -164,6 +164,22 @@ int diff_str(const char* s1, const char* s2 )
 
 // 	} while (src_str[i] != '/0')
 // }
+
+void test_pointers() 
+{
+	int num;
+	int *numPtr;
+	int num2;
+
+	
+	num = 100;
+	numPtr = &num;
+	num2 = *numPtr;
+
+	printf("num=%d\n numPtr=%p\n address of num = %p\n num2=%d\n", num, numPtr, &num, num2);
+
+
+}
 
 /* Main driver class */
 int main (int argc, char**argv) {
@@ -179,6 +195,7 @@ int main (int argc, char**argv) {
 	// int diff=diff_str("bounce", "bounce");
 
 	// printf("different str test: %d\n", diff );
+	test_pointers();
 
 	return 0;
 }
