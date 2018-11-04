@@ -84,6 +84,11 @@ int dequeue (queue_td *q, short * element) {
 	printf("Dequeued: %d\n", *element);
 	q->dq ++ ; // increment dq
 	printf("new Dq position: %p\n", q->dq);
+
+	// if the new position is past the end, wrap back to start address
+	if (q->dq == q->start + q->capacity) {
+		q->dq = q->start;
+	}
 	return 0;
 }
 
