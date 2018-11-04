@@ -37,6 +37,7 @@ void insertion(int index, short data){
 		printf("list item: current is %p; next is %p; data is %d\n", temp, temp->next, temp->data);
 		temp = temp->next;	
 	}
+	prev_node = temp;
 }
 
 int main() {
