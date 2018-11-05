@@ -1,0 +1,1 @@
+run this application while the bluetooh device is on and "connected" but not working state

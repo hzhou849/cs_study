@@ -1,0 +1,16 @@
+-bubble sort runtime: n^2 space complexity is constant
+
+-insertion sort - sort and unsorted section; runtime: n^2, space complexity is constant. 
+
+- selection sort - is this the smallest if yes put to sorted and repeat on unsorted section
+                 - 
+-heap sort
+-merge sort - logv2 ^8 = 3 or logv2^n + logv2^n = 2logv2, comparision each time is n times therefore nlog n times
+            - space complexity n
+			- recursively 
+-quicksort  - pivot best take the 1st last and middle and the median of that
+			-  time complexity: nlogn 
+
+- tree sort  - space complexity n times  \ runtime n * log n times
+- binary sort
+-binary tree rebalancing take the right node of root and rebalance
