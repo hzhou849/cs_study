@@ -27,11 +27,11 @@ void add_node(short data) {
 }
 
 void insertion(int index, short data){
-	listitem_t *prev_node, *next_node *new_node;
+	listitem_t *prev_node, *next_node, *new_node;
 
 	new_node = malloc(sizeof (listitem_t));
 	new_node->data = data;
-	new_node->next 
+	new_node->next; 
 
 	for (int i =0; i == index; i++ ){
 		printf("list item: current is %p; next is %p; data is %d\n", temp, temp->next, temp->data);
