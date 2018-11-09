@@ -1,0 +1,48 @@
+You have an empty repository
+To get started you will need to run these commands in your terminal.
+
+New to Git? Learn the basic Git commands
+Configure Git for the first time
+
+git config --global user.name "Hadfowardadsf"
+git config --global user.email "hoadfa@gmail.com"
+
+Working with your repository
+I just want to clone this repository
+If you want to simply clone this empty repository then run this command in your terminal.
+
+git clone ssh://git@stash:7999/~asdfafsd/adfasf.git
+
+My code is ready to be pushed
+If you already have code ready to be pushed to this repository then run this in your terminal.
+
+cd existing-project
+
+git init
+git add --all
+git commit -m "Initial Commit"
+git remote add origin ssh://git@stash:7999/~asdfasdff/release-software.git
+git push -u origin master
+
+My code is already tracked by Git
+If your code is already tracked by Git then set this repository as your "origin" to push to.
+cd existing-project
+git remote set-url origin ssh://git@stash:7999/~aasdf/asdfasf.git
+git push -u origin master
+
+/*Updating existing project with new files
+***try to include readme.txt in projects
+#git init - no required
+-----------------------------------------
+-in master folder
+git add --all
+git commit -m "Commit changes comments blah blah " (must add comments to work)
+
+git push 
+
+** if sync is not working, try deleting cache then re-add and commit/push
+git rm --cached <path to submodule/folder>
+
+
+/push branch 
+ git push -u origin feature/test_standAlone_ver  //* -u necessary

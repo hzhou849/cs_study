@@ -1,0 +1,10 @@
+#install
+for python3:
+pip3 install pyinstaller
+
+
+# Single file build
+'pyinstaller --clean -F fan_gui.py'
+
+#to compile:
+pyinstaller for python 3 may require the python3 version??

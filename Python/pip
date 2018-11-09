@@ -1,0 +1,3 @@
+sudo pip install - python2
+sudo pip3 install - for python3
+sudo pip uninstall package

@@ -1,0 +1,41 @@
+class Ethernet_thread(threading.Thread):
+	# time.sleep(1)
+	def __init__(self,dev_num, queue):
+		threading.Thread.__init__(self)
+		self.dev_num = dev_num
+		self.queue = queue
+		
+	def run(self):
+		#sleep is necessary otherwise you will exhaust the processes
+		# time.sleep(1)
+		# print("starting thread")
+		'''
+		Looks for all connected (active) ethernet devices
+		'''
+
+#in GUI class
+
+	# Bandwidth calculation thread
+	def get_bandwidth_thread(self):
+		'''
+			Dependencies: 'module_bandwidth.py'
+			Creates a thread to get bandwidth value - use bandwidth applicaiton
+			- One time execution to create the thread.
+		'''
+		# self.console_Text.insert(END, "Running loop" +"\n")
+		# self.console_Text.see(END)
+		self.eth0_q = Queue()
+		self.task0 = module_ethernet.Ethernet_thread('0', self.eth0_q).start()
+		self.get_eth_state_queue0()
+
+	def get_bandwidth(self):
+		if self.eth2_q.qsize() >0:
+			q_result2 = self.eth2_q.get()
+			# self.console_Text.insert(END,"task3 - Finished and restarting"+"\n"+ q_result2[0]+"\n"+q_result2[1]+"\n"+q_result2[2]+"\n")
+			# self.console_Text.see(END)
+			exec("self.eth2_cnx_state_label.config(text=q_result2[1], foreground=q_result2[2])")
+			self.get_eth_state2()
+		
+		self.after(1000, self.get_eth_state_queue2)
+
+
