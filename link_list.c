@@ -26,8 +26,8 @@ int init_node(listitem_t *listhead) {
 	return 0;
 }
 int add_node(listitem_t *listhead, listitem_t *temp, short data) {
-	
-	temp->next = (listitem_t *)malloc(sizeof (listitem_t)); //allocate memory for node
+	listitem_t* temp;
+	temp = (listitem_t *)malloc(sizeof (listitem_t)); //allocate memory for node
 	temp->data = data;
 	temp->next = listhead->next;
 	// listhead = temp;
@@ -37,7 +37,7 @@ int add_node(listitem_t *listhead, listitem_t *temp, short data) {
 
 void print_node(listitem_t *temp, short *data){
 	*data = temp->data;
-	temp->next = temp
+	temp->next = temp;
 }
 
 int main() {
@@ -52,6 +52,7 @@ int main() {
 
 
 	add_node(&listhead, &temp, (short)31);
+	add_node(&listhead, &temp, (short)42);
 	
 	// listhead.data = 2331;
 	// temp = listhead;

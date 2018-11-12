@@ -16,7 +16,7 @@ typedef struct listitem_t {
 	short data;
 } listitem_t;
 
-listitem_t *listhead=NULL,  *temp;
+listitem_t *listhead=NULL, *temp;
 
 void add_node(short data) {
 	
