@@ -44,6 +44,7 @@ int main() {
 
 	add_node(31);
 	add_node(42);
+	add_node(56);
 	while (temp != NULL) {
 		printf("list item: current is %p; next is %p; data is %d\n", temp, temp->next, temp->data);
 		temp = temp->next; //update to next address;
