@@ -1,8 +1,8 @@
 #http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
 CC=gcc
 CFLAGS=-I. -Wall -pedantic
-list_test: list_test_ver2.c
-	$(CC) $(CFLAGS) -o list2 list_test_ver2.c
+final_list: final_list.c
+	$(CC) $(CFLAGS) -o final_list final_list.c
 
 #phony keeps make from doing something with conflicting name of files
 .PHONY: clean

@@ -69,3 +69,9 @@ void LinkedListDestroy(LinkedList* list)
 {
 	LinkedListClear(list);
 }
+
+int main() {
+	LinkedList list;
+	Link
+
+}
