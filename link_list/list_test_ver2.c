@@ -19,22 +19,27 @@ typedef struct list_item_t{
 }listitem_t;
 
 int list_init(listitem_t* listhead) {
+	// listhead = (listitem_t*)malloc(sizeof (listitem_t));
 	listhead=NULL;
 	// listhead->next = NULL;
 	// list_head++;
+	
+	print_list(&listhead);
+
 
 	return 0;
 
 }
 
 int add_node(listitem_t* listhead, listitem_t* temp, short data) {
-
+	
 	temp=(listitem_t*)malloc(sizeof(listitem_t));
+	printf("temp: %p, listhead: %p\n", temp, listhead);
 	temp->next = listhead;
 	temp->data = data;
-	
+	listhead= temp;
 
-	// print_list(&listhead);
+	print_list(&listhead);
 	return 0;
 }
 
@@ -80,8 +85,7 @@ void print_list (listitem_t* listhead) {
 
 void main() {
 	listitem_t listhead, temp;
-	listhead.next = NULL;
-	listhead=temp;
+	
 	// listitem_t listhead
 	// listhead = add_node(&listhead)
 	
@@ -93,7 +97,6 @@ void main() {
 	// listhead=add_node(listhead, temp, 79);
 	// listhead=add_to_end(listhead,temp, 888);
 
-
-	print_list(&listhead);
+	print_list (&listhead);
 
 }

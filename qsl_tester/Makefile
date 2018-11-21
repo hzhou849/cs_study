@@ -2,7 +2,7 @@
 CC=gcc
 CFLAGS=-I. -Wall -pedantic
 
-source_file: stack.c
-	$(CC) $(CFLAGS) -o stack stack.c
+source_file: list.c
+	$(CC) $(CFLAGS) -o list list.c
 
 .PHONY: clean

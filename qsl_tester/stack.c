@@ -16,11 +16,22 @@ int stack_init(stack_t *s, int capacity) {
 }
 
 int stack_push(stack_t *s, int element){
+	if (s->top == s->start + s->capacity) {
+		return -1;
+	}
 	*(s->top) = element;
 	printf("pushed: %d\n", *(s->top));
 	s->top ++; 			//increment to pointer to next heap allocation
 
 	return 0;
+}
+int stack_pop (stack_t *s, short *pe) {
+	if (s->top == s->start) {
+		printf("stack empty");
+		return -1;
+	}
+	s->top --;
+	*pe = *(s->top);
 }
 
 void print_stack(stack_t *s) {
@@ -36,10 +47,14 @@ void print_stack(stack_t *s) {
 }
 int main(){
 	stack_t s;
+	short pe;
+
 	stack_init(&s, 5);
 	stack_push(&s, 31);
 	stack_push(&s, 44);
 	stack_push(&s, 44);
+	stack_push(&s, 3);	
+	// stack_pop(&s,&pe);
 	print_stack(&s);
 }
 
