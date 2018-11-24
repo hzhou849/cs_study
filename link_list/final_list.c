@@ -10,10 +10,13 @@ typedef struct LinkedList {
 	struct LinkedListNode *head;
 }LinkedList;
 
+// Initialize listhead
 void listhead_init(LinkedList *list) {
 	list->head = 0;
 
 }
+
+// Add link list node
 void LinkedListAdd (LinkedList *list, short  value) {
 	LinkedListNode *newNode = (LinkedListNode*)malloc(sizeof(LinkedListNode));
 	newNode->next = 0;
@@ -30,6 +33,7 @@ void LinkedListAdd (LinkedList *list, short  value) {
 	}
 }
 
+// remove linked list node
 void LinkedListRemove(LinkedList *list, short value) {
 	if (list->head == 0) {
 		return ;
