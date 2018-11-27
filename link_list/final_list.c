@@ -26,9 +26,15 @@ void LinkedListAdd (LinkedList *list, short  value) {
 		list->head = newNode;
 	} else {
 		LinkedListNode* lastNode = list->head;
-		while(lastNode->next != 0){
+	
+        //Iterate to find the actual last node
+        //last node is the one pointing to zero
+        while(lastNode->next != 0){
+            //dereference its current iteration's next address
+            //until the actually last node(pointing to zero) is found
 			lastNode = lastNode->next;
 		}
+        // now that we found the last node, point it to the newNode
 		lastNode->next = newNode;
 	}
 }
