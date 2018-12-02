@@ -1,0 +1,214 @@
+Dragonfly Changelog
+
+v4.4 - Added networking support (NetworkManager, EventNetwork).
+       Added Config option for enabling networking in engine.
+       Added Config option for using -1 for seed to not call srand().
+       Added DRAGONFLY_LOG environment variable for log file.
+       Added DRAGONFLY_CONFIG environment variable for config file.
+       Renamed EventMouseButton to Button since part of Mouse namespace.
+       Updated Fraps to not use deprecated capture() method.
+       Fixed bug in Fraps that tried to use SFML window in headless mode.
+       Added DF_SOUND option (on by default) to turn off for Microsoft
+         Windows WSL.
+       Updated Visual Studio project files for SFML 2.5.* (and networking).
+v4.3 - Changed loglevel for debug message in WorldManager::moveObject().
+       Send step event is now right before update rather than after to
+         smooth timing between step events.
+       Added compilation option for visual bounding boxes for debugging.
+       Added pathfinding (algorithm and manager), including Object use.
+         Classes: Path, PathFind, PathManager, EventPath.
+       Added support for game-programmer logfiles in LogManager.
+       Allow views to follow inactive Objects, too.
+       Fixed headless mode to work since last graphics updates.
+       Renamed all class attributes with m_.
+       Updated object serialize/deserialize.
+       Hotfix PathManager.cpp to not use iterator (Windows bug).
+v4.2 - Added Config option for logfile (still defaults to "dragonfly.log").
+       Added warning in Manager::onEvent() for undefined events.
+       Moved EventStep notification in GameManager::run() to after 
+         WorldManager::draw() to allow Fraps (and any user) screen capture.
+       Added frame capture capability to Fraps.
+       Fixed bug in Config so can read frame_time from df-config.txt.
+       Updated GraphicsManager to scale better with square character screens.
+       Added Vector class with (x,y) as floats.
+       Changed all support of 2d-int Position to Vector.
+       Removed Position class (all positions are now Vectors).
+       Changed velocity mechanic to use Vector and float position.
+       Added acceleration vector and use each step.
+       Added Shape support (circle, triangle, square).
+       Added Particle class and utility functions to create.
+       Added Precipitation class and utility functions to create.
+       Increased GraphicsManager background rectangle to cover character.
+       Added user-custom string match for Config from file df-config.txt.
+       Modified match() to remove all white space.
+       Added Button class.
+       Added TextEntry class.
+       Modified ViewObject so draw value an option.
+       Added CENTER_RIGHT and CENTER_LEFT to ViewObject locations.
+       Added inner 'slack' for view following.
+v4.1 - Fixed InputManager to set game over when closing window rather
+         than shutting engine down.  Lets the game engine run() end
+         gracefully rather than forcing an engine shutdown.
+       Updated Position and Box overload operators to const.
+v4.0 - Major release. Added SFML support.  New engine features include:
+       + Graphics window (outside terminal)
+       + Robust mouse support
+       + Key down and key release events
+       + Audio (music and sound)
+       + Font default is Anonymous Pro (named df-font.ttf)
+         http://www.marksimonson.com/fonts/view/anonymous-pro
+       ResourceManager support for sound and music.
+       New classes for Sound and Music.
+       Add namespace for Dragonfly (df::).
+       Moved "global" names into df namespace.
+       Cleaned up naming of enum types.
+       Added Config class with engine configuration options.
+         Loads from df-config.txt.
+       Moved frame times from GameManager to Config class.
+       Moved random seed from GameManager to Config class.
+       Moved "headless" mode from GameManager to Config class.
+       Made events passed to Object::eventHandler() type const.
+       Renamed background_color to window_background_color for consistency.
+       Changed most #defines to constants (events, altitude, defaults...).
+       Rewrote some code to make easier to port to Windows native.
+       + Clock class
+       + Parsing utilities
+v3.5 - Added checks in Manager startUp() to see if already started.
+         If so, display warning (log level 1).  Ditto for shutDown().
+v3.4 - Renamed default_bg_color to background_color in GraphicsManager.
+       Added log message if missing '\n' after eof in sprite file.
+       Made GameManager call setGameOver() immediately upon shutDown().
+       If GameManager run with frame time 0, don't log timing warnings.
+       Added "headless" mode option to Game Manager for simulations.  
+         GraphicsManager and InputManager are not started in headless mode.
+v3.3 - Changed loglevel of WorldManager insertObject() check message to 
+         reduce logfile noise in early Tutorial games.
+       Added support for different colored backgrounds in GraphicsManager.
+       Removed default foreground color in GraphicsManager.
+v3.2 - Rewrote ViewObject::setLocation() to account for odd bugs in 32-bit
+         libraries.
+v3.1 - Removed check for game over in WorldManager insertObject().
+       Changed WorldManager to only add Object if WorldManager is started.
+v3.0 - Changed deprecated usleep() to nanosleep() in GameManager run().
+       Fixed bug in ViewObject deserialize to take in name of view_string.
+       Declared methods "const" where appropriate.
+       Added type identifier to Manager base class and derived classes.
+       Changed LogManager to have a setFlush() option instead of at startUp().
+       Changed GameManager startUp() to work with LogManager change.
+       Made most informational game engine messages log level 1.
+       Made most low-level game engine messages log level 10.
+       Fixed bug in match() if input string didn't end with a ','.
+       Fixed bug in Manager unregisterInterest() where re-using lists that 
+         were scooted down would retain Objects.
+       Changed return value of Manager::registerInterest() to return 0 
+         on success.
+       Modified defaults for some Object attributes (e.g., box is now (1x1)).
+       Modified default settings of WorldManager boundary in width, height.
+       Fixed Object setSprite() so could change sprite to NULL.
+       Fixed the number of attributes for ViewObject modified.
+       Added getGameOver() method to GameManager to get game over status.
+       Modified WorldManager so won't add objects if Dragonfly shutting down.
+       Renamed Frame setFrame() to setString() to be more consistent.
+       Added "DF_" to all #define constants to help with game programmer
+         namespace collision.
+v2.9 - Fixed bug where an adjust time the size of frame loop would
+       repeat indefinitely.
+v2.8 - Put the rest of (de)serialize log messages at log level 4.
+       Added a game loop adjustment for longer than expected usleep() times.
+v2.7 - Added log level to LogManager, for writeLog().
+       Put (de)serialize log messages at log level 4.
+       Put ResourceManager file messages at log level 1.
+       Added access to game loop step count to Game Manager.
+       Added toggle of time string / step count to prepend to log messages.
+       Fixed Object isModified() to be virtual.
+       Fixed/added ViewObject isModified().
+       Added Object and ViewObject isModified() variant for any attribute.     
+       Fixed Object deserialize() for registering for events.
+       Made it so Object setSprite() changes sprite name, too.
+       Added CENTER_CENTER option for ViewObjects.
+       Removed createIterator() from ObjectList since wasn't used.
+       Removed ~GameManager() since wasn't used.
+v2.6 - Made Manager destructor virtual to stop warnings from some compilers.
+       Fixed bug in ResourceManager where it didn't recognize color cyan.
+       Cleaned up and fixed comments in header files.
+       Made setSprite() reset sprite_index to 0 (the first frame).
+       Added a transparency option for drawing sprites.
+       Replaced "levels" in engine with active/inactive game objects.
+       Re-introduced two buffers in GraphicsManager and refactored code.
+       Added methods to GraphicsManager to get both current and previous 
+         buffer.
+       Re-introduced Object id since they are useful for networking module.
+       Fixed extraneous error message in SceneGraph when deleting inactive
+         object.
+       Fixed bug if shutdown LogManager and then did a writelog().
+       Added de-/serialization of Objects and ViewObjects.
+       Added modification notice for Objects and ViewObjects.
+v2.5 - Fixed bug in ObjectList remove when list full.
+       Fixed bug in Manager remove interest item when list full.
+       Fixed bug in WorldManager on collisions when moving.
+       Made Manager::is_started private and fixed code in derived classes.
+       Fixed bug in LogManager if shutDown() before startUp().
+       Added attribute to EventStep (count).
+v2.4 - Made all "protected" attributes "private".
+       Modified LogManger.writeLog() to error check all fprintf() calls.
+       Added error check for Sprite creation.
+       Modified Clock to support timing on MacOS.
+       Updated WorldManager's isValid() to reject other engine events.
+       Changed Object sprite attributes to private and fixed Splash objects
+         accordingly.
+       Refactored Object to absorb GameObject, removing GameObject.
+       Refactored ViewObject to inherit from Object.  Reduced code in 
+         SceneGraph and WorldManager accordingly.
+       Removed extra buffer in GraphicsManager and refactored code.
+       Cleaned up and fixed comments in header files.
+v2.3 - Removed id from Objects (and WorldManager) since they were proving 
+         to be useless.
+       Made ObjectLists dynamic in that they still use arrays, 
+         but resize themselves larger automatically (on demand).
+       Added "__" pre and post for event type strings.
+       Added "__undefined__" as type for base Event class.
+       Moved setType() in Event.h to public.
+       Changed "using namespace std" to using "std::string" for all.
+       Moved step event from WorldManager to GameManager.
+       Added registerInterest() and unregisterInterest() to Object.  Removes
+         need to unregister for events in game object destructors.
+v2.2 - Added "levels" to WorldManager (via SceneGraph).
+       Added "persistent" attribute for objects across levels.
+       Exposed SceneGraph from WorldManager for Object updates.
+       Updated Fraps object to be persistent.
+       Removed obsolete markForUpdate() functionality from WorldManager.
+v2.1 - Fixed bug in WorldManager that updated deleted objects.
+v2.0 - Updated some comments for Doxygen documentation.
+       Fixed counts of objects removed from SceneGraph's removeGameObject()
+         and removeViewObject().
+v1.9 - Added getAllViewObjects method to WorldManager.
+       Allow curs_set() failing not to halt engine startup.
+       Added Fraps object so display frame rate and record screen.
+       Moved getTimeString() from LogManager to utilities.
+       Updated ViewObject.h to reflect actual defaults.
+       Moved solidness, altitude to private to protect it in GameObject
+       Moved visible to private to protect it in Object.
+v1.8 - Removed append option for LogfileManager.
+       Added ViewObject and EventView for creating HUD displays.
+       Added geometry classes (Line, Circle).
+       Added WorldManager methods for various queries for game objects.
+       Modified so collisions to all objects hit, not just first.
+       Moved GameObject velocity attributes to private.
+       Added Splash screen objects and utility function.
+       Added utility functions.
+       Added 3 levels of solidness: hard, soft, spectral.
+v1.7 - Renamed some function calls to be less terse.
+       Added visibility as an object property (non-visible objects
+       don't get drawn).
+       Fixed bug in Sprite deletion.
+v1.6 - Added velocity functionality.
+       Rewrote Sprite parsing to be cleaner.
+       Added additional view control (centering and following) to WorldManager.
+v1.5 - Added isStarted() functionality to Manager and derived Managers.
+v1.4 - Added support for color in GraphicsManager and Sprite.
+       Fixed to handle sprite files with \r\n in addition to just \n.
+v1.3 - Fixed bug that caused segfault in Manager.
+v1.2 - Fixed bug in ResourceManager allowing sprites of width < 3 to load.
+v1.1 - Removed obsolete InputObject class.
+     - Created base (parent) Manager class for all Managers.
+v1.0 - Initial release.
