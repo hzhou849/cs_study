@@ -15,7 +15,7 @@ void loadResources(void) {
 }
 
 void populateWorld(void) {
-	new Saucer;
+	new Saucer();
 }
 
 int main(int argc, char *argv[]) {

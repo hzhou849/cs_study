@@ -37,7 +37,7 @@ GAMESRC= \
         #  Hero.cpp \
         #  Points.cpp \
         #  Reticle.cpp \
-        #  Saucer.cpp \
+         Saucer.cpp \
         #  Star.cpp \
 
 GAME= game.cpp
