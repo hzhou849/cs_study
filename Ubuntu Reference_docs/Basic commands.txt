@@ -1,0 +1,676 @@
+Linux Command Line Quick lookup
+
+/*Remember you can always call the manual of a command by typing : 'man <command>'*/
+
+/*.bashrc File -- TERMINAL BOOT FILE*/
+What is it? .bashrc file is a script that is excuted when a new terminal is started in interactive mode
+you can use gedit to alter the .bashrc (located in home user director ls -a)
+
+you can also add aliases
+ie 'alias ls = 'ls --color =auto -l'
+
+/*Combining Commands*/
+you can combine commands with the terminal using the ';' to seperate the commands
+ex: ls ; pwd - this will run all commands regardless of fail or not
+
+&&  - this will only run if the previous commmand is successful
+
+|| - if the first command is successful, the 2nd will NOT execute and vice versa
+
+|  - 2nd command will be applied on the results of the first command.
+
+we use verbose as much as you can to know whats going on.
+
+//Remove files
+rm 
+rmdir
+
+-p required if removing a directory tree 
+-v verbose (extra information on status )
+-r recursive (delete subdirectories and all files located in subdirectories)
+
+
+//Make folder directories
+mk 
+mkdir
+-p when creating a parent child tree this option needs to be included to work
+
+
+
+//Copy command
+cp
+-i interactive (asks before overwriting)
+-r recursive (copies files from folder that has files to destination (even if destination doesn't exist)
+-v vervobse (shows background status operation)
+
+usage cp -rv <source_dir> <destination_dir>. 
+- when moving directories, if the destination_dir already exist, it will move the source_dir inside, 
+    if not, it will create the destination_dir and only move the contents == ie.renaming the folder
+  
+
+//Move command
+-- for more info 'man less'
+--transfer and move desired file or folder
+usage: mv <option> <source> <destination>
+
+- you can also use this command to rename and overwrite sourcefile into a new file ex. 
+
+//less 
+- if lists or cat reads are too long for the screen this will display with pause 
+g/G  - Beginning of page and End
+
+b/space - pageUp pageDown
+
+/<search word> - search for desired word and enter for the next result
+?<search word> - search bottom up
+
+'q' - quit
+
+//Touch command
+-usage, create empty files or change timestamps
+
+//SUDO
+'sudo -s' - allows you to set your terminal to root permissions so you dont
+have to enter your password everytime you use the terminal for something
+
+'sudo su <username> - to go back to regular user
+
+//Top
+'top' - shows current running tasks, cpu and mem usage
+
+during this screen press: 
+'s' -  to change the refresh rate (default 3.0 seconds)
+'i' - filters out idle processes
+'k' - enter task PID + enter(on second prompt)  and you can terminate the task
+'q' - quit
+
+//**PID of
+ex. 'pidof unity-control-center' -will return the PID of this task
+*you need to know the name of the task in question
+
+-If you don't know the name
+ps -ux
+
+-to search by username
+ps -U <username>
+
+//**Kill
+usage: 'kill <PID>' ie kill 3286
+
+-if you are unable to kill the program you can use this flag to force close the task:
+'kill -KILL 3294' not recommended by if the normal method doesn't work.
+
+-"Sig Kill command" more powerful than the force kill
+-'kill -9 <PID>'
+
+
+/*Variables*/
+*note variables are disposed when you close the terminal session
+**NO SPACES!!!!!!!
+myvar="hello world"
+
+//ECho
+echo $myvar - to display it back
+'-e' - allows for escape '\'
+
+/*Chmod */
+-allows you to mod the permissions of the files
+x = excutable
+w = write
+r = read
+
+g = group (role)
+o = others (role)
+u = user (role)
++/- = add or remove permissions
+
+usage: 'chmod o+x <filename>
+        'chmod gou+xrw <filename> (you can chain multiple flags)
+        'chmod u+rw, g=rw, o+r <filename>
+
+        'chmod +x myscipt.sh' will give excutable permission to all roles
+
+using octals
+users:
+r w x
+1 1 1
+4 2 1 (start from right hand side, we count by 2^2 that is the rule)
+4+2+1=7 --> all privileges instantiated
+
+group
+r w x
+1 0 1
+4 0 1 (r,x only 0 no write privileges)
+4+5=5
+
+others
+r w x
+1 1 0
+4 2 0 = 6 ( give r w only)
+
+to implement:
+'chmod 756 file.txt' - user/group/others
+
+
+/*WHICH WHATIS*/
+'which bash' - shows the directory where bash is located
+'whatis bash' - gives a short description of the command
+
+/*Useradd*/
+create a user
+-m: create a default home directory for this user.
+-s: command for the default shell, allows user to use shell provided ie bash shell
+-g: default user flag. assigns the role, ie users, 
+-c: provide comments about the user
+-G: giving user assinged group
+
+'sudo useradd user_1_hz -m -s /bin/bash -g users -c "my comments" 
+
+now to create a password for this user:
+'sudo passwd user_1_hz' 
+
+/*userdel*/
+Delete a user
+
+'sudo userdel user_1_hz' *note only ,user login & password but not the user home directory
+'sudo userdel -r user_1_hz' * this will delete the home directory as all the other data too.
+
+/*Group management*/
+
+'groups' - shows all groups the current user is connected to or a member of
+
+'cat /etc/group/' - shows all the groups in the linux operating system.
+
+-to add a group
+'sudo groupadd <name of group>'
+
+-delete group
+'sudo groupdel <name of group>'
+
+-assign user to group
+-a: add user
+-d: removing user from the group
+example: 'sudo gpasswd -a <userName> <groupName>'
+
+
+
+
+/*df*/
+-h: human readable flag
+df - shows the disk usage
+usage: 'df -h' 
+
+-s: summary flag, adding this flag will not print all the files in the folder, just the disk usage data 
+du - displays estimate of disk usage of the specified folder
+usage: 'du -h'
+
+
+free - shows the amount of used and free space cached buffers swap etc..
+usage 'free'
+       'free -m' - for megbytes, use -g for gig etc...
+
+
+/*Watch command*/
+run scripts or commands at a regular interval or repeatedly
+usage: watch <command>  - the command will be executed by default every 2 seconds, 
+press control c to quit.
+
+use flag -n to specify the second interval
+ie usage: 'watch -n 1 free -m'
+
+/*Head tails command*/
+used with files, do the opposite of each other. Head can be used to output the first part of file and tail can print the last part of file
+ie first 10 lines using head command and last 10 lines using tail command.
+
+*although you can use with anyfile it is generally used with log files
+usage: 'head <filename>'
+usage: 'tail <filename>'
+
+if you want to specify the number of lines manually, use -n<numberOfLines> <fileName>
+usage: head -n3 <fileName>
+alt method: head -3 <fileName> (same result)
+
+-f: follow flag, this flag leaves it in listening mode and appends any changes to the specified file as it is updated.
+kern.log
+*multiple files*
+head <file1> <file2> ...<fileN>
+
+
+/*Find Command*/
+used to look for files in a specified folder
+usage: 'find /desired_dir/home/ -name test.*
+
+-mtime: this flag searches for files based on creation date add -<days> '+' for future dated if applicable.
+usage: find /home/ -mtime -1 (seraches for all files create 1 day ago)
+
+/*WC word count*/
+displays the number of words and lines etc in a file
+usage: 'wc test.txt'
+result >1 6 42 test.txt (1 is the number of lines, 6 is #words, 42 #characters )
+
+if you want only specific data only, ie number of bytes (-c) , -l (#lines), -w (#words), -L (length of the longest line)
+usage: 'wc -c test.txt'
+
+#Return the number of lines
+wc -l
+
+/*Calendar command*/
+calender display
+
+usage: 'cal'
+
+ncal - vertical list
+
+'cal <year>' - will show the calendar for the year
+'cal <month> <year>' - usage: 'cal 2 2014' - shows a specific Calendar
+
+'cal -3': will show you the calendars for 3 months (before, current and next)
+
+/*Date command*/
+usage: date
+
+to customize the output:
++%m - month numberical value
++%h - month abbreviated (jan-dec)
++%B - full month name
++%d - Specifies the day of the month
++%y - year
++%H +%M and +S - hour, minute, seconds
++%D mm/dd/yy
++%T - time as hh:mm:ss
+
+example: date "+%d +%h +%y"
+
+
+/*34 - APT-GET*/
+
+-use 'dpkg -l' to see list of packages installed in system
+
+//update - used to resync the package index files from their sources. If you don't run you risk getting an out of date package.
+**run before install
+sudo apt-get update
+
+//install package
+Sudo apt-get install <package name>
+
+
+
+//remove the software package
+     apt-get remove <package name>
+
+// remove the configuration files as well     
+     apt-get remove --purge <package name>
+
+//remove lingering unused dependencies *read list carefully before confirming
+     apt-get autoremove
+
+
+/*35 - IFCONFIG*/
+us man to see other flags
+
+interface configuration. Used to change view and change network interface on the system.
+show the names of interfaces connected to system
+
+ifconfig <name of interface ie eth0> down - disable the specified connection
+ifconfig <name of interface> up - enable the connection    
+
+
+/*36 - Tar compress and decompress*/
+tar = tape archive
+gz = gzip file
+
+//compress
+-c: create the archive
+-v: show verbose information
+-f: specify the file name *must use or system will create zip file that is system dependant and its name is not defined by you??
+
+usage: tar -cvf <archive.tar> <folder/file you want to compress>
+
+usage: tar -czvf <test.gz> <folder/files you want to compress> *not the order of 'z' flag matters. must be after c
+
+
+//extract
+tar -xvf <archive.tar>
+
+//Extract to a different directory use -c 
+tar -xf archive.tar -C /target/directory
+
+
+
+
+/*37 - GREP**/
+GREP = Global regular expression print
+
+-processes text line by line and print any line that matches specified pattern.
+-used to search for word or text file or multiple text files
+
+
+**warning default search is case sensitive use '-i' flag to override
+usage: grep "<search expression>" <filename1> <filename2>...<fileNameN> or * wildcard
+ex: grep -in "funky" file.txt - this will return all the lines that have the work "funky"
+
+ex2: grep -in "funcky" *  - this will search all files in current directory
+
+flags:
+-n      shows the line numbers as well
+-v      inverse search !searchQuery
+
+use this one for detailed search:grep  -nre 'cpu'
+
+/*38 NETSTAT -NETWORK statistics */
+
+command line tool to display online connections, routing tables, network interfaces, network protocol state statistics
+
+usage: netstat -a       returns all connections by the system
+ex: netstat -a | less   returns with pause
+            -lt or lu
+flags:
+-t      show tcp connections only
+-u      show UDP conenctions only
+-l      programs in listening state
+-s      statistics ie total packets recived, going out, properties of packets etc....
+-p      show PID of connections
+-n      show numeric codes 
+-c      shows network statistics continuously with refreshing
+-ie     shows the same as ifconfig command (ie = interface extended)
+
+to combine this with grep to search for something
+ex: netstat -an | grep ':80'
+
+
+
+
+BASH SCRIPTING NOTES
+echo -e     escape allows \ 
+    '\c' keeps the cursor on the same line during echo
+
+/*==========================================================
+/   IF statements
+/===========================================================*/
+
+INTEGER COMPARISON
+if [ "a$" <operator> "$b" ]
+-eq, -ne, gt, ge, lt,le
+
+if (("$a" <operator> "$b"))
+<, <=, >, >=
+
+STRING COMPARISON
+if [ "$a" <operator> "$b" ]
+=, == both work the same tested
+!=
+
+# double brackets must be used: if [["$a" < "$b"]]
+< - is less than in ASCII alphabetical order 
+> - is greater than in ASCII alphabetical order
+
+-z - string is null (has zero length)
+
+/*==========================================================
+/   Passing Parameters and Arrays
+/===========================================================*/
+parameters can be passed into an array variable like this
+>./hello.sh param1 param2
+args=("$@")
+
+echo ${args[0]} ${args[1]} ${args[2]}...{args[n]}
+
+echo $@ 
+
+/*==========================================================
+/   File Test operators
+/===========================================================*/
+# file CHecks
+# -e    checks if fileName existsc
+# -f    exist and if regular file or not (not a directory or device file )
+# -d    checks if directory exists
+# -b    checks if block special file picture, music pic media
+# -c    checks for normal file, text data
+# -s    checks if file is empty or not
+# -r    check if the file has the read permission
+# -x    check for execute permission
+
+echo -e "enter the name of the file: \c"
+read fileName
+
+# -e    Check if fileName exists -e
+if [ -e $fileName ]
+then
+    echo  "[$fileName] file found"
+else
+    echo "[$fileName] file NOT found"
+fi
+
+read directory
+# -d    Check if Directory exists
+if [ -d $directory ]
+then
+    echo -e "\"$directory\" Directory found - Does Exist"
+else
+    echo "$directory Directory NOT found"
+fi
+
+echo -e "enter block/character file: \c"
+read fileName
+# -b, -c block/character file checks
+if [ -s $fileName ]
+then 
+    echo "[$fileName] file found"
+else
+    echo "[$fileName] file Not found"
+fi
+
+/*========================================================================================
+/ Extract nth characters /Word count
+=========================================================================================*/
+
+WORD count
+help type 'man wc'
+usage : wc -m (counts the number of chars)
+
+options:
+-c bytes
+-m characters
+-w words
+
+Extact character from a paragraph:
+example:
+ls -l | head -c 841 | tail -c 4
+
+-heads >>forward count pointer
+-tails >> end count pointer required to print the length after heads
+
+
+/*=================================================================
+/ECHO with INPUT Values into text file  
+=================================================================*/
+
+Method 1:
+echo "Enter Serial Number:"
+if read -r x; then  #-r option ignores backslash 
+    echo $x > ser.txt
+fi
+
+Method 2:
+echo "Enter Serial Number2:"
+read -r x2
+echo $x2 > ser2.txt
+
+/*=================================================================
+/Force script exit 
+==================================================================*/
+#force script exit 
+-add to end of script to return to terminal console
+command || exit 1
+
+PRINT
+printf %x - prints lowercase hex 
+
+HEXDUMP
+usage:
+hexdump -vC ser.txt
+
+-vC gives shows the full hex to original character side by side
+'0a' at the end of string is normal. This is the line terminator 
+
+
+=====================================================================
+Misc terminal
+=====================================================================
+
+paste inside terminal
+-shift+insert to paste clipboard text into terminal
+
+goto home directory
+- 'cd' and hit enter will automatically goto home directory
+
+to OWN a folder
+sudo chown -hR <username> <destination/folder>
+
+/*===================================================================
+/	STRING MANINPULATION SED AWK
+=====================================================================*/
+Substring/cut characters from a line
+-cut <option> <start_position>-<end_position> 
+-'cut -c 2-5'
+
+ALTERNATE CAT FILE USING awk
+
+cat <filename> can also be achieved by:
+awk {'print'} filename.txt
+
+
+RETURN/EXTRACT A SPECIFIC LINE 
+sed:
+sed '5!d' file
+
+awk:
+awk 'NR==5' file
+
+-both will return the 5th line in an output.
+
+
+SUBSTITUTE STRING
+replace/substitute occurances of string with something else
+usage:
+
+arp -a | sed 's/t/T/' -> substitute first occurance of 't' with 'T'.
+arp -a | sed 's/t/T/g/' -> substitute all(global) occurances of 't' with 'T'.
+
+arp -a | sed 's/Chromecast.fios-router.home/***/'
+- this command will substittue 'Chromecast...home' with '***' when the arp 
+  command is executed.
+
+EXTRACT nth LINE from output
+usage: can be used with command or file
+
+1q = is the line you want
+arp -a  | sed '1q;d'
+
+or
+sed '1q;d' <filename.txt>
+
+sed -n '2p' -> retrieve the 2nd line of the output
+sed -n 'np' -> retrieve the nth line of the output
+sed -n '10,33p' -> retrieve the 10th line up to line 33
+sed -n '1p;3p' -> retrieve 1st and 3rd line
+
+#return the number of lines
+wc -l
+
+#extracts the characters betweeen the [()] brackets
+echo $serverExist | awk -F '[()]' '{print $2}' 
+cat text | awk -F '[- . ] '{print $2}'
+
+
+#extract specfic coloum character (seperated from space)
+ echo -n $( cat currentTop.txt | grep "${c} Idle:" | gawk '{print $4}')
+
+
+#how to remove symbols () [] {} etc..
+sed 's/[()]//g' 
+sed 's/[{}]//g' etc..
+
+
+#string variable lenght check
+echo ${#ip_address1}
+
+
+#how to add variable to command option use '\' escape character'
+
+example:
+for num in {1..5}
+  4 do
+  5     ip_address=$(cat SRA_ips.txt | sed -n $num\p | awk '{print $1}')
+  6     echo "Address: $ip_address"
+  7 done
+  8 
+  9 exit
+
+'
+# Dynamic folder executing script - execute scripts in current directory
+$0 holds the pwd of the executed script
+so assign variable 'something_path=$(dirname "$0")'
+
+to execute file:
+	$something_path=$/./script.sh
+
+# Line count textfile
+grep -c ^ textfile.txt
+
+# pull numbers from terminal output
+example: 
+IP_REGEX='[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]1,3}'
+
+# $1: Interface on which to scan
+# Finds all connected Tripp Lite devices and returns their ip addressesd
+ups_ip=$(sudo arp-scan -I $1 -l | grep -E $IP_REGEX | grep Tripp)
+
+
+#output to file and display command stuff in terminal too.
+script -c "sudo arp-scan -I $1 -l " active_ips.txt
+
+#Passing $i variables in awk statements with loops
+must use the '-v' flag and assign i=$counter in order to work properly
+	for i in "${dev_list[@]}"
+		do
+
+			echo $(echo -e ${i}: ) >> _data_sbc.tmp
+			echo $temp_var2 | awk -v i=$counter '{print $i}'  >> _data_sbc.tmp
+			(( ++counter ))
+		done
+
+# passing variable in sed for returing a specific line 
+#requries '\' ie: $variable\p 
+		# echo "$temp_var2" | awk -v i=$counter '{print $i}'  >> _data_sbc.tmp
+			echo "$temp_var2" | sed -n $counter\p >> _data_sbc.tmp 
+			(( ++counter ))
+		done
+
+
+
+# SED cut characters
+'.' REGEX of characters representation
+'$' last charater
+'^' first character
+sed s'/.$//' - cuts the last character
+sed s'/^.//' - cuts the first character
+
+#SED - cut all symbols out of expression
+removes all ""
+sed s'/\"//g'
+
+#SED - cut and replace character with another
+-in this case replace the ',' with a : and space
+./acquire_ups_kickoff.sh  | sed s'/\,/\: /g'
+
+# SED - remove all words that contain ':' char
+sed s'/[^ ]*: //g'
+
+# SED - add char ', ' at end of each line
+| sed 's/$/, /' |
+
+
+# pad with printf - padd zeros with register address 
+printf "offset: %08x: " $addr_count
+

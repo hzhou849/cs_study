@@ -1,0 +1,5 @@
+From the terminal, run synclient to view all touch-pad properties.
+
+Now, according to the official touch-pad support docs in order for multi-touch gestures to work, the touch-pad property ClickFinger3 must equal 0. So we will do the exact opposite:
+
+synclient ClickFinger3=2

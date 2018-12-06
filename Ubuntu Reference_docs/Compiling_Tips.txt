@@ -1,0 +1,13 @@
+Notes on compiling for QNX or C in general
+
+1. Check the library header files to make sure they are linked properly.
+2. *important, this has been the cause of why some of my compiles could not find references.
+	Check to see if additional QNX library(binaries) needed to be added in the 'common.mk' make files
+   ie LIBS += -lm (to import the lmath.so library binary on compile time) or -lsocket for socketio.h
+
+3. Check to see if the function being called/used is actually part of the library header file.
+
+4. also if references cannot be seen another thing to check spacing on include statements '#  include" spaces and order of placement
+   may mess up compile. 
+
+5. If datatype is type 'SOCKET' this is a windows data type. change to 'int' for linux

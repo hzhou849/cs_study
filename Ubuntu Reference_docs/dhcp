@@ -1,0 +1,6 @@
+sudo service isc-dhcp-server
+
+leases are stored in /var/lib/dhcp
+
+to check leases:
+dhcp-lease-list --lease /var/lib/dhcp/dhcpd.leases

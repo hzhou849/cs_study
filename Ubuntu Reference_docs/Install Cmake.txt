@@ -1,0 +1,22 @@
+#Uninstall your current version.
+sudo apt-get purge cmake
+
+#Go to official CMake webpage then download and extract the latest version.
+mkdir ~/temp
+cd ~/temp
+wget https://cmake.org/files/v3.8/cmake-3.8.0.tar.gz
+tar xzvf cmake-3.8.0.tar.gz
+cd cmake-3.8.0/
+
+#Install it by running:
+./bootstrap
+make -j4
+sudo make install
+Test your new cmake version.
+
+#check version to verify installation
+cmake --version
+
+Results of cmake --version:
+cmake version 3.8.0
+CMake suite maintained and supported by Kitware (kitware.com/cmake).

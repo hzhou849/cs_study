@@ -1,0 +1,12 @@
+tar -cvzf may_arch.tar.gz my_folder
+where
+
+-c means "create"
+-v means "verbose" (sometimes bothersome and slowing down...)
+-z means "use (GNU)zip"
+-f XYZ declares the name of the output file. (You should chose a helping name like XYZ.tar.gz)
+There may also be .tar.bz2 endings. This is the product of the -j parameter instead of the -z parameter: you will choose compression with BZIP2 (-> man bzip2).
+
+To extract you simply use -x (eXtract) instead of -c (Create):
+
+tar -xvzf may_arch.tar.gz

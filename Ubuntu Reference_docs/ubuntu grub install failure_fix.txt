@@ -1,0 +1,47 @@
+for error
+"executing grub-install/dev/nvme0n1 failed" 
+
+
+// TO delete boot manager ** be careful not to delete windowss boot manager
+//load usb trial version of ubuntu on usb
+
+1. Type sudo efibootmgr to list all the entries in Boot Menu
+
+2. Find Ubuntu in the menu and note down its boot number e.g. Boot0001
+
+3. Type sudo efibootmgr -b 1 -B to delete the entry from Boot Menu
+
+-b: modify boot number -B: delete boot number
+
+
+try this diagnostic tool or the actual tool boot-repair
+sudo add-apt-repository ppa:yannubuntu/boot-repair && sudo apt-get update
+
+sudo apt-get install -y boot-info && boot-info
+
+
+// ACTUAL FIX
+1. Delete the residual ubuntu boot manager
+2. start ubuntu installation off usb  (try ubuntu version)
+3. Start the installation, select 'other' option to manually delete all residual
+   ubuntu previous install partitions.
+4. Create the following partitions in order:
+   i) EFI boot partition 500MB 
+   ii)) SWAP 16GB
+   iii) Main EXT4 partion mounted at '/'
+
+5. **IMPORTANTon bottom of menu screen Select the partion with EFI boot partition to be the on to install boot/grub
+6. continue and it should work. 
+
+** you may need to run boot-repair if problem still persists
+1. Reboot the PC using the Ubuntu install disk and selecting the "Try Ubuntu" option.
+2. Once the live cd has loaded to the desktop installed and launched the Boot Repair tool in a terminal by doing:
+3. sudo add-apt-repository ppa:yannubuntu/boot-repair    
+   sudo apt-get update
+   sudo apt-get install -y boot-repair && boot-repair
+4. Select the "Recommended Repair" option.
+Rebooted.
+
+
+additional notes:
+running boot-repair tool does seem to fix most issues regarding grub

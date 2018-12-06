@@ -1,0 +1,87 @@
+// Place your settings in this file to overwrite the default settings
+{
+	"window.zoomLevel": 1,
+    "files.associations": {
+        "*.*": "shellscript",
+        "*": "shellscript",
+        "*.cpp": "cpp",
+        "*.hpp": "cpp",
+        "*.c": "c",
+        "*.h": "c",
+        "*.cbak": "c",
+        "*.py": "python"
+    },
+    
+    "editor.minimap.enabled": true,
+    "workbench.welcome.enabled": true,
+   
+
+
+// Controls the font family.
+  //"editor.fontFamily": "'Ubuntu','Verdana',Droid Sans Mono', 'Courier New', monospace, 'Droid Sans Fallback'",
+
+// Controls the font size in pixels.
+//  
+
+"workbench.colorCustomizations": {
+  
+    //"editor.selectionBackground": "#135FFF", //For when you highlight a selection
+   "editor.selectionHighlightBackground": "#13455F" //For when the editor highlights all similar words
+},
+"editor.fontSize": 14,
+"code-runner.clearPreviousOutput": true,
+"workbench.startupEditor": "newUntitledFile",
+"code-runner.executorMap": {
+    "javascript": "node",
+    "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
+    "c": "cd $dir && gcc -w $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "objective-c": "cd $dir && gcc -framework Cocoa $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "php": "php",
+    "python": "python",
+    "perl": "perl",
+    "ruby": "ruby",
+    "go": "go run",
+    "lua": "lua",
+    "groovy": "groovy",
+    "powershell": "powershell -ExecutionPolicy ByPass -File",
+    "bat": "cmd /c",
+    "shellscript": "bash",
+    "fsharp": "fsi",
+    "csharp": "scriptcs",
+    "vbscript": "cscript //Nologo",
+    "typescript": "ts-node",
+    "coffeescript": "coffee",
+    "scala": "scala",
+    "swift": "swift",
+    "julia": "julia",
+    "crystal": "crystal",
+    "ocaml": "ocaml",
+    "r": "Rscript",
+    "applescript": "osascript",
+    "clojure": "lein exec",
+    "haxe": "haxe --cwd $dirWithoutTrailingSlash --run $fileNameWithoutExt",
+    "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt",
+    "racket": "racket",
+    "ahk": "autohotkey",
+    "autoit": "autoit3",
+    "kotlin": "cd $dir && kotlinc $fileName -include-runtime -d $fileNameWithoutExt.jar && java -jar $fileNameWithoutExt.jar",
+    "dart": "dart",
+    "pascal": "cd $dir && fpc $fileName && $dir$fileNameWithoutExt",
+    "d": "cd $dir && dmd $fileName && $dir$fileNameWithoutExt",
+    "haskell": "runhaskell",
+    "nim": "nim compile --verbosity:0 --hints:off --run"
+},
+"editor.insertSpaces": false,
+"terminal.integrated.fontFamily": "'Liberation Mono','Droid Sans Mono',  'Droid Sans Fallback'",
+"terminal.integrated.fontSize": 14,
+"editor.fontFamily": "'Liberation Mono','Droid Sans Mono', 'Courier New', monospace, 'Droid Sans Fallback'",
+"workbench.colorTheme": "DuoTone Dark Sea",
+"[cpp]": {
+		
+    },
+    "python.pythonPath": "/usr/bin/python3",
+    "python.linting.enabledWithoutWorkspace": false,
+    "editor.detectIndentation": false,
+
+}

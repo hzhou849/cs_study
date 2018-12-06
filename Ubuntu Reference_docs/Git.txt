@@ -1,0 +1,265 @@
+
+==============================================================
+ COMMANDS
+==============================================================
+
+git clone --recursive ssh://git@stash:7adf99/asdfadf/adsfadf.git
+
+git branch - to verify the branch currently set to
+
+git checkout /prototype/gpio-diagnostics *critical step to get files
+
+…or create a new repository on the command line
+
+origin = the remote name -setup automatically when we cloned the repo from github. refers to github copy of our repo
+master = name of the branch  to push
+
+echo "# github-demo" >> README.md
+git init (initialize current directory)
+git add README.md  --> puts in staging area
+git commit -m "first commit" --> puts in local repo
+git remote add origin https://github.com/user849/github-demo.git (adds remote access to online repo)
+git push -u origin master -- pushes commit to online repo
+…or push an existing repository from the command line
+
+git remote add origin https://github.com/username849/github-demo.git
+git push -u origin master
+
+https://github.com/user849/github-demo.git
+
+/* to initialize new folder/project  */
+*exclude "--global" so the account scope is only for the active folder
+since this account is for testing  only use
+
+ 	git config user.email "your@email.com"
+	git config user.name " Your name"
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+confirm:
+	git config --global --list
+ 
+
+/* commit */
+git commit -am "comment " - commits any modified files
+
+
+/* to set your account's default identity. */
+
+Omit --global to set the identity only in this repository.
+
+~/.ssh/config file configuration:
+# github account
+Host github.com-test github.com
+    Hostname github.com
+    User git 
+    IdentifyFile ~/.ssh/id_rsa_test.pub
+
+
+/* method 2 quick add new files: */
+
+git add . (for all files recursively from current directory/master to add)
+
+git add file.txt ==> staging area
+git commit -m "Adding new file" ==> local repo
+
+--> ** good practice to do a git pull before pushing
+git push origin master ==> push to online repo
+ 	- should ask for login information
+
+** to skip add and 1step commit (must be tracked files)
+git commit -am "Adding more syntax.."
+
+
+/* QUICK CREATE NEW PROJECT FROM TERMINAL*/
+git init fresh-project
+
+/* REMOVE A PROJECT  */
+rm -rf new_project/
+ **	if delete .git folder, folder with turn back to normal folder
+
+
+/* PULLS */
+	- this will  pull from the repository (online) and also update the local 
+	- should do a pull before a push back into an online repo in case you want 
+	  want to update with the newest changes
+ 	- useful to help sync if there are multiple developers working on the same repo
+
+'git pull origin master'
+or just 'git pull'
+
+
+/* SHOW TRACKED FILES */
+git ls-files
+
+
+/* BACKING OUT CHANGES */
+to back out changes after committing:
+after added but NOT committed:
+1.	- "git reset HEAD <file>..." to unstage (removes form committed/staging to working directory
+2. then, - "git checkout -- <file>..." to discard changes in working directory)
+git status should reflect changes and file(s) changed/modified should be back to previous state
+
+
+/* RENAMING FILES */
+git mv file3.txt <existing_file> <new name>
+
+	- if you use terminal bash mv command to change filenames, git sees this as 2 operations (delete and copy)
+	- to add this properly use 'git add -A' (-A =>add recursively any changes, update any files that have been add, moved,deleted)
+
+you may have to use 'git add -u' if modification is done through OS and not git, so git understands we renamed a file and not 
+just added a file. a change  to update the index 
+
+
+
+/* DELETEING FILES */
+
+git rm <filename> (note: this can only delete tracked files)
+
+
+
+/* HISTORY */
+
+HEAD = last commit in current branch
+git log --oneline : shows log summary of all commit changes
+git dif <hashcommitID#1> <hashcommitID#2> or HEAD
+git log
+git log --abbrev-commit (shorter hash)
+git log --oneline --graph --decorate
+
+git log hash1...hash2
+git log --since="3 days ago"
+git log -- filename.txt
+
+filed renamed
+git log --follow -- pathtofile/level1/text.txt
+
+show changes of individual files
+git show <hashValue>
+
+
+/* Aliasing */
+create a macro for long commands
+example:
+git config --global alias.<alias_name> "<the command you want to macro> "
+git config --global alias.hist "log --all --graph --decorate --oneline"
+
+to execute:
+ git <alias_name>
+
+to see the aliases you have created, open the .gitconfig file with a text editor.
+
+
+/* Ignore/exclude unwanted files from repo */
+
+create a '.gitignore' file and add names of files you want to ignore.
+
+ie ".DS_Store
+    file_to_ignore.txt
+    folder/ "
+
+==============================================================
+ COMPARISONS
+==============================================================
+/* comparing working directory and staging area */ 
+
+working directory* | staging area* | Repository(.git folder) 
+
+git diff 
+or specify the filename yourself:
+git diff <filename> 
+
+git difftool (if visual tool is installed on system)
+
+
+
+/* comparing working directory and git repository */
+wd* | sa | repo*
+
+
+git diff HEAD
+
+/*comparing staging area and git repository */
+wd | sa* | repo*
+
+git diff --staged HEAD
+
+
+
+/* COMPARING BETWEEN COMMITS */
+HEAD = last commit in current branch
+git log --oneline : shows log summary of all commit changes
+git dif <hashcommitID#1> <hashcommitID#2> or HEAD
+
+/* COMPARING BETWEEN LOCAL AND REMOTE MASTER BRANCHES */
+
+- master = local repo
+- origin/master = remote repo (online)
+
+git diff master origin/master 
+
+
+
+==============================================================
+ BRANCHING
+==============================================================
+
+/* Branching Basics */
+
+git branch -a 
+- display existing branches  both local and remote
+
+
+/* Create a new branch */
+git branch <newBranchName>
+git checkout <newBranchName>
+- *NOTE: this only creates, you must use git checkout to switch to new branch
+
+ -ONE line create and switch:
+	git checkout -b <new_branch_name>
+
+
+/* Switching to new branch */
+git checkout <branch_name>
+
+
+/* Renaming a branch */
+git -m <existing_branch> <new_branch_name>
+
+
+/* Push the branch on github */
+git push origin <name_new_branch>
+
+/* Delete a branch  */
+
+*Note: cannot delete a branch you are currently on
+
+locally:
+git branch -d <branch_name>
+
+remote:
+git push <remote_name(origin)> :<branch_name>
+ie. git push origin :new_branch1
+
+
+==============================================================
+ MERGING
+==============================================================
+/* Merge the new branch (FAST-FORWARD merge) */
+
+ - fast forward merges are only possible if there are no commits on the master pending
+ - merging the branch will merge the desired branch to the master copy and delete the branch
+
+*type this command in the branch you want the newbranch to merge with ie master
+git merge <name_branch>
+
+/* Merging (NO Fast-Forward) */
+
+git merge <branch_name> --no-ff
+
+
+
+
+
+

@@ -1,0 +1,31 @@
+Install Ubuntu packages offline 
+
+
+**make sure you run sudo apt-get update first to have updated resources
+
+original post:
+https://stackoverflow.com/questions/13756800/how-to-download-all-dependencies-and-packages-to-directory
+
+
+Required: A desktop/laptop computer with internet connection (if new package that has not been installed before)
+
+
+1. Create a folder to start the project
+2. Inside that new folder Get make a list of the .deb files and dependencies
+enter this in terminal: 
+
+> sudo apt-get --print-uris --yes -d --reinstall install <yourpackage> $(apt-cache depends <your_package> | grep "  Depends:" |  sed 's/  Depends://' | sed ':a;N;$!ba;s/\n//g') | grep ^\' | cut -d\' -f2 >downloads.list
+
+3. Extract the .deb packages from the download.list generated with this command
+> wget --input-file downloads.list 
+
+
+4. copy the folder to USB or scp to target computer
+
+5. inside the folder on target machine enter:
+> sudo dpkg -i *.deb
+dpkg will sort the order of the files.
+
+Voila!
+
+sudo apt-get --print-uris --yes -d --reinstall install snmp $(apt-cache depends snmp | grep "  Depends:" |  sed 's/  Depends://' | sed ':a;N;$!ba;s/\n//g') | grep ^\' | cut -d\' -f2 >downloads.list

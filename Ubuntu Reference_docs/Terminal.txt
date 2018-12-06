@@ -1,0 +1,13 @@
+paste inside terminal
+-shift+insert to paste clipboard text into terminal
+
+goto home directory
+- 'cd' and hit enter will automatically goto home directory
+
+Crash Reports on startup
+delete the log records and it will stop the popups
+-sudo rm /var/crash
+
+
+output to file and terminal 
+script -c "sudo arp-scan -I $1 -l " active_ips.txt

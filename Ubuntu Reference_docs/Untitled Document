@@ -1,0 +1,7 @@
+#to be placed in the .tmux.conf fi
+#Status bar
+  2 
+  3 set -g status-fg colour12
+  4 
+  5 set -g default-terminal "screen-256color"
+

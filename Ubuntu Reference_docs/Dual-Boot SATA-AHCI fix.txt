@@ -1,0 +1,11 @@
+To fix the SATA configuration RAID 0 windows / AHCI ubuntu boot issue:
+
+1. Set SATA to RAID Mode and boot into windows normally
+2. Open command prompt (not powershell) in admin mode.
+3. Enter the command :
+	"bcdedit /set {current} safeboot minimal"
+4. restart the computer and enter Bios settings to change to AHCI mode
+5. save changes and exit boot into windows, windows will automatically boot into safe mode.
+6. open the command prompt admin mode and enter
+	"bcdedit /deletevalue {current} safeboot
+7. Reboot one more time and windows should now boot properly under AHCI mode.

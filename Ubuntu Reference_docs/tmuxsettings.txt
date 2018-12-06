@@ -1,0 +1,10 @@
+ #Status bar
+  2 
+  3 set -g status-fg colour12
+  4 
+  5 set -g default-terminal "screen-256color"
+
+
+ctrl+b, o 			change window
+ctrl+b, shift+$ or shift+" 	for horizonal/vertical split
+ctrl+b, [  			enable scroll mode (q to quit)

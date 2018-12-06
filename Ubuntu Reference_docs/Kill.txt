@@ -1,0 +1,13 @@
+if infinite loop or background app is running in background, you can 
+1) run ps -eaf to get the process ID PPID (PID did not work) of the task you want to kill
+
+2) run "kill -9 <PPID> 
+
+
+method 2 - better way
+
+Test case: 'sleep 100 &'
+type 'jobs' in console and kill that job
+use 'kill %1' command to terminate it
+tested with while loop in terminal.
+
