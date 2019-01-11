@@ -1,0 +1,14 @@
+Friends
+- a function or classs that has access to private class members
+- function is NOT a member of the class it is accessing.
+
+not symmetcical relationtion. must be explicitly granted and not transitive and not inherited.
+
+ex. 
+Class Player {
+	friend void display_player(Player &p); - display_player now has access to all private members in this player class.
+	std::string name;
+	int health;
+	int xp;
+public:..
+}

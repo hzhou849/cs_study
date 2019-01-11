@@ -1,12 +1,12 @@
-16:43:35    0 ****************************************************
-16:43:35    0 ** Dragonfly version 4.4 **
-16:43:39   90 ResourceManager::loadSprite(): Loading sprite 'sprites/saucer-spr.txt'
-16:43:39   90 ResourceManager::loadSprite(): Loading sprite 'sprites/ship-spr.txt'
-16:43:39   90 ResourceManager::loadSprite(): Loading sprite 'sprites/bullet-spr.txt'
-16:43:39   90 ResourceManager::loadSprite(): Loading sprite 'sprites/explosion-spr.txt'
-16:43:39   90 ResourceManager::loadSprite(): Loading sprite 'sprites/gamestart-spr.txt'
-16:43:39   90 ResourceManager::loadSprite(): Loading sprite 'sprites/gameover-spr.txt'
-16:43:39   90 Pause::Pause(): Pause enabled.  Press any other key to resume.
-16:44:15 1104 WorldManager::shutDown(): Successfully stopped.
-16:44:15 1104 ** Game stopped **
-16:44:15 1104 ****************************************************
+00:14:07    0 ****************************************************
+00:14:07    0 ** Dragonfly version 4.4 **
+00:14:09   48 ResourceManager::loadSprite(): Loading sprite 'sprites/saucer-spr.txt'
+00:14:09   48 ResourceManager::loadSprite(): Loading sprite 'sprites/ship-spr.txt'
+00:14:09   48 ResourceManager::loadSprite(): Loading sprite 'sprites/bullet-spr.txt'
+00:14:09   48 ResourceManager::loadSprite(): Loading sprite 'sprites/explosion-spr.txt'
+00:14:09   48 ResourceManager::loadSprite(): Loading sprite 'sprites/gamestart-spr.txt'
+00:14:09   48 ResourceManager::loadSprite(): Loading sprite 'sprites/gameover-spr.txt'
+00:14:09   48 Pause::Pause(): Pause enabled.  Press any other key to resume.
+00:14:13  120 WorldManager::shutDown(): Successfully stopped.
+00:14:13  120 ** Game stopped **
+00:14:13  120 ****************************************************

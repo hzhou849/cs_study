@@ -22,7 +22,7 @@ int main() {
 
 
 //C++
-// void refPass (cont int &a, const int &b) {  // passing a const will write protect the values if you need to protect them
+// void refPass (const int &a, const int &b) {  // passing a const will write protect the values if you need to protect them
 //     int temp = a;
 //     a = b;
 //     b = temp;

@@ -1,0 +1,61 @@
+There're several ways to delete the DDDDDDDDDDDDDD
+
+
+
+5
+I want to clear the output of a C program produced with printf statements. I want to clear only one line, for example:
+
+[source]
+
+printf("AAAAAAAAAAAAAA");
+printf("BBBBBBBBBBBBBB");
+printf("CCCCCCCCCCCCCC");
+printf("DDDDDDDDDDDDDD");
+[terminal]
+
+AAAAAAAAAAAAAA
+BBBBBBBBBBBBBB
+CCCCCCCCCCCCCC
+DDDDDDDDDDDDDD
+[I hope]
+
+AAAAAAAAAAAAAA
+BBBBBBBBBBBBBB
+CCCCCCCCCCCCCC
+
+1.Print backspace several times
+
+printf("\b");
+
+2.Print carriage-return and then print something to override the original line
+
+printf("\r");
+
+3.If you are in a newline. You may use terminal commands to move your cursor
+
+such as printf("\033[8;5Hhello");  // Move to (8, 5) and output hello
+
+other commands:
+
+If you are using X-Term compatibles (Gnome Terminal included), then print the following
+
+printf("\033[2J");
+or
+
+cout << "\033[2J";
+where \033 is the escape character in ASCII and [2J is the specific action (clear).
+printf("\033[XA"); // Move up X lines;
+printf("\033[XB"); // Move down X lines;
+printf("\033[XC"); // Move right X column;
+printf("\033[XD"); // Move left X column;
+printf("\033[2J"); // Clear screen
+...
+4.Don't forget ncurses
+
+It is the best ways to control the exact layout and format in a terminal
+
+printf("\033[2J");
+or
+
+cout << "\033[2J";
+where \033 is the escape character in ASCII and [2J is the specific action (clear).

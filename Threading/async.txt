@@ -1,0 +1,3 @@
+lazy evaluation -
+putting off something until you need to use it.
+don't want to allocate resource until you need to use it.

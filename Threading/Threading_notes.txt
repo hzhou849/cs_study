@@ -1,0 +1,29 @@
+/* Mutex - Mutual exclusion object- "Two things can't do the same thing at the same time".
+ * Is an object to control synchronization of a section of code 
+ * it is an object that ensures that only one thread can execute a set of instructions at a time.
+ * 
+A mutex is more or less a binary semaphore which is used to lock/unlock a critical section of code, 
+meaning only one thread can access it at a given time 
+(without causing issues)
+
+ * Note: pass the address of a mutex to a function
+ * 
+ * critical instructions: the code we want to execute atomically.
+ * Atomic operation - it either all runs or not  
+ * 
+ * how to avoid deadlock?
+ *  - or use parenthesis rule 
+ *  - Encapsulated the object  by making private in class
+ * thispointer.com  c++ examples threading
+ * ie:
+ * void someAcion (std::mutex *m) {
+ *     m.lock();
+ *     p = p+1
+ *     m.unlock();
+ * }
+ * 
+ * 
+ * Semaphores - Synchronize multiple objects to have access to a thread at a time.
+ *            - allows for more than one thread to have access to 
+ *            - has a counter associated to it. (decrements, ie has x number of keys to hand out)
+*/
