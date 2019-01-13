@@ -3,6 +3,7 @@
  * 
  * 
  * Declaring virtual fucntions
+ *  - allows function calls to be bound at runtime instead of statically bound calling
  *  - The "Virtual" keyword only appears on the function declaration, not the definition
  *  - if you have virtual function, you must have virtual destructors
  *  - Override the funciton in the derived class (dynamically bound at runtime)

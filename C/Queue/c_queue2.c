@@ -118,7 +118,7 @@ void display(cqueue_t *q) {
 		}
 
 		if (temp_addr == q->dq) {
-			printf("dq>> ");
+			printf("dq>>");
 		}
 		
 		if (temp_addr != q->dq || temp_addr != q->eq) {
