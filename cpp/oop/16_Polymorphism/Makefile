@@ -2,7 +2,7 @@
 CC=gcc
 CXX=g++
 CFLAGS=-I. -Wall -std=c++11
-SRCS: 14_8_shallow_copy.cpp 
-	$(CXX) $(CFLAGS)  -o program 14_8_shallow_copy.cpp 
+SRCS: 8_Abstract_classes_as_interfaces.cpp
+	$(CXX) $(CFLAGS)  -o program 8_Abstract_classes_as_interfaces.cpp 
 
 .PHONY: clean
