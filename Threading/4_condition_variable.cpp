@@ -83,7 +83,9 @@ public:
          * wait(arg2 overload) isDataLoaded() is used to ignore spurious(false positive) awakenings while waiting
          * for a specific condition to become true. 
          */
-        m_condVar.wait(u_lock, std::bind(&Application::isDataLoaded, this)); // 'this' refers to this instance of object
+
+		// 'this' refers to this instance of object, 
+        m_condVar.wait(u_lock, std::bind(&Application::isDataLoaded, this)); // Thread will block 
         std::cout << "Processing the data loaded"<<std::endl;
     }
 };

@@ -1,4 +1,11 @@
 A semaphore is another high level synchronization primitive. 
+
+ - More straight forward a semaphore is simply a counter, used to keep track 
+	of how many of a particular resource you have available. If for example, 
+	we would like to use a semaphore to print the thread number, 
+	we would do something like below (represented visually):
+https://austingwalters.com/multithreading-semaphores/
+
 It restricts the number of simultaneous threads to a shared resource 
 up to a maximum number known as the semaphore count. When a thread
 requests to access a resource, the semaphore counter is decremented.

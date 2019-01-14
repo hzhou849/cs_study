@@ -198,6 +198,8 @@ int main() {
 	std::cout << *p2 << std::endl;
 
 	return 0;
+
+	see 8.2_Abstract_classes_as_interfaces.cpp
 }
 
 
