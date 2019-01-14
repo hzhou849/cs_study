@@ -1,0 +1,22 @@
+Interrupts
+
+keypress -> Interrupt controller -> processor
+- not schedulable, not blocking and handled.
+
+1 acknowledge you recv interrupts, copy instructions to main memory
+- Interrupts are broken in to two parts 
+	1)Top half (actual handler is the top half ) - stuff that needs to run immediately acknowledge interrupts, copy to main memory(ram) resetting hw to run next instructions
+				- time critical stuff that must be executed and hw specific stuff.
+	2) bottom half - stuff that can be deferred to wait 
+
+	 network card - small buffer memory when it rcv data -> sends data to Interrupt controller -> sends interrupt signal to processor
+	 it sees device1 has an interrupt, handler 1 is called to handle it. bc it cannot sleep, we need to do the minimum amount of work
+	 run: 
+	 top half (ie Ack interrupt, copy data from net card to RAM, reset the hw-make sure hw is ready to rcv more data)
+	 bottom half- send the data from RAM to socket that is blocking a call.
+
+	 1 register the i-handler
+	 2- interrupt comes in handler gets run, top half (time/hw critical stuff to prepare hw for next set of data)
+	 	-then bottom half, the stuff that can be scheduled later.
+		 for key press put keypress into memory read that data put into main memory
+		 reset the hw to know there is no more pending button presses.
