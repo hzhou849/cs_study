@@ -1,6 +1,16 @@
 /* 109 - Pass by reference
  * 
  * Passing the refernce and not a copy of a variable in a function.
+ * 
+ * Pointers vs reference
+ * 
+ * pointers - A pointer variable that holds memory address of another variable. A pointer needs to be
+ * 			dereferenced with * operator to access memory location it points to.
+ * 
+ * reference -ref variable is an alias ie. another name for an existing variable. A reference 
+ * 			like a pointer is also implemented by storing the address of an object.
+ * 			A ref can be thought of as a constant pointer(not to be confused with  a pointer to a constant value.)
+ * 			with automatic indirection. ie the compiler will apply the * operator for you.
  */
 
 //Example 1

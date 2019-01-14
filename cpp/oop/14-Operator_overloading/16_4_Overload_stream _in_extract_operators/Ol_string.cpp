@@ -1,3 +1,10 @@
+/* the point of overloading the stream operators is 
+ * so you can printout the object and define what string you want it to printout.
+ * ie. std::cout << object1 << std::endl;
+ * 
+ * you can define it so it prints out object1.name or object1.date etc...
+ */
+
 #include <iostream>
 #include <cstring>
 #include "Ol_string.hpp"
@@ -130,7 +137,7 @@ const char *Ol_string::get_str() const {
 
 // Overloaded insertion operator
 std::ostream &operator<<(std::ostream &os, const Ol_string &rhs) {
-    os << rhs.str;
+    os << rhs.str;	//feed the object_passed.str to the stream
     return os;
 }
 
