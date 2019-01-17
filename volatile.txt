@@ -1,0 +1,28 @@
+https://www.geeksforgeeks.org/understanding-volatile-qualifier-in-c/
+
+- why not use volatile all the time? expensive to implement
+  - volatile prevents compiler from applying any optimizations on objects 
+  that can change inn ways that cannot be determined by the compiler 
+  If we do not use volatile qualifier, the following problems may arise
+
+1) Code may not work as expected when optimization is turned on.
+2) Code may not work as expected when interrupts are enabled and used.
+
+/* Compile code without optimization option */
+#include <stdio.h> 
+int main(void) 
+{ 
+	const int local = 10; 
+	int *ptr = (int*) &local; 
+
+	printf("Initial value of local : %d \n", local); 
+
+	*ptr = 100; 
+
+	printf("Modified value of local: %d \n", local); 
+
+	return 0; 
+} 
+without optimization - size of file will be larger; const ptr will updated has const or complex instructions are ignored ptr wil = 100
+with optimization - sizez of file is smaller bc it ignores instructions that are "useless" such as trying to modify const objects
+					hence ptr will still be 10

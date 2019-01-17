@@ -7,7 +7,8 @@ class stack
 		int capacity;
 	
 	public:
-		void Push(short value);
 		Stack(int capacity); //constructor
 		~Stack(); // deconstructor
+		int push(short value);
+		
 };

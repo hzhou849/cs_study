@@ -8,6 +8,8 @@
  *    immediately but to build the RAII wrapper 
  * 
  * std::lock_guard - good if you only need to use it once.
+ *  - mutex wrapper RAII last duration of the scope block. Destructed and mutex is release 
+ *    after scope.
  *  - also provides a convenient RAII wrapper, but cannot lock multiple mutexes safely.
  *  - can be used when you need a wrapper for a limited scope (eg. member function) 
  * 
@@ -85,6 +87,7 @@ public:
          */
 
 		// 'this' refers to this instance of object, 
+		// bind allows you to pass a function and get the return value
         m_condVar.wait(u_lock, std::bind(&Application::isDataLoaded, this)); // Thread will block 
         std::cout << "Processing the data loaded"<<std::endl;
     }

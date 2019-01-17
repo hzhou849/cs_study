@@ -2,7 +2,7 @@
 CC=gcc
 CXX=g++
 CFLAGS=-I. -lpthread -Wall -std=c++11  -pthread
-SRCS: 4_condition_variable.cpp
-	$(CXX) $(CFLAGS)  -o main 4_condition_variable.cpp
+SRCS: condition_variable2.cpp
+	$(CXX) $(CFLAGS)  -o main condition_variable2.cpp
 
 .PHONY: clean
