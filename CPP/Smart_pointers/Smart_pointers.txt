@@ -1,0 +1,28 @@
+Smart pointers
+
+- can only point to heap allocated memory
+- automatically call delete when no longer needed
+- adhere to RAII principles
+- wrapper around a raw pointers
+features:
+- dereference, member selection (->); pointer arithmetic not supported (++, --, etc)
+- have custom deleters
+
+C++ smart pointers
+- Unique pointers(unique_ptr)
+- Shared pointers( shared_ptr)
+- Weak pointers (weak_ptr)
+- Auto pointers (auto_ptr) *depricated 
+
+header file required #include <memory>
+
+
+RAII - Resource Aquisition is Initialization
+- idiom or pattern used in software design based on container object lifetime
+- RAII objects are allocated on the stack
+- RAII examples:
+	- open a file; allocate memory; acquire a lock etc...
+
+- The resource is acquired in a constructor or the acquisition of a resource will initialize the object
+
+Destructor - Close the file, deallocate memory, release the lock

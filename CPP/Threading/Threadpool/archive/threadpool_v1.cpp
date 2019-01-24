@@ -1,4 +1,8 @@
-
+/*
+ * 1) dynamically bind the queue to automatically process whatever you put into the queue.
+ *    - ie {1, "string" , &function_pointer,etc...}
+ * 2) make a buffer class to add to output. 
+*/
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -65,10 +69,10 @@ void Application::loadData () {
 void Application::gen_thread(std::function <void(int) > ptr_func) {  // note this 'ptr' only takes one 1 parameter
 	
 	while(!exit_flag) {
-		// give another thread a chance, notice this placement must be at the top not bottom of this code block
+		// give another thread a chance, notice this sleep() placement must be at the top not bottom of this code block
 		// bc when the while loop resets, it immediately reacquires the lock before the next thread can get it.
 		// this sleep allows the other thread to get the thread in a race.
-		std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
+		std::this_thread::sleep_for(std::chrono::milliseconds(200)); 
 		std::unique_lock<std::mutex>u_lock(mtx);
 		cond_var.wait(u_lock, std::bind(&Application::get_flag, this));
 		ptr_func(999); // task function()
@@ -151,9 +155,9 @@ int main() {
 	// Cleanup signal flag to close
 	a_obj.set_exit_flag(); 
 	thread1.join();
-	std::cout << "thread1.join()" <<std::endl;
 	thread2.join();
 	thread3.join();
+	std::cout << "thread1.join()" <<std::endl;
 	
 
 

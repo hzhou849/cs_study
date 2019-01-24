@@ -1,4 +1,19 @@
-/* OOP Circular Queue version */
+/* OOP Circular Queue version
+	see cq2_better version , using the boolean 'qfull' better than the counter
+
+
+		if (qfull == true) {
+		std::cout << "Queue is at max capacity " << element << " not entered. "<< " State: "<< qfull << std::endl;
+		return -3;
+	}
+
+	int Queue::dequeue() {
+	// if dq and eq are at the same address and qfull is false, means the queue is empty 
+	if (dq == eq && qfull == false) {
+		std::cout << "queue is empty" << std::endl;
+		return -1;
+	}
+ */
 #include <iostream>
 #include <thread>
 #include <chrono>

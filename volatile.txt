@@ -1,5 +1,5 @@
 https://www.geeksforgeeks.org/understanding-volatile-qualifier-in-c/
-
+- prevents optimization from the compiler
 - why not use volatile all the time? expensive to implement
   - volatile prevents compiler from applying any optimizations on objects 
   that can change inn ways that cannot be determined by the compiler 

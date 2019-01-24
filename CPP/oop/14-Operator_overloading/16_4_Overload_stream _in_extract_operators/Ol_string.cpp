@@ -3,6 +3,35 @@
  * ie. std::cout << object1 << std::endl;
  * 
  * you can define it so it prints out object1.name or object1.date etc...
+ * 
+ * First you need to fix the operator by adding Currency const& c as the second parameter (as it come s on the right hand side).
+
+Then you have two options:
+
+1: Add Friend
+struct Currency
+{
+  int Dollar;
+  int Cents;
+
+  friend ostream& operator<< (ostream &out, Currency const& c)
+  {
+    return out << "(" << c.Dollar << ", " << c.Cents << ")";
+  }
+};
+2: Move the definition outside the class
+struct Currency
+{
+  int Dollar;
+  int Cents;
+};
+
+ostream& operator<< (ostream &out, Currency const& c)
+{
+  return out << "(" << C.Dollar << ", " << c.Cents << ")";
+}
+ * 
+ * 
  */
 
 #include <iostream>
