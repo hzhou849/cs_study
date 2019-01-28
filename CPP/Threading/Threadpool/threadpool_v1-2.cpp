@@ -65,13 +65,14 @@ void Threadpool::gen_thread(int threadNum, std::function <void (int)> task_proc_
 		cond_var.wait(u_lock, std::bind(&Threadpool::tp_get_q_status, this)); // check if Queue::has_work is true
 
 		int temp_value = process_q->dequeue();
+		u_lock.unlock();
+		cond_var.notify_all();
 		if (temp_value == 0 || temp_value ==999) 
 			this->killThread(threadNum); // kill the thread job done.
 		else {
 			task_proc_ptr(temp_value);
-			process_q->display();
+			// process_q->display();
 		}
-		cond_var.notify_all();
 
 	}
 	
@@ -98,8 +99,8 @@ bool Threadpool::tp_get_q_status() {
 
 void task_processor(int thread_num, int data) {
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(data));
 	std::cerr << "processing task.. Thread: " << thread_num << " data: " << data<<  std::endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(data));
 	std::cerr << std::endl;
 }
 
@@ -120,10 +121,10 @@ void Threadpool::killThread(int threadNum) {
 // 		std::cout << "invalid element entry." <<std::endl;
 // 		return -1;
 // 	this->process_q->enqueue(element);
-// 	this->process_q->display();
-// 	std::cout<< "this ran" << std::endl;
+// 	// this->process_q->display();
+// 	// std::cout<< "this ran" << std::endl;
 
-// 	std::cout << process_q << std::endl;
+// 	// std::cout << process_q << std::endl;
 // 	return 0;
 // }
 
@@ -139,7 +140,7 @@ int main() {
 	std::thread thread2(&Threadpool::gen_thread, &tp_obj, 2, std::bind(task_processor, 2,std::placeholders::_1 ));
 	std::thread thread3(&Threadpool::gen_thread, &tp_obj, 3, std::bind(task_processor, 3,std::placeholders::_1 ));
 
-	tp_obj.addTask(1300);
+	tp_obj.addTask(10000);
 	tp_obj.addTask(500);
 	tp_obj.addTask(600);
 	tp_obj.addTask(200);
