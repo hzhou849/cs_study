@@ -1,0 +1,38 @@
+A semaphore is another high level synchronization primitive. 
+
+ - More straight forward a semaphore is simply a counter, used to keep track 
+	of how many of a particular resource you have available. If for example, 
+	we would like to use a semaphore to print the thread number, 
+	we would do something like below (represented visually):
+https://austingwalters.com/multithreading-semaphores/
+
+It restricts the number of simultaneous threads to a shared resource 
+up to a maximum number known as the semaphore count. When a thread
+requests to access a resource, the semaphore counter is decremented.
+When the thread finishes, the counter is incremented. In that sense, 
+a mutex is nothing but a binary semaphore meaning there can be only 
+one thread at a time acquiring the mutex. 
+The toilet example when comparing mutex to semaphores is very popular.
+A mutex is like a key to a toilet. One person at a time can have the 
+key and occupy the toilet. When finished, he gives the key to the next 
+person waiting in line. On the other hand, a semaphore is like having 
+number of identical toilet keys for several available toilets. 
+The number of keys represents the semaphore count. The count is 
+decremented whenever people come in. When all toilets are occupied,
+the count becomes zero so no one can use any toilets. 
+If someone leaves, the count is incremented and the next person in 
+line can use that key and so on.
+
+Summary
+
+-Mutex is a simple synchronization primitive that can be used to protect a shared resource in a multithreading operating system.
+-To create a mutex in Python, import the threading module and use the syntax: mutex = threading.Lock()
+-Use the acquire method to lock a mutex and prevent other threads from entering a block of code or accessing a shared variable.
+-Use the release method to free a locked resource and allow other threads to have access
+-A mutex can be thought of as a binary semaphore (count = 1).
+
+
+questions
+*double buffer
+- why not use volatile all the time? expensive to implement
+  - volatile prevents compiler from applying any optimizations on objects that can change inn ways that cannot be determined by the compiler 

@@ -1,7 +1,0 @@
-difference of  c data int @least 16bytes
-arithmatic overlfow = add 1 goes bacck to wrap
-differ for and while 
- - both loop, for loop is syntactical sugar for whileloop
- - while has one condition, for can initialize, condition and other code 
-
- pure virtual fucntion , no base implementation.

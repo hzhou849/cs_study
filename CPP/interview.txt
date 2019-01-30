@@ -1,0 +1,17 @@
+difference of  c data int @least 16bytes
+arithmatic overlfow = add 1 goes bacck to wrap
+differ for and while 
+ - both loop, for loop is syntactical sugar for whileloop
+ - while has one condition, for can initialize, condition and other code 
+
+ pure virtual fucntion , no base implementation.
+ pure virtual class all function are pure virtual 
+ async not necessarily running concurrently, but the thing on the side will happen but none deterministically.
+ - vs polling you're waiting for an input .
+ - polling vs callback (interrupt is an extension of a callback)
+   - callback ie userinput i enter a key and callback to exectute next set of instructions.
+
+
+   questions 
+   cstring how the why const for string literals work again?
+   why use strcpy instead of just straight assignment?

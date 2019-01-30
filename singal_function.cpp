@@ -18,6 +18,31 @@
  * 
  * raise() - You can generate signals by function raise(), which takes an integer 
  * 			signal number as an argument and has the following syntax.
+ * 
+ * 
+ * example 1 - Handle ctrl+c to quit the program
+ * void signalHandler (int signum) {
+ * 		std::cout << "Interrupt signal (" << signum << ")revceived.";
+ * 		//clean up program
+ * 		//terminate program
+ * 		exit(signum);
+ * }
+ * 
+ * int main() {
+ * 		//register signal SIGINT and signal handler
+ * 		signal(SIGINT, signalHandler);
+ * 
+ * 		while(true) {
+ * 			std::cout << "going to sleep" << std::endl;
+ * 			sleep(1);
+ * 		}
+ * 
+ * 		return 0;
+ * }
+ * 
+ * this program will perpetually sleep until user presses Ctrl+c 
+ * then this will trigger the interrupt signalHandler()
+ * 
  * */
 
 #include <iostream>

@@ -1,0 +1,6 @@
+	std::cout << std::boolalpha; // makes boolean prints out true false instead of 0/1
+	short* temp = start;
+	std::cout << "\033[s"; // save the cursor position
+	std::cout << "\033[3A"; // move cursor up 3 lines
+	std::cout << "\033[2J"; // clear the screen
+	std::cout << "\033[u";	// restore the cursor
