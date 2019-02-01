@@ -145,9 +145,9 @@ void DispBuffer::dumpBuffer_print() {
 	std::cout << "  ";
 	for (int i =0; i < colMax; i++) {
 		if (i < 10){ // for ruler number < 10 (bc single char spacing)
-			std::cout <<std::setw(2)<<std::left <<"  " << i <<"";
+			std::cout <<std::setw(2)<<" " << i <<"";
 		} else {
-			std::cout <<std::setw(1)<<std::left<< "" << i <<"";
+			std::cout <<std::setw(1)<< " " << i <<"";
 		}
 
 		if (i != 0 && i % colMax == 0) 
@@ -171,7 +171,9 @@ void DispBuffer::dumpBuffer_print() {
 			yAxisRuler++; // increment ruler by 1
 		}
 		if (scrBuffer[i] == '\0') { //  (char)0
-			std::cout << std::setw(3)<<std::left<<" *" <<"";
+			std::cout << std::setw(3)<<std::left<<" " <<"";			// fills with '*' characters
+		}else if (scrBuffer[i] == '\n'){
+			std::cout << std::setw(3) << std::left<<"\'\\n'" << "\n";		// fills '\n' with '#'
 		}else {
 			std::cout << std::setw(3)<<std::left<<scrBuffer[i] <<"";
 
@@ -193,35 +195,42 @@ int DispBuffer::getCursorX() {
 	return x;
 }
 
-// std::cout << "\033[s"; // save the cursor position
-// 	std::cout << "\033[3A"; // move cursor up 3 lines
-// 	std::cout << "\033[2J"; // clear the screen
-// 	std::cout << "\033[u";	// restore the cursor
+void DispBuffer::writeLine() {
+
+}
+
+
 
 
 //Driver class
 int main() {
+
 	DispBuffer db(25, 25);
-	db.writeChar('#', 5, 2);
-	db.writeChar('^',3,2);
-	db.writeChar('|', 3, 3);
-	db.dumpBuffer_print();
-	for (int i =0; i< 25; i++) {
-		// std::cout << "\033[s"; // save cursor position
-		// std::cout <<"\033[2J"; // clear the screen
-		// std::cout <<"\033[u"; //restor cursor position
-		// std::cout <<"\033[10A";
-			db.writeChar('\0', 5, 2+i-1);
-			db.writeChar('\0', 3+i-1, 2+i-1); // cannot overwrite 0,0 you overwrote the '\n' char
-			db.writeChar('\0', 3+i-1, 3+i-1);
-			db.writeChar('#', 5, 2+i);
-			db.writeChar('^',3+i,2+i);
-			db.writeChar('-', 3+i,3+i);
-		db.dumpBuffer_print();
-		std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	// main image loop
+	while(true){
+		//  set teh initial positions
+		std::cout <<"\033[50A";// order of this matters, you wnat to move the cursor up then save the position
+		std::cout << "\033[s"; // save cursor position
+		std::cout <<"\033[2J"; // clear the screen
+		std::cout <<"\033[u"; //restor cursor position
+		db.writeChar('#', 5, 2);
+		db.writeChar('^',3,2);
+		db.writeChar('|', 3, 3);
+		for (int i =0; i< 25; i++) {
+			std::cout <<"\033[50A";
+			std::cout << "\033[s"; // save cursor position
+			std::cout <<"\033[2J"; // clear the screen
+			std::cout <<"\033[u"; //restor cursor position
+				db.writeChar('\0', 5, 2+i-1);
+				db.writeChar('\0', 3+i-1, 2+i-1); // cannot overwrite 0,0 you overwrote the '\n' char
+				db.writeChar('\0', 3+i-1, 3+i-1);
+				db.writeChar('#', 5, 2+i);
+				db.writeChar('^',3+i,2+i);
+				db.writeChar('-', 3+i,3+i);
+			db.dumpBuffer_print();
+			std::this_thread::sleep_for(std::chrono::milliseconds(200));
+		}
 	}
 	
 }
-
-
 
