@@ -27,7 +27,7 @@ template<typename T>
 void display(std::queue <T> q) {
 	std::cout << "{";
 	while (!q.empty()) {
-		T.elem = q.front();
+		T elem = q.front();
 		q.pop();
 		std::cout << elem << "";
 
