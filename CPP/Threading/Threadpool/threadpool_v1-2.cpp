@@ -17,6 +17,7 @@
 #include <chrono>
 #include "Queue.hpp"
 
+
 class Threadpool {
 private:
 	std::mutex m_mutex;
@@ -46,12 +47,10 @@ public:
 
 // Constructors 
 Threadpool::Threadpool(): load_flag{false}, exit_flag{false} {
-		// Queue process_q{5}; // create a queue fo size 5
-		process_q = new Queue(5);
-		
-
-
+	// Queue process_q{5}; // create a queue fo size 5
+	process_q = new Queue(5);
 }
+
 Threadpool::~Threadpool() {
 	delete process_q;
 	std::cout << "Destructor called.." << std::endl;
@@ -67,7 +66,7 @@ void Threadpool::gen_thread(int threadNum, std::function <void (int)> task_proc_
 		int temp_value = process_q->dequeue();
 		u_lock.unlock();
 		cond_var.notify_all();
-		if (temp_value == 0 || temp_value ==999) 
+		if (temp_value == 0 || temp_value ==999)  
 			this->killThread(threadNum); // kill the thread job done.
 		else {
 			task_proc_ptr(temp_value);

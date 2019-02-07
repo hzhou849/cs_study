@@ -69,7 +69,7 @@ void Threadpool::workLoop() {
 	while (true) {
 		this->workSemaphore.wait();
 		this->tp_mutex.lock();
-		std::function<void()> work = this->tasks.front();
+		std::function<void()> work = this->tasks.front(); 	//data type is std::function<void()> variable
 		this->tasks.pop();
 		this->tp_mutex.unlock();
 		work();

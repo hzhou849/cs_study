@@ -1,5 +1,12 @@
 /* Display GUI 
  *
+ * TODO:
+ * 1) Create second swap buffer to alternate
+ * 2) add cstring - writeLine accepts str arg or const char* arg
+ *    - if using std::string s, use s.at(i)
+ * 3) store x,y coordinates in std::pair <int, int> array[100]; 
+ * 
+ * 
  * MEthod 1 - Jagged array 
  *  Two Dimensional array is essentially an array of pointers to arrays, which can be initialized in a loop like:
  *  int **a = new int*[rowcount];
@@ -81,13 +88,13 @@ public:
 	void bufferWriteLine(std::string s, int offset_x); // start position on x offset
 	void setCursorPosition(int x, int y);
 	void resetCurorPosition();
-
+	void clearBuffer();
 
 	//getters
 	int getCursorX();	// get the current cursor position
 	int getCursorY();	
 	void dumpBuffer();  		// dump the current buffer output. with ruler
-	void dumpBuffer_print();
+	void dumpBuffer_debug();
 	void writeChar(char data, int x, int y);
 	void searchString();			//search for word or char and returns [col][row] all instances that occur   
 
@@ -134,11 +141,24 @@ DispBuffer::~DispBuffer(){
 	delete [] scrBuffer;
 }
 void DispBuffer::dumpBuffer(){
-	std::cout << scrBuffer << std::endl;
+	for (int i=0; i < totalBufferSize; i++ ){
+	
+		
+		if (scrBuffer[i] == '\0') { //  (char)0
+			std::cout <<" " <<"";			// fills with '*' characters
+		}else if (scrBuffer[i] == '\n'){
+			std::cout <<"\'\\n'" << "\n";		// fills '\n' with '#'
+		}else {
+			std::cout <<scrBuffer[i] <<"";
+
+		}
+	}
+	// carriage return for the console
+	std::cout << std::endl;
 }
 
 
-void DispBuffer::dumpBuffer_print() {
+void DispBuffer::dumpBuffer_debug() {
 	int yAxisRuler = 0;
 
 	/*Print the rulers X-Axis columns counter */
@@ -191,12 +211,20 @@ void DispBuffer::writeChar(char data, int x, int y) {
 
 	this->scrBuffer[cellPosition] = data;
 }
-int DispBuffer::getCursorX() {
-	return x;
-}
 
-void DispBuffer::writeLine() {
 
+
+void DispBuffer::clearBuffer() {
+	/*Don't want to delete the cells at end of line*/
+	// if (i >=0 && i %colMax == 0) {			// **greater or equal zero!! important
+	// 		std::cerr << "cell: " << i << std::endl;
+	// 		scrBuffer[i] = '\n';  // 0-(n-1) index 
+	// 	} 
+	for (int i=0; i < totalBufferSize; i++) {
+		if (i %colMax != 0) {
+			scrBuffer[i] = '\0';		//empty blank character "erased"
+		}
+	}
 }
 
 
@@ -205,7 +233,7 @@ void DispBuffer::writeLine() {
 //Driver class
 int main() {
 
-	DispBuffer db(25, 25);
+	DispBuffer db(100, 25);
 	// main image loop
 	while(true){
 		//  set teh initial positions
@@ -221,14 +249,17 @@ int main() {
 			std::cout << "\033[s"; // save cursor position
 			std::cout <<"\033[2J"; // clear the screen
 			std::cout <<"\033[u"; //restor cursor position
-				db.writeChar('\0', 5, 2+i-1);
-				db.writeChar('\0', 3+i-1, 2+i-1); // cannot overwrite 0,0 you overwrote the '\n' char
-				db.writeChar('\0', 3+i-1, 3+i-1);
+				//wipew the old entries
+				// db.writeChar('\0', 5, 2+i-1);
+				// db.writeChar('\0', 3+i-1, 2+i-1); // cannot overwrite 0,0 you overwrote the '\n' char
+				// db.writeChar('\0', 3+i-1, 3+i-1);
+				//write the new transformed
 				db.writeChar('#', 5, 2+i);
 				db.writeChar('^',3+i,2+i);
 				db.writeChar('-', 3+i,3+i);
-			db.dumpBuffer_print();
-			std::this_thread::sleep_for(std::chrono::milliseconds(200));
+				db.dumpBuffer();
+				std::this_thread::sleep_for(std::chrono::milliseconds(5));
+				db.clearBuffer();		//full erase of buffer
 		}
 	}
 	

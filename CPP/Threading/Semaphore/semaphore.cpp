@@ -35,6 +35,11 @@
  * - you release ownership of a semaphore, incrementing the semaphore.
  * 
  * https://riptutorial.com/cplusplus/example/30142/semaphore-cplusplus-11
+ * 
+ * Abstract:
+ * 	- the idea of the semaphore is to keep track of the resources available. you are tracking the tasks (ie incrementing adding task)
+ *  - decrementing when processing. So the Threads know there will be work if the count variable is greater than zero. see 
+ * 		semaphore_class.cpp
  */
 
 #include <iostream>

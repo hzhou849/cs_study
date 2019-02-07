@@ -20,3 +20,14 @@ keypress -> Interrupt controller -> processor
 	 	-then bottom half, the stuff that can be scheduled later.
 		 for key press put keypress into memory read that data put into main memory
 		 reset the hw to know there is no more pending button presses.
+
+
+	1)hardware level signal (from hardware to os)that something has occured and needs to be handled.
+	2) interrupt handler is the code that gets run in the response to handle the hw event.
+	3) interupt handler needs to be registered with the os (its a callback, heres the callback)
+
+	points to remember
+	the interrupt needs to be as quick as possible ie nic card, if the nic buffer is 100bytes,  you want to handle the buffer transfer asap 
+	and prepare the 
+
+	iterrupts are not processes you cannot sleep, block and cannot kmalloc bc you cannot reschedule the interrupt
