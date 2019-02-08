@@ -1,0 +1,2 @@
+terminal type: 
+aptitude search ncurses | grep dev
