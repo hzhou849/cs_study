@@ -86,6 +86,10 @@ void Threadpool::addWork(std::function<void()> work) {
 
 void notMain(); // function prototype
 
+void tester(std::string i) {
+	std::cout << "tester: "<< i << std::endl;
+}
+
 int main() {
 	notMain();
 	std::this_thread::sleep_for(std::chrono::seconds(20));
@@ -95,13 +99,16 @@ int main() {
 void notMain() {
 	Threadpool tp;
 	int i=0;
-
+	
+	/* This lambda attached to tp.addWork is the function of work pushed in the queue. */
 	tp.addWork([&i]() {		// closures  keeps i variable alive after scope
+		std::string  s = "blah";
 		std::cout << "Thread " << std::this_thread::get_id() << " is sleeping.." <<std::endl;
 		std::this_thread::sleep_for(std::chrono::seconds(3));
 		i++;
 		std::cout << "Thread " << std::this_thread::get_id() << " done sleeping." << std::endl;
-		std::cout << i << std::endl;
+		tester(s);
+		std::cout <<"i"<< i << std::endl;
 	});
 
 	tp.addWork( [&i]() {
@@ -109,7 +116,7 @@ void notMain() {
 		std::this_thread::sleep_for(std::chrono::seconds(5));
 		i++;
 		std::cout << "Thread " << std::this_thread::get_id() << " done sleeping." << std::endl;
-		std::cout << i << std::endl;
+		std::cout <<"i"<< i << std::endl;
 	});
 
 	tp.addWork([&i]() {
@@ -117,6 +124,6 @@ void notMain() {
 		std::this_thread::sleep_for(std::chrono::seconds(7));
 		i++;
 		std::cout <<"Thread " << std::this_thread::get_id() << " done sleeping." << std::endl;
-		std::cout << i << std::endl;
+		std::cout <<"i"<< i << std::endl;
 	});
 }

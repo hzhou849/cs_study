@@ -1,5 +1,5 @@
 
-/* Threadpool class 
+/* Threadpool passing functions with args into a queue for later processing at run-time 
  *
  * 
 */
@@ -53,84 +53,80 @@ public:
 	}
 };
 
-
-
+/* Threadpool class */
 class Threadpool {
 private:
-	std::vector <std::thread*> threads;			// vector that holds thread pointer
-	std::queue < std::function<void()> > q_tasks; //create a queue containter of std::function type items
-	std::queue <std::function <void(int, std::string)> > q_tasks;
-	std::mutex tp_mutex;						// local mutex used to sync pushing work 
-	Semaphore tpSemaphore;						// Create a semaphore object
+	std::vector <std::thread*> threads;		// using ptrs so we don't copy the threads itself into the queue just the address.
+	std::queue < std::function <void()> > tasks;
+	std::mutex tp_mutex;
+	Semaphore workSemaphore;
 	void workLoop();
-
 public:
-	Threadpool();			//constructor
-	void addWork(std::function<void(int, std::string)>);		// accepts a function as an arg
+	Threadpool();
+	~Threadpool();
+	void addWork(std::function <void()>);
 
 };
 
-//Constructor
 Threadpool::Threadpool() {
-	for (int i=0; i < 3; i++) {
+	for (int i =0; i<3; i++) {
 		std::thread *t = new std::thread(&Threadpool::workLoop, this);
 		this->threads.push_back(t);
 	}
 }
 
-/* Threadpool loop */
-void Threadpool::workLoop() {
-	while (true) {
-		this->tpSemaphore.wait(std::this_thread::get_id());
 
-		// access the queue, assign the next element(function) to the temp_func
-		this->tp_mutex.lock();
-		std::function<void()> temp_func = this->q_tasks.front();
-		this->q_tasks.pop();
-		this->tp_mutex.unlock();
+// void Threadpool::joinThreads() {
+// 	for (auto th: threads) {
+// 		th->join();
+// 	}
+// }
 
-		temp_func();	// execute the fucntion from the queue
+Threadpool::~Threadpool() {
+	for (auto th: threads) {
+		th->join();		//join the thread
+		delete th;		// free the pointer memory.
 	}
 }
 
-void Threadpool::addWork(std::function<void(int, std::string str)> work ) {
-	// work(999, "string");
-	// this->tp_mutex.lock();
-	// this->q_tasks.push(work(999,"string"));
-	// this->tp_mutex.unlock();
-	// this->tpSemaphore.notify();
+
+void Threadpool::workLoop() {
+	while (true) {
+		this->workSemaphore.wait(std::this_thread::get_id());
+		this->tp_mutex.lock();
+		std::function<void()> work = this->tasks.front();	//fetch work from queue
+		this->tasks.pop();
+		this->tp_mutex.unlock();
+		work();
+	}
 }
 
-// tester function to be passed
-void tester1(int arg1, std::string str) {
-	std::this_thread::sleep_for(std::chrono::milliseconds(8000));
-	std::cout << "tester1 function finished. passed arg:" << arg1 << str <<std::endl;
-}
-void tester2(int arg1, std::string arg2) {
-	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-	std::cout << "tester2 function finished." << std::endl;
-
-}
-void tester3(int arg1, std::string arg2) {
-	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	std::cout << "tester3 function finished." << std::endl;
-}
-void tester4(int arg1, std::string arg2) {
-	std::this_thread::sleep_for(std::chrono::milliseconds(1500));
-	std::cout << "tester4 function finished." << std::endl;
+void Threadpool::addWork(std::function<void () > work) {
+	this->tp_mutex.lock();
+	this->tasks.push(work);
+	this->tp_mutex.unlock();
+	this->workSemaphore.notify();
 }
 
+template <typename T1, typename T2>
+void testerF1(T1 arg1,T2 arg2 ) {
+	std::cout << "T1: "<< arg1<<" T2: " <<arg2  << std::endl;
+}
+
+void testerF2( std::string s) {
+	std::cout << "testerF2: " << s << std::endl;
+}
 int main() {
 	Threadpool tp;
+	int i=99;
+	/* lambda attached to the tp.addwork si the function of work pushed into the queue. */
+	tp.addWork([&i]() {
+		// all code added into the queue
+		std::cout << "Thread: " << std::this_thread::get_id() << "is sleeping.." << std::endl;
+		std::cout << "this arg is only passed into this lambda scope" << i << std::endl;
+		std::this_thread::sleep_for(std::chrono::seconds(3));
+		testerF1(i, "ttf1");
+	});
 
-	
-	// need  a placeholder as there is no thread variable yet
-	tp.addWork(std::bind(tester1, std::placeholders::_1, std::placeholders::_2)); // I want to pass an argument here
-	tp.addWork(tester2);
-	// tp.addWork(tester3);
-	// tp.addWork(tester4);
-		
-	std::this_thread::sleep_for(std::chrono::seconds(10));
 	return 0;
 }
-

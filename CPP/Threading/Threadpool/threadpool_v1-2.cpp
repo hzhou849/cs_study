@@ -1,4 +1,6 @@
 /* Threadpool algorithm v1.2
+ * shows usage of std::bind and std::placeholders
+ * 
  * This app works by adding numbers to the task for the threadpool to process
  * 1) dynamically bind the queue to automatically process whatever you put into the queue.
  *    - ie {1, "string" , &function_pointer,etc...}
