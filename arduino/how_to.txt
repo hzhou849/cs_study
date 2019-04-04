@@ -1,0 +1,12 @@
+to view connected devices:
+
+display connected usb devices
+ls -l /dev/ttyACM*
+
+grant r/w permissions to usb device
+sudo chmod a+rw /dev/ttyACM<device#>
+ie: sudo chmod a+rw dev/ttyACM2
+
+switch the device under tools in the arduino IDE 
+under Tools>Port> select corresponding /dev/ACM*
+go to Tools > Serial monitor to see serial terminal

@@ -4,6 +4,8 @@
   * Required package:
   * #include <future>
   * 
+  * std::future<type> futureObj = std::async("");
+  * 
   * Rule of thumb,
  * 		use AsyncIO if you want somethings done, but don't really care when they are done,
   * std::async() is a STL that accepts a callback( ie. function or function object) as an argument and potentially executes

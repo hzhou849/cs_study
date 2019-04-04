@@ -1,0 +1,25 @@
+
+-order items 
+	- items hold a time sleep value (simulate processing)
+-customers pay
+-chefs make items
+	- 1 thread per chef and semaphore
+	- how many? configured while running live.
+	- Agile, lets predefine the number of chefs now, and then implment the new features on later iteration/releasae
+	  - for now we will predefine it as a constant
+	  - answer: "I don't want to do that at the start, but I can design it in such a way that we can implement it later"
+-waiters deliver items -static number for now.
+- customers -come at a randome intervals and get in line (queue)
+- Restaurant size  
+
+scope creep- when requests keep accumulating ie nathan white during project. "oh can you also add this and that"
+
+- try to get the bare minimum available.
+
+
+classes:
+ Item - name, cost, cooktime
+ order - collection of items, isDone condition variable, finished_item() increment/decrements counter to know when order is finished.
+ ordered items - {item ordered, order reference}
+
+ customer creates and order, orderitem goes to queue

@@ -1,5 +1,19 @@
+/* Circular Queue 
+ *
+ * 
+ * Algorithm Design:
+ * 
+ * int enqueue():
+ * 	  queue is full when 
+ * 	  - eq is at the last position and dq is at the head.
+ *      else: wrap eq back to start
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
+
+
 
 typedef struct queue_td {
 	short * start;

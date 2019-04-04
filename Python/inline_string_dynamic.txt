@@ -1,0 +1,2 @@
+state = subprocess.check_output(["cat", "/sys/class/gpio/gpio"+str(gpioNumber)+"/direcxxtion"])
+state = str(state.decode('ascii').strip('\n'))

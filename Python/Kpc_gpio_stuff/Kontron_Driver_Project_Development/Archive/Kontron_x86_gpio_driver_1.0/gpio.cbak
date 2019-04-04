@@ -1,0 +1,338 @@
+/*Tested on SBC working
+
+ * To use this driver:
+ * - load into kernel using 'sudo insmod ite8516k_driver.ko'
+ * - to unload driver type 'sudo rmmod ite8516k_driver'
+ *
+ * To use pin 
+ * Read:
+ * 	sudo echo <pin#> > /sys/class/gpio/export
+ *  sudo echo <pin#> > /sys/class/gpio/unexport to release pin
+ * 
+ * to write pin
+ * sudo echo "out" > /sys/class/gpio/gpio1/direction
+ *  then writing '1' to /sys/class/gpio/gpio1/ value change value of pin
+ * to logical 1, write '0' to change the value of the pin to 0.
+ * 
+ * ----remove the failed functions. They may be write only functions and not required.
+ * Kontron driver for Fintec ITE8516 controller for Kontron KT boards
+*/
+
+
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/moduleparam.h>
+#include <linux/io.h>
+#include <linux/errno.h>
+#include <linux/platform_device.h>
+#include <linux/delay.h>
+#include <linux/gpio.h>
+#include <linux/acpi.h>
+
+#include <linux/hwmon.h>
+#include <linux/hwmon-sysfs.h>
+#include <linux/err.h>
+#include <linux/jiffies.h>
+#include <linux/mutex.h>
+#include <linux/sysfs.h>
+#include <linux/watchdog.h>
+#include <linux/i2c.h>
+
+#define DRV_NAME "ite8516k-GPIO1"
+
+#define ITE8516K_REG_CMD			1
+#define ITE8516K_REG_STATUS			1
+#define ITE8516K_REG_DATA			0
+
+#define ITE8516K_STATUS_OBF			0x01
+#define ITE8516k_STATUS_IBF			0x02
+#define ITE8516K_STATUS_BMODE		0x080
+
+#define ITE8516K_IOCMD_ERROR		0x80000000
+#define ITE8516K_IODATA_ERROR		0x40000000
+#define ITE8516K_IOCMD_ERROR		(ITE8516K_IODATA_ERROR | ITE8516K_IOCMD_ERROR)
+
+#define ITE8516K_CMD_GPIO_GETDIR	0x30
+#define ITE8516K_CMD_GPIO_SETDIR	0x31
+#define ITE8516K_CMD_GPIO_GET		0x32
+#define ITE8516K_CMD_GPIO_SET		0x33
+#define ITE8516K_CMD_GPIO_GETW		0x34
+#define ITE8516K_CMD_GPIO_SETW		0x35
+
+#define ITE8516K_GPIO_SET_INPUT		0x00
+#define ITE8516K_GPIO_SET_OUTPUT	0x01
+#define ITE8516K_GPIO_SET_ALTF		0x02
+
+#define ITE8516K_GPIO_SET_PULLDOWN_MASK 0xfb
+#define ITE8516K_GPIO_SET_PULLUP	0x08
+
+/*GPIO functions */
+#define ITE8516K_GPIO_NUMBER		18
+#define ITE8516K_DAC_START			0
+#define ITE8516K_DAC_NUMBER			4
+#define ITE8516K_PWM_START			4
+#define ITE8516K_PWM_NUMBER			4
+#define ITE8516K_ADC_START			8
+#define ITE8516K_ADC_NUMBER			5
+#define ITE8516K_INPUT_NUMBER		1
+
+#define ITE8516K_CMD_INFO 			0x01
+#define ITE8516K_CMD_INFO2			0x02
+#define ITE8516K_CMD_SET_WATCHDOG	0x08
+
+#define ITE8516K_CMD_SMBUS_QUICK_COM	0x40
+#define ITE8516K_CMD_SMBUS_SEND_BYTE	0x41
+#define ITE8516K_CMD_SMBUS_RECEIVE_BYTE	0x42
+#define ITE8516K_CMD_SMBUS_WRITE_BYTE	0x43
+#define ITE8516K_CMD_SMBUS_READ_BYTE	0x44
+#define ITE8516K_CMD_SMBUS_WRITE_WORD	0x45
+#define ITE8516K_CMD_SMBUS_READ_WORD	0x46
+#define ITE8516K_CMD_SMBUS_WRITE_BLOCK	0x48
+#define ITE8516K_CMD_SMBUS_READ_BLOCK	0x49
+
+#define OP_INPUT	1
+#define OP_MIN		2
+#define OP_MAX		3
+#define OP_CTRL		4
+#define OP_NAME		5
+#define OP_DAC		6
+#define OP_ADC		7
+#define OP_PWM		8
+
+struct ite8516k_input {
+	char name [20];
+	u32 value;
+};
+
+static bool gpio_altf[ITE8516K_GPIO_NUMBER] = {0};
+module_param_array(gpio_altf, bool, NULL, 0);
+MODULE_PARAM_DESC(gpio_altf, "Setup alternative function for gpio (describes all pins)");
+
+static DEFINE_SPINLOCK(ite8516k_io_lock);
+static DEFINE_SPINLOCK(ite8516k_gpio_lock);
+
+u32 ite8516k_baddr;
+static struct device * ite8516k_hwmon;
+static struct i2c_adapter ite8516k_adapter;
+
+struct ite8516k_input ite8516k_input_data[ITE8516K_INPUT_NUMBER] = {
+	{
+		.name = "GPIO #",
+		.value = 0,
+	}
+};
+
+struct ite8516k_resume {
+	u32 gpio_directions;
+	u32 gpio_values;
+
+	u8 dac[ITE8516K_DAC_NUMBER];
+	u8 pwm[ITE8516K_PWM_NUMBER];
+};
+
+static struct ite8516k_resume ite8516k_resume_data;
+
+static struct gpio kt_cpld_gpios[] = {
+	{0, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO0"},
+	{1, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO1"},
+	{2, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO2"},
+	{3, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO3"},
+	{4, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO4"}, 
+	{5, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO5"},
+	{6, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO6"},
+	{7, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO7"},
+	{8, GPIOF_DIR_IN|GPIOF_EXPORT_DIR_FIXED, "GPIO8"},
+	{9, GPIOF_DIR_IN|GPIOF_EXPORT_DIR_FIXED, "GPIO9"},
+	{10, GPIOF_DIR_IN|GPIOF_EXPORT_DIR_FIXED, "GPIO10"},
+	{11, GPIOF_DIR_IN|GPIOF_EXPORT_DIR_FIXED, "GPIO11"},
+	{12, GPIOF_DIR_IN|GPIOF_EXPORT_DIR_FIXED, "GPIO12"},
+	{13, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO13"},
+	{14, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO14"},
+	{15, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO15"},
+	{16, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO16"},
+	{17, GPIOF_EXPORT_DIR_CHANGEABLE, "GPIO17"},
+};
+
+static inline u32 ite8516k_wait_obf(void)
+{
+	u32 timeout = 10000;
+
+	while ((!(inb(ite8516k_baddr + ITE8516K_REG_STATUS)&ITE8516K_STATUS_OBF)) 
+					&& (--timeout));
+	return timeout;
+}
+
+static inline u32 ite8516k_wait_ibf(void)
+{
+	u32 timeout = 10000;
+
+	while ((inb(ite8516k_baddr+ITE8516K_REG_STATUS)&ITE8516K_STATUS_IBF)
+					&& (--timeout));
+	return timeout;
+}
+
+static u32 ite8516k_send_cmd(u8 cmd)
+{
+	int timeout = 10000;
+	if (!ite8516k_wait_ibf())
+		return ITE8516K_IOCMD_ERROR;
+	while ((inb(ite8516k_baddr+ITE8516K_REG_STATUS)&ITE8516K_STATUS_BMODE) && (timeout)) {
+		outb(0x00, ite8516k_baddr+ITE8516K_REG_CMD);
+		if (!ite8516k_wait_ibf())
+			return ITE8516K_IOCMD_ERROR;
+		inb(ite8516k_baddr+ITE8516K_REG_DATA);
+		timeout--;
+	}
+	if (!timeout)
+		return ITE8516K_IOCMD_ERROR;
+	
+	outb(cmd, ite8516k_baddr+ITE8516K_REG_CMD);
+
+	return 0;
+}
+
+static inline u32 ite8516k_in(void)
+{
+	if (!ite8516k_wait_obf())
+		return ITE8516K_IODATA_ERROR;
+
+	return inb(ite8516k_baddr+ITE8516K_REG_DATA);
+}
+
+static inline u32 ite8516k_out(u8 data)
+{
+	if (!ite8516k_wait_ibf())
+		return ITE8516K_IODATA_ERROR;
+	outb(data, ite8516k_baddr+ITE8516K_REG_DATA);
+	return 0;
+}
+
+#define ite8516k_inb(__cmd) ite8516k_inX(__cmd, 1)
+#define ite8516k_inw(__cmd) ite8516k_inX(__cmd, 2)
+#define ite8516k_inwb(__cmd) ite8516k_inX(__cmd, 3)
+
+static u32 ite8516k_inX(u8 cmd, u8 size)
+{
+	int i;
+	u32 err;
+	spin_lock(&ite8516k_io_lock);
+
+	err = ite8516k_send_cmd(cmd);
+	if (err)
+		goto exit;
+
+	for (i = 0; i < size; i++) {
+		err = ite8516k_out ((data >> (i*8))&0xFF);
+		if (err&ITE8516K_IODATA_ERROR)
+			break;
+	}
+
+	udelay(10);
+exit:
+	spin_unlock(&ite8516k_io_lock);
+	return err;
+}
+
+#define ite8516k_outb_inb(__cmd, __data) \
+	ite8516k_outX_inX(__cmd, __data, 1, 1)
+#define ite8516k_outb_inw(__cmd, __data) \ 
+	ite8516k_outX_inX(__cmd, __data, 1, 2)
+#define ite8516k_outb_inwb(__cmd, __data) \
+	ite8516k_outX_inX(__cmd, __data, 1, 3)
+#define ite8516k_outw_inb(__cmd, __data) \ 
+	ite8516k_outX_inX(__cmd, __data, 2, 1)
+#define ite8516k_outwb_inb(__cmd, __data) \
+	ite8516k_outX_inX(__cmd, __data, 3, 1)
+#define ite8516k_outww_inb(__cmd, __data) \
+	ite8516k_outX_inX(__cmd, __data, 4, 1)
+#define ite8516k_outw_inw(__cmd, __data) \
+	ite8516k_outX_inX(__cmd, __data, 2, 2)
+#define ite8516k_outw_inwb(__cmd, __data) \
+	ite8516k_outX_inX(__cmd, __data, 2, 3)
+
+static u32 ite8516k_outX_inX(u8 cmd, u32 data_out, u8 size_out, u8 size_in)
+{
+	u32 data_in = 0;
+	u8 i;
+
+	spin_lock(&ite8516k_io_lock);
+
+	data_in = ite8516k_send_cmd(cmd);
+	if (data_in)
+		gotoexit;
+
+	for (i = 0; i < size_out; i++) {
+		data_in |= ite8516k_out((data_out>>(i*8))&0xFF);
+		if (data_in&ITE8516K_IODATA_ERROR)
+			break;
+	}
+
+	for (i = 0; i < size_in; i++) {
+		data_in |= ite8516k-in() << (i*8);
+		if (data_in&ITE8516K_IODATA_ERROR)
+			break;
+	}
+	udelay(10);
+
+exit:
+	spin_unlock(&ite8516k_io_lock);
+	return data_in;
+}
+
+/************************GPIO **************************************************/
+unsigned ite8516k_gpio_to_offset (unsigned num)
+{
+	return num;
+}
+
+static int ite8516k_gpio_request(struct gpio_chip *gc, unsigned gpio_num)
+{
+	if (gpio_altf[gpio_num] == TRUE)
+		return -EINVAL;
+	return 0;
+}
+
+static int ite8516k_gpio_direction_in(struct gpio_chip *gc, unsigned gpio_num)
+{
+	u16 data;
+
+	ite8516k_resume_data.gpio_directions &= (0xFFFFFFFF & ~(1 << gpio_num));
+	spin_lock(&ite8516k_gpio_lock);
+
+	data = ite8516k_gpio_to_offset(gpio_num) | (((ITE8516K_GPIO_SET_INPUT | 
+		ITE8516K_GPIO_SET_PULLUP) & ITE8516K_GPIO_SET_PULLDOWN_MASK ) << 8);
+	
+	if (ite8516k_outw(ITE8516k_CMD_GPIO_SETDIR, data) &ITE8516K_IO_ERROR)
+		pr_err("%s Error setting of GPIO\n", DRV_NAME);
+	
+	spin_unlock(&ite8516k_gpio_lock);
+	return 0;
+}
+
+static int ite8516k_gpio_direction_out(struct gpio_chip *gc, unsigned gpio_num, int val)
+{
+	u16 data;
+
+	/* If gpio do not support changing of direction */
+	if (!(kt_cpld_gpios[gpio_num].flags&GPIOF_EXPORT_CHANGEABLE))
+		return -EINVAL
+	
+	ite8516k_resume_data.gpio_directions |= (1 << gpio_num);
+	spin_lock(&ite8516k_gpio_lock);
+
+	/*logical or comparison used */
+	data = ite8516k_gpio_to_offset(gpio_num) | (ITE8516K_GPIO_SET_OUTPUT<<8);
+
+	if (ite8516k_outw(ITE8516K_CMD_GPIO_SETDIR, data)&ITE8516K_IO_ERROR)
+		pr_err("%s Error setting of GPIO\n", DRV_NAME);
+	
+	spin_unlock(&ite8516k_gpio_lock);
+	return 0;
+}
+
+static u8 ite8516k_gpio_get_data(unsigned gpio_num)
+{
+	u8 data;
+	spin_lock(&ite8516k_gpio_lock);
+}

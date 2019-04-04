@@ -1,0 +1,47 @@
+
+# ABOUT:
+Directions on building python executable using pyinstaller to package all dependencies.
+Tower Button Test v1.2
+This application is used to test the tower button box functionality.
+
+
+#to compile:
+pyinstaller for python 3 is required to build and compile for 
+self-contained execution.
+
+to install pyinstaller for python3:
+type 'pip3 install pyinstaller' (requires pip3)
+
+
+
+# Single file build
+
+1) Download the source files tower_button_source_files_v1-2.tar.gz file from agile to an Ubuntu 14.04 (or higher)
+   test PC and extract the files into a folder.
+
+
+2)'pyinstaller --clean -F GpioApp_v1_2.py'
+- this line will clean and compile at the same time.
+
+3) a new folder in the source directory will be generated called 'dist'
+
+4) copy the newly generated executable file into a folder (you may create a new folder if desired)
+   with the following files:
+   
+	Driver_init.sh
+	ite8516k_driver.ko
+	start_gpio
+
+
+
+
+
+
+#How to use:
+1) run the 'start_gpio' script
+
+
+2 -OPTIONAL (if step 1 does not work) load the module ite8516k_driver.ko by using the command:
+	- sudo insmod ite8516k_driver.ko 
+
+

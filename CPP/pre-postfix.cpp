@@ -20,8 +20,8 @@ int main() {
     int result2 {};
 
     result2 = counter2++; // 10 gets assigned first to result2 then increments to 11
-    cout << "Post_Counter2: " << counter2 << endl;
-    cout << "result2: " << result2 << endl<<endl;
+    cout << "Post_Counter2: " << counter2 << endl; //11
+    cout << "result2: " << result2 << endl<<endl; //10
     
 
     // ANOTHER EXample

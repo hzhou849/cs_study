@@ -1,0 +1,15 @@
+To show the USB drive among all storage partitions and volumes on your computer use:
+
+lsblk
+You can also use:
+
+df
+Suppose it may be /dev/sdy1. Unmount it with:
+
+sudo umount /dev/sdy1
+To format drive with the FAT32 file system format:
+
+sudo mkfs.vfat /dev/sdy1
+To set a file system label for your pen drive in the process:
+
+sudo mkfs.vfat -n 'name_for_your_pendrive' /dev/sdy1

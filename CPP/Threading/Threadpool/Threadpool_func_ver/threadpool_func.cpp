@@ -1,5 +1,7 @@
 
-/* Threadpool passing functions with args into a queue for later processing at run-time 
+/* Threadpool passing functions with 
+ * PROPER Version
+ *args into a queue for later processing at run-time 
  *
  * 
 */

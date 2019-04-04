@@ -2,6 +2,10 @@
  *
  * The base class pointers will now bind dynamically to corresponding dervived classes 
  * but the funtions must be declared as virtual for this to work
+
+ * Just by adding the virtual keyword to your base and derived functions,
+ * you can now make it dynamically bound
+
  */
 
 // Example:

@@ -1,0 +1,8 @@
+# To check if moudule  is installed
+
+#in terminal type:
+python -c "import <module_name>"
+echo $?
+
+if 0 - installed
+1 - module does not exist.

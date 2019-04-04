@@ -1,0 +1,6 @@
+Wild card search
+if string contains characters 
+
+ex:
+buffer_string="fc c2 3d jasdfkljdfj"
+if [[ $buffer_string == *"fc c2 3d"* ]]; then

@@ -1,0 +1,5 @@
+
+https://stackoverflow.com/questions/20595716/control-mouse-by-writing-to-dev-input-mice/20691824
+
+// captures raw hex for keyboard input.
+sudo cat /dev/input/mice | od -t x1 -w3

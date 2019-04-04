@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<HTML>
+<HEAD>
+<meta name="language" content="english">
+<link href="./en.css" rel="stylesheet" type="text/css">
+<TITLE>Writing an Input Module</TITLE>
+</HEAD>
+<BODY>
+
+<p><i>Reprinted with permission of Linux Magazine</i></p>
+
+<H1>Writing an Input Module</H1>
+				<P align=right>by Alessandro Rubini</P>
+
+
+<p>Last month I gave an overview of the USB kernel subsystem, but I
+hadn't the space needed to show real code at work.  This month we'll
+fill the gap by looking at sample drivers implementing input
+devices in the USB framework. The code being introduced has been
+developed and tested on version 2.3.99-pre6 of the Linux kernel,
+running on a PC-class computer.
+
+<p>The sample module introduced here is called <i>idiom</i> (Input
+Device for Intercepting Output of Mice), and its well-commented source
+code is available for download from
+<code> <a href="idiom.tar.gz"> here </a></code>. The
+sample module registers itself with the USB kernel subsystem as a
+mouse driver and with the input management subsystem as a keyboard
+driver.  As a keyboard, <i>idiom</i> only reports arrow
+events, according to how the physical mouse is moved.
+
+<p>Since the module registers itself as an USB device, you won't be
+able to test its workings if you have no USB mouse to generate
+events.  To partially fill the gap, <i>idiom</i> offers an additional
+entry point, <code>/dev/idiom</code>, where you can write text strings
+that will be converted to USB keyboard events.
+
+<h3>Overview of the Idiom module</h3>
+<!-- ============================ -->
+
+<p>The overall design of the module is depicted in figure 1.
+<hr>
+<p><img SRC="input.png" alt="Figure 1">
+<p><i>Donwload postscript: <a href="input.ps">input.ps</a></i>
+<hr>
+
+As outlined in the previous article, the USB input
+device driver must connect to two different infrastructures: the
+<i>usbcore</i> device driver that handles hardware events on the USB
+port, and the <i>input</i> module that collects and dispatches input
+events.  In addition, <i>idiom</i> registers an entry point with the
+<code>misc</code> device driver. The figure shows how th device
+attaches to the three working environments using kernel facilities.
+
+<p>In order to test the module and assuming you compiled the USB
+kernel subsystem as modules, you'll need to invoke the following
+commands as root:
+
+<code><pre>
+   insmod usbcore
+   insmod usb-ohci
+
+   insmod input
+   insmod keybdev
+
+   insmod idiom
+   mknod /dev/idiom c 10 $(grep idiom /proc/misc | awk '{print $1}')
+</pre></code>
+
+<p>The first two commands load the USB machinery and an hardware
+driver for your host controller (not needed if you have no host
+controller on your computer and you plan to use
+<code>/dev/idiom</code>.  The second pair of commands loads the input
+management machinery and the driver that consumes keyboard events. The
+last pair loads <i>idiom</i> itself and creates the associated misc
+device. You should remove <code>/dev/idiom</code> when you are done
+with these tests, or modify <i>idiom.c</i> to use <code>/proc</code> or
+<i>devfs</i> instead of the misc device.
+
+
+<h3>Linking to the USB framework</h3>
+<!-- ============================ -->
+
+<p>At load time, the <i>idiom</i> driver (which is heavily based on
+the official <i>usbmouse</i> module) registers its own
+<code>usb_driver</code> data structure. The callbacks defined in the
+structure will be called whenever a new device is attached to the USB
+bus or an existing device is detached. Let's forget for a while that
+<i>idiom</i> registers with the misc device, and module initialization
+and shutdown turns out as simple as:
+
+<code><pre>
+	static struct usb_driver idiom_usb_driver = {
+	        name:        "idiom",
+	        probe:       idiom_probe,
+	        disconnect:  idiom_disconnect,
+	};
+
+	int init_module(void)
+	{
+	    usb_register(&idiom_usb_driver);
+	    return 0;
+	}
+
+
+	void cleanup_module(void)
+	{
+	    usb_deregister(&idiom_usb_driver);
+	}
+</pre></code>
+
+<p>Actual activation of the module happens within the <i>idiom_probe</i>
+function, called whenever a new device is plugged into a USB socket.
+The core of the <i>probe</i> function deals with detecting whether
+the new device is of the right kind or not, and I'm skimming over
+that part.
+
+<p>If device identification in the <i>probe</i> function goes well, a
+new device structure must be allocated -- you could use a static
+structure, but then your module won't support more than one device of
+the same type at the same time.
+
+<code><pre>
+    /* allocate and zero a new data structure for the new device */
+    idiom = kmalloc(sizeof(struct idiom_device), GFP_KERNEL);
+    if (!idiom) return NULL; /* failure */
+    memset(idiom, 0, sizeof(*idiom));
+</pre></code>
+
+<p>The new structure must include an ``USB Request Block'' structure,
+which needs to be initialized and submitted back to the USB subsystem:
+
+<code><pre>
+    /* fill the URB data structure using the FILL_INT_URB macro */
+    {
+	static void idiom_irq(struct urb *urb); /* forward declaration */
+	int pipe = usb_rcvintpipe(udev, endpoint->bEndpointAddress);
+	int maxp = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
+	
+	FILL_INT_URB(&idiom->urb, udev, pipe, idiom->data,
+		     maxp > 3 ? 3 : maxp, idiom_irq,
+		     idiom, endpoint->bInterval);
+    }
+
+    /* register the URB within the USB subsystem */
+    if (usb_submit_urb(&idiom->urb)) {
+	kfree(idiom);
+	return NULL; /* failure */
+    }
+</pre></code>
+
+<p>The macro <code>FILL_INT_URB</code> above is used to fill the URB
+data structure to describe ``interrupt transfers'' with the device.
+The USB specification defines four types of transfers (control,
+interrupt, bulk, isochronous), and the mouse device falls in the
+``interrupt'' class.  Interrupt transfers are not actually
+interrupt-based but rather happen as replies to polling performed by
+the host controller (driver).
+
+<p>The parameters of the macro call are used to initialize the field
+of the URB data structure, and the interested reader is urged to refer to
+<code>&lt;linux/usb.h&gt;</code> for the details. The interesting
+arguments here are <code>idiom_irq</code> and <code>maxp</code>. The former
+is the pointer to the <i>complete</i> handler, which eats data
+packets after completion of each transfer. The latter
+is the maximum length of the data buffer, which is set to three for
+the mouse driver -- although the protocol is actually made up of
+five-bytes packets, we only use the second and third byte; feel free
+to check <i>usbmouse.c</i> for differences in this initialization sequence.
+
+<p>During device operation, everything is accomplished by the
+<i>complete</i> handler, in this case <i>idiom_irq</i>. The function
+is handed a pointer to the <code>struct urb</code> and looks in
+the data buffer to retrieve data, after checking that no error
+has occurred:
+
+<code><pre>
+static void idiom_irq(struct urb *urb)
+{
+    struct idiom_device *idiom = urb->context;
+    signed char *data = idiom->data;
+    struct input_dev *idev = &idiom->idev;
+
+    if (urb->status != USB_ST_NOERROR) return;
+
+    /* ignore data[0] which reports mouse buttons */
+    idiom->x += data[1]; /* accumulate movements */
+    idiom->y += data[2];
+}
+</pre></code>
+
+<p>When the device is detached, the disconnect handler gets called.
+The handler must unregister the submitted URB and release memory
+allocated to the device:
+
+<code><pre>
+    usb_unlink_urb(&idiom->urb);
+    kfree(idiom);
+</pre></code>
+
+<p>These few lines of code are all that's needed for a device driver
+to interact to the USB framework. Even though things get slightly more
+complicated for different types of data transfers, the general rules
+outlined here apply, and the sources of real device driver will be a
+good reference for the curious reader.
+
+
+<h3>Feeding the System with Input Data</h3>
+<!-- ================================== -->
+
+<p>We already know that reacting to USB data transfers is only half of
+the work of an USB device driver: the other half deals with
+communicating data to the external world. As far as input devices
+are concerned, the actual communication with the external world is
+performed by the <i>input</i> module, and the USB driver needs only
+to feed data to that module.
+
+<p>Communication with <i>input</i> is laid out in the usual steps:
+registration, communication, cleanup. The first step is performed by
+the same <i>probe</i> function that submits an URB to the USB
+framework; the driver must fill a <code>struct input_dev</code> to
+describe the input it might feed and register that structure.
+This is accomplished by the following lines:
+
+<code><pre>
+    /* tell the features of this input device: fake only keys */
+    idiom->idev.evbit[0] = BIT(EV_KEY);
+
+    /* and tell which keys: only the arrows */
+    set_bit(KEY_UP,    idiom->idev.keybit);
+    set_bit(KEY_LEFT,  idiom->idev.keybit);
+    set_bit(KEY_RIGHT, idiom->idev.keybit);
+    set_bit(KEY_DOWN,  idiom->idev.keybit);
+
+    /* and register the input device itself */
+    input_register_device(&idiom->idev);
+</pre></code>
+
+<p>What's most apparent here is that everything is laid out in
+bitmasks: the driver must state that it only reports key events and
+also specify which keys will be generated (in this case, the four
+arrow keys). If you check <code>&lt;linux/input.h&gt;</code> you'll
+find several bit indexes defined, as other input channels are
+handled in the same way.
+
+<p>When the input device is registered with the input framework, the
+function <i>input_event</i> can be called by the driver whenever it
+has new data to feed. Within <i>idiom</i>, data is received by
+<i>idiom_irq</i>, and it's that very funtion that routes new data to
+its final destination.
+
+<p>Since <i>idiom</i> converts high-resolution mouse events to
+low-resolution keyboard events, I chose to only generate a keypress
+for every 10 pixel of mouse motion. Within <i>idiom_irq</i>, therefore,
+these lines are repeated four times (one for each possible direction):
+
+<code><pre>
+    while (idiom->x < -10) {
+	input_report_key(idev, KEY_LEFT, 1); /* keypress */
+	input_report_key(idev, KEY_LEFT, 0); /* release */
+	idiom->x += 10;
+    }
+</pre></code>
+
+<p>These few lines of code turn an USB mouse to an arrow farm whenever
+you load <i>idiom</i> instead of <i>usbmouse</i>. 
+
+<p>The function <i>input_report_key</i> is actually a wrapper to
+<i>input_event</i>: the first call showed above expands to
+``<code>input_event(idev, EV_KEY, KEY_LEFT, 1)</code>''. While I
+personally would call <code>input_event</code>, it's more common
+practice to use the wrapper macro instead.
+
+<p>The last step in input management in unregistering. This is
+accomplished by a single line of code in <i>idiom_disconnect</i>.
+just before the <code>idiom</code> data structure is deallocated from
+memory:
+
+<code><pre>
+    input_unregister_device(&idiom->idev);
+</pre></code>
+
+
+<h3>Using /dev/idiom</h3>
+<!-- =============-== -->
+
+<p>To help people playing with <i>idiom</i> even in case no USB mouse
+or USB-capable computer is there, I added to the module support for a
+misc device. Use of the device is simple and straightforward: a new
+<i>idiom</i> device is created by the module whenever the device is
+opened, and a mouse movement is simulated whenever an uppercase or
+lowercase letter in the set ``u, d, l, r'' is printed to the
+device. For example, ``<code>echo uuull "&gt;" /dev/idiom</code>'' will
+generate three up-arrows and two left-arrows.
+
+<p>The implementation of the device entry point is confined to the
+final part of the source file for <i>idiom</i>, with the exception of
+the registering and unregistering calls, which are invoked at module
+initialization and shutdown.
+
+<p>Even though use of a ``simulated'' USB device cannot give the
+thrill of driving a real device, I hope this trick will help people
+with no USB hardware to begin lurking in this new arena of peripheral
+devices.
+
+<p>Be warned, anyway, that this discussion limits itself to the
+simplest available device, and driving a different device like a
+digital camera is quite a different kind of task, with new and
+interesting problems to face.
+
+<hr>
+
+<i>Alessandro is an independent consultant based in Italy, who suffers
+from high load and premature obsolescence.  He reads email as</i>
+<code>rubini-at-gnu-dot-org</code>. 
+
+<blockquote><i>Verbatim copying and distribution of this entire article is permitted in any medium, provided this notice is preserved.</i></blockquote>
+<!--  LocalWords:  Alessandro Rubini USB misc struct urb dev  -->

@@ -11,7 +11,7 @@
  *  - cannot be access or even viewed from outside the class
  *  - Only the class and friends fucntions can access private members
  *  - C++ default is private
- *  - 
+ *  - NO Access FROm INHERITED/ DERIVED CLASSES
  * 
  * Protected members:
  * 	- work like private, allows inheritance child classes to accesses

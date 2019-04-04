@@ -1,0 +1,6 @@
+i2c connections
+
+analog in
+
+A5 = SCL
+A4 = SDA

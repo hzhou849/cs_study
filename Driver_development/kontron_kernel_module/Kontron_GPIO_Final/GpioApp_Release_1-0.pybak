@@ -1,0 +1,351 @@
+#!/usr/bin/python3
+
+# 1. need to set a restore function
+# 2. clear gpio states on on exit (using 2nd window check function)
+# 3. remove unused menu commands
+'''
+Copyright 2018 Medtronic.
+All Rights Reserved. The information contained herein is confidential
+property of Medtronic. The use, copying, transfer or disclosure of such
+information is prohibited except by written agreement with Medtronic. 
+'''
+
+#from tkinter import Tk, E, W, Label and Menu
+from tkinter import *
+from tkinter.ttk import Frame, Button, Entry, Style
+from PIL import Image, ImageTk
+
+from tkinter import messagebox
+import tkinter as ttk
+import tkinter.ttk as ttk #??
+import subprocess
+import shlex # shell lexical analysis of the shell-style syntaxes
+import time
+import os
+
+class GPIO_Tester (Frame):
+	
+	global gpioList; gpioList = ["0", "1", "2", "4", "6", "7", "8","9"]
+	global backgroundColor; backgroundColor = "#f5f5f5"
+	UPDATER_DELAY = 100 #ms
+
+	def __init__(self):
+
+		super().__init__()
+		
+		# Set the app title
+		self.master.title("GPIO Test Application v1.0")
+		
+		# Initialize themes
+		self.style_Init()
+
+		# Initialize grid
+		self.rowCol_Init()
+
+		# Initialize and create GUI components/widgets
+		self.createMenu()
+		self.row0_Blank()
+		self.GPIO_Labels()
+		self.column2_Blank()
+		self.Sys_Pause_Components_Init()
+		self.Sys_Act_Components_Init()
+		self.LatchResetComponents_Init()
+
+
+		self.updater()
+		self.pack(fill=BOTH, expand=1)
+	
+	def style_Init(self):
+
+		Style().configure("TButton", padding=(0,5,0,5))
+	
+		Style().configure("TFrame", background=backgroundColor)
+		# Adjust the frame attributes
+		
+		# second set of themes 
+		# s2 = ttk.Style()
+		Style().configure('ledSysAct.TButton', background="#d9d9d9", foreground="#000000",relief=RAISED)
+		Style().configure('ledSysPause.TButton', background="#d9d9d9", foreground="#000000",relief=RAISED)
+	
+	def rowCol_Init(self):
+		self.columnconfigure(0, pad=20)
+		self.columnconfigure(1, pad=20)
+		self.columnconfigure(2, pad=20)
+		self.columnconfigure(3, pad=20)
+		self.columnconfigure(4, pad=20)
+		self.columnconfigure(5, pad=20)
+		self.columnconfigure(6, pad=20)
+
+		self.rowconfigure(0, pad=00)
+		self.rowconfigure(1, pad=20)
+		self.rowconfigure(2, pad=20)
+		self.rowconfigure(3, pad=20)
+		self.rowconfigure(4, pad=20)
+		self.rowconfigure(5, pad=20)
+		self.rowconfigure(6, pad=20)
+		self.rowconfigure(7, pad=20)
+		self.rowconfigure(8, pad=20)
+		self.rowconfigure(9, pad=20)
+		self.rowconfigure(10,pad=20)
+	
+	#======== GUI COMPONENTS=====================================================
+
+
+	def createMenu(self):
+		# *****Create menu object to be placed in main 'self' window
+		menuObject = Menu(self.master)
+		self.master.config(menu=menuObject)
+
+		fileMenu = Menu(menuObject, tearoff=0)
+		menuObject.add_cascade(label="File", menu=fileMenu)
+		fileMenu.add_command(label="Command1", command=self.getGpioState)
+		fileMenu.add_command(label="Command2", command=self.getGpioState)
+		fileMenu.add_separator()
+		fileMenu.add_command(label="Exit", command=self.quit)
+
+		aboutMenu = Menu(menuObject, tearoff=0)
+		menuObject.add_cascade(label="About", menu=aboutMenu)
+		aboutMenu.add_command(label="about") #add command
+
+	def row0_Blank(self):
+		blankLabel=Label(self, text=" ", background=backgroundColor); blankLabel.grid(column=0, row=0)
+		# blankLabel=Label(self, text=" ", background=backgroundColor); blankLabel.grid(column=0, row=1)
+	def GPIO_Labels(self):
+		gpio0Label = Label(self, text="Gpio_0", background=backgroundColor)
+		gpio0Label.grid(row=1, column=0)
+		gpio1Label = Label(self, text="Gpio_1", background=backgroundColor) 
+		gpio1Label.grid(row=2, column=0)
+		gpio2Label = Label(self, text="Gpio_2", background=backgroundColor)
+		gpio2Label.grid(row=3, column=0)
+		gpio4Label = Label(self, text="Gpio_4", background=backgroundColor)
+		gpio4Label.grid(row=4, column=0)
+		gpio6Label = Label(self, text="Gpio_6", background=backgroundColor)
+		gpio6Label.grid(row=5, column=0)
+		gpio7Label = Label(self, text="Gpio_7", background=backgroundColor)
+		gpio7Label.grid(row=6, column=0)
+		gpio8Label = Label(self, text="Gpio_8", background=backgroundColor)
+		gpio8Label.grid(row=7, column=0)
+		gpio9Label = Label(self, text="Gpio_9", background=backgroundColor)
+		gpio9Label.grid(row=8, column=0)
+
+		self.gpio0_entry = Entry(self, width=5)
+		self.gpio0_entry.grid(row=1, column=1)
+		self.gpio1_entry = Entry(self, width=5)
+		self.gpio1_entry.grid(row=2, column=1)
+		self.gpio2_entry = Entry(self, width=5)
+		self.gpio2_entry.grid(row=3, column=1)
+		self.gpio4_entry = Entry(self, width=5)
+		self.gpio4_entry.grid(row=4, column=1)
+		self.gpio6_entry = Entry(self, width=5)
+		self.gpio6_entry.grid(row=5, column=1)
+		self.gpio7_entry = Entry(self, width=5)
+		self.gpio7_entry.grid(row=6, column=1)
+		self.gpio8_entry = Entry(self, width=5)
+		self.gpio8_entry.grid(row=7, column=1)
+		self.gpio9_entry = Entry(self, width=5)
+		self.gpio9_entry.grid(row=8, column=1)
+
+	def column2_Blank(self):
+		#blankLabel=Label(self, text="       ", background='black'); blankLabel.grid(column=2, row=0)
+		verticalSeperator = ttk.Separator(self, orient=VERTICAL).grid(row=1,rowspan=10,column=2,padx=10 ,sticky=NS)
+	
+		
+	
+	# Sys_Pause GUI components
+	def Sys_Pause_Components_Init(self):
+		sysPauseLabel = Label(self, text="System Pause Button:", background=backgroundColor)
+		sysPauseLabel.grid(row=4, column=3,sticky=W)
+
+		# Sys_Pause ON OFF Label
+		self.sysPauseLabelOnOff = Label(self,width=5, text="OFF", foreground='gray', relief=SUNKEN)
+		self.sysPauseLabelOnOff.grid(row=4, column=4)
+
+		# LED button
+		self.sysPauLED_Button=Button(self, text="LED Off",width=8, command = \
+			lambda: self.LEDbuttonPress("sys_pause"), style='ledSysPause.TButton' )
+		self.sysPauLED_Button.grid(row=5, column =3, sticky=W)
+
+		splitter = ttk.Separator(self)
+		splitter.grid(row=6, column=3, columnspan=3, sticky="ew")
+
+	def Sys_Act_Components_Init(self):
+		
+		sysActLabel = Label(self, text="System Activate Button:", background=backgroundColor)
+		sysActLabel.grid(row=1, column=3, sticky=W)
+
+		self.sysActLabelOnOff = Label(self,width=5, text="OFF", foreground='gray', relief=SUNKEN)
+		self.sysActLabelOnOff.grid(row=1, column=4)
+
+		# LED button
+		self.sysActLED_Button=Button(self, text="LED Off",width=8, command = \
+			lambda: self.LEDbuttonPress("sys_act"), style='ledSysAct.TButton' )
+		self.sysActLED_Button.grid(row=2, column =3, sticky=W)
+
+		splitter = ttk.Separator(self)
+		splitter.grid(row=3, column=3, columnspan=3, sticky="ew")
+
+	def LatchResetComponents_Init(self):
+		# self.sysLatch_Button=Button(self, text="Latch",width=5, command = \
+		# 	lambda: self.buttonPressed("sysLatch"), style='direction.TButton' )
+		# self.sysLatch_Button.grid(row=7, column =3, sticky=W)
+
+		sysLatch_Label = Label(self, text="Latch Mode: ", background=backgroundColor)
+		sysLatch_Label.grid(row=7, column=3, sticky=W)
+		
+		self.sysLatch_OnOffIndicator_Label = Label(self,width=5, text="SET", foreground='gray', relief=SUNKEN)
+		self.sysLatch_OnOffIndicator_Label.grid(row=7, column=4)
+		# Latch mode radio button
+		v=IntVar()
+		self.LatchRadioOn = Radiobutton(self, text="On",relief=SUNKEN, \
+			command=lambda: self.LatchResetButtonPress("latchOn"), background=backgroundColor, variable=v, value=1)
+		self.LatchRadioOn.grid(row=8, column=3, sticky=W)
+		self.LatchRadioOn = Radiobutton(self, text="Off",relief=SUNKEN,\
+			command=lambda: self.LatchResetButtonPress("latchOff"), background=backgroundColor, variable=v, value=2)
+		self.LatchRadioOn.grid(row=8, column=4, sticky=W)
+		#break this button out if possible
+		self.sysReset_Button=Button(self, text="Reset",width=5, command = \
+			lambda: self.LatchResetButtonPress("sysReset"), style='direction.TButton' )
+		self.sysReset_Button.grid(row=9, column =3, sticky=W)
+
+		
+		# self.terminalWindow=Entry(self)
+		# self.terminalWindow.grid(row=9,pady=10, columnspan=6,rowspan=2, sticky=W+E)
+	#GPIO Initialization	
+	# try:
+	# 	# driverLoadCheck = subprocess.check_output(["./driverCheck.sh"])
+	# 	# print(driverLoadCheck)
+	# 	# pass terminal commands through python subprocess functions
+
+	# 	# convert to os.system()
+	# 	cmd = "lsmod |grep 'ite8516k'"
+	# 	ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+	# 	output = ps.communicate()[0]
+	# 	print (output)
+	# 	print("drivers loaded.")
+		
+	# except:
+	# 	print("fail - driver not found")
+	# 	exit(1)
+		
+
+# ==========================================================================================
+	def LatchResetButtonPress(self, buttonName):
+		
+		if buttonName == "latchOn":
+			print("latch on")
+			os.system(r'sudo sh -c "echo out > /sys/class/gpio/gpio7/direction"')
+			time.sleep(.100)
+		
+			
+		if buttonName == "latchOff":
+			print("latch off")
+			os.system(r'sudo sh -c "echo in > /sys/class/gpio/gpio7/direction"')
+			time.sleep(.100)
+		if buttonName =="sysReset":
+			print("reset")
+			os.system(r'sudo sh -c "echo in > /sys/class/gpio/gpio7/direction"')
+			time.sleep(.300)
+			os.system(r'sudo sh -c "echo out > /sys/class/gpio/gpio7/direction"')
+			#set status to off
+
+	def LEDbuttonPress(self, buttonName):
+		print(buttonName)
+
+		if buttonName == "sys_pause":
+			currentState = subprocess.check_output(["cat", "/sys/class/gpio/gpio6/value"])
+			currentState = str(currentState.decode('ascii').strip('\n'))
+			if currentState == "0":
+				print("sys_pause success")
+				# subprocess.check_output(['sudo','sh','-c','"echo','1', '>' '/sys/class/gpio/export"'])
+				# 'r' is used to pass quotes in os.system
+				os.system(r'sudo sh -c "echo out > /sys/class/gpio/gpio6/direction"')
+				self.sysPauLED_Button.config(text="LED ON")
+				Style().configure('ledSysPause.TButton', relief=SUNKEN,foreground="#FFFFFF", background ="#ffad33")
+			else:
+				os.system(r"sudo sh -c 'echo in > /sys/class/gpio/gpio6/direction'")
+				self.sysPauLED_Button.config(text="LED Off")
+				Style().configure('ledSysPause.TButton', background="#d9d9d9",foreground="#000000", relief=RAISED)
+
+		if buttonName == "sys_act":
+			currentState = subprocess.check_output(["cat", "/sys/class/gpio/gpio4/value"])
+			currentState = str(currentState.decode('ascii').strip('\n'))
+			if currentState == "0":
+				print("sys_pause success")
+				# subprocess.check_output(['sudo','sh','-c','"echo','1', '>' '/sys/class/gpio/export"'])
+				# 'r' is used to pass quotes in os.system
+				os.system(r'sudo sh -c "echo out > /sys/class/gpio/gpio4/direction"')
+				self.sysActLED_Button.config(text="LED ON")
+				Style().configure('ledSysAct.TButton', relief=SUNKEN,foreground="#FFFFFF", background ="#000099", activebackground='black', activeforground='black')
+			else:
+				os.system(r"sudo sh -c 'echo in > /sys/class/gpio/gpio4/direction'")
+				self.sysActLED_Button.config(text="LED Off")
+				Style().configure('ledSysAct.TButton', background="#d9d9d9", foreground="#000000",relief=RAISED,  activebackground='black', activeforeground='black')
+
+	def getGpioState(self):
+		
+		for x in gpioList:
+			self.gpio0_entry.config(state=NORMAL)
+			# p = subprocess.check_output(["cat", "/sys/class/hwmon/hwmon3/fan1_input"])
+			state = subprocess.check_output(["cat", "/sys/class/gpio/gpio"+x+"/value"])
+			# state=subprocess.check_output(["cat", "/home/howardz/value"])
+			tempSyntax = "self."+"gpio"+ x + "_entry.delete(0,END)"
+
+			# [:-1] is to trim last buffer value
+			tempSyntax2 = "self." + "gpio"+ x +"_entry.insert(END, state[:-1])"	
+			# self.gpio0_entry.delete(0,END)
+			# self.gpio0_entry.insert(END,p[:-1])
+			# print(x)
+			# print(tempSyntax)
+			# print(tempSyntax2)
+			# print(self.sysPauseLabelOnOff.config())
+			exec(tempSyntax)
+			exec(tempSyntax2)
+			state = str(state.decode('ascii').strip('\n'))
+			print ("state: "+str(state) + " x: "+x)
+			
+			# get gpio_0 values
+			gpio0_Value = str(self.gpio0_entry.get())
+			gpio9_Value = str(self.gpio9_entry.get())
+			
+			if gpio0_Value == "1" and gpio9_Value =="1":
+				self.sysPauseLabelOnOff.config(text="ON", background='#42f4ad', foreground='#FFFFFF', relief=RAISED)
+				print("success")
+			else:
+				self.sysPauseLabelOnOff.config(text="OFF",background='#d9d9d9', relief=SUNKEN,foreground='gray')
+			
+			# get gpio_1 and gpio_8 values
+			gpio1_Value = str(self.gpio1_entry.get())
+			gpio8_Value = str(self.gpio8_entry.get())
+
+			if gpio1_Value == "0" and gpio8_Value =="0": 
+				self.sysActLabelOnOff.config(text="ON", background='#42f4ad', foreground='#FFFFFF', relief=RAISED)
+				print("act")
+			else:
+				self.sysActLabelOnOff.config(text="OFF",background='#d9d9d9', relief=SUNKEN,foreground='gray')
+
+			gpio2_Value = str(self.gpio2_entry.get())
+			if gpio2_Value == "1":
+				self.sysLatch_OnOffIndicator_Label.config(background='#42f4ad', foreground='#FFFFFF', relief=RAISED)
+			else:
+				self.sysLatch_OnOffIndicator_Label.config(background='#d9d9d9', relief=SUNKEN,foreground='gray')
+			# self.gpio_entry.config(state=DISABLED)
+
+	def updater(self):
+		self.getGpioState()
+		#time.sleep(.500)
+		self.after(GPIO_Tester.UPDATER_DELAY, self.updater)
+
+	
+def main():
+
+	root = Tk()
+	
+	root.geometry("500x400+300+300")
+	root.resizable(False, False)
+	app = GPIO_Tester()
+	root.mainloop()
+
+	
+
+if __name__ == '__main__':
+	main() 

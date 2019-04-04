@@ -78,6 +78,41 @@
 #include <string>
 #include <vector>
 
+#include <iostream>
+
+template <typename T> 
+class Gqueue {
+private:
+	short *start;
+	T	  *value;	// passing pointer to the object not copying
+	short *eq;
+	short *dq;
+	int bufferSize;
+public:
+	Gqueue(int b);
+	void init2();
+	~Gqueue();
+};
+
+/*  *** when you have seperate method definitons, 
+ * you MUST incldue template declearation in each method definition
+*/
+template <typename T>  // re-declare
+Gqueue<T>::Gqueue(int b) 
+	:start{nullptr},value{nullptr}, eq{nullptr}, dq{nullptr}, bufferSize{b} {
+
+}
+template <typename T> // re-declare
+Gqueue<T>::~Gqueue() {
+	// de-allocate heap queue
+	delete[] start;
+}
+template <typename T> // re-declare
+void Gqueue<T>::init2() {
+	std::cout << " init" << std::endl;
+}
+
+
 //Template classes are typically completely contained in header files
 // in item.h, there is no item.cpp associated with it.
 

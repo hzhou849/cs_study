@@ -4,8 +4,8 @@ CXX=g++
 CFLAGS=-I. -lpthread -Wall -std=c++11  -pthread
 
 
-SRCS: async.cpp 
-	$(CXX) $(CFLAGS)  -o main packaged_task.cpp
+SRCS: async2.cpp 
+	$(CXX) $(CFLAGS)  -o main async2.cpp
 
 
 .PHONY: clean

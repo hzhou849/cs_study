@@ -100,7 +100,8 @@ void stack::display() {
 }
 
 stack::~stack() {
-	delete(this->start);
+	//make sure you use "delete []" this is an array of memory on heap
+	delete[](this->start);
 }
 
 
