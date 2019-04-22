@@ -3,6 +3,14 @@
  COMMANDS
 ==============================================================
 
+#Resetting repository
+"git reset --hard HEAD~1"
+followed by
+
+"git push --force origin branch"
+
+
+
 tips for creating new repos.
 - if creating a new repository, just create it on github.com website
 then in terminal 

@@ -1,0 +1,21 @@
+'''
+Underscores
+
+Underscores means intention, ie intended to be private.
+in python all members all public, its up to the user to respect the convention,
+__<name>__ means something we shouldnt be changing
+'''
+used to prevent name clashes
+other conventions
+# _method_name - usually IDE's will know and warn you this is a private member
+
+#if the name you want to rename something that a library already used. you can add underscores to the end of the name
+
+
+#Throw away values
+underscores can be used for throw away values
+ie:
+dictionary = ("blah", 223, "value2")
+name, _, country = dictionary # ignores '223'
+print(name, country)
+print(_) #prints '223' as it is still valid

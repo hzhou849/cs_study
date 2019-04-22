@@ -282,7 +282,7 @@ private:
 	std::mutex tp_mutex;
 	Semaphore sema_p;
 	Stack s;
-	void processing_func();
+	void processing_func(int i);
 	
 public:
 	Thread_processor();
@@ -291,10 +291,12 @@ public:
 };
 
 Thread_processor::Thread_processor(){
+	int j;
 	for (int i=0; i < 3; i++) {
-		std::cout << "Creating thread " << i << std::endl;
+		j=i;
+		std::cout << "Creating thread" << i << std::endl;
 		// create thread pointers on heap.
-		std::thread *t = new std::thread(&Thread_processor::processing_func, this); 
+		std::thread *t = new std::thread(&Thread_processor::processing_func, this, i);  // function argument at the end
 		this->vec_threads.push_back(t);
 	}
 }
@@ -305,7 +307,7 @@ Thread_processor::~Thread_processor() {
 	}
 }
 
-void Thread_processor::processing_func() {
+void Thread_processor::processing_func(int i) {
 
 	std::string resultStr;
 	std::cout << "processing_func runnning....\n\n" << std::endl;
@@ -318,11 +320,13 @@ void Thread_processor::processing_func() {
 		sema_p.wait(std::this_thread::get_id()); 
 		tp_mutex.lock();
 		fetched_value = s.pop();
-		std::this_thread::sleep_for(std::chrono::seconds(fetched_value % 20));
-		tp_mutex.unlock();
+		tp_mutex.unlock();  // BEFORE SLEEP TO PREVENT BLOCKING OF THREAD
+		synced(std::cout) << "thread: " << i << " sleeping..." << std::endl;
+		std::this_thread::sleep_for(std::chrono::seconds(fetched_value));
 		resultStr=convert.convert_str(fetched_value);
 		std::cout << "** [Fetched value: " << fetched_value << "  Binary: " << resultStr << " ] "<< std::endl;
-		
+		s.display();
+
 	}
 }
 
@@ -340,6 +344,7 @@ void Thread_processor::addQueue(Queue *q){
 			tp_mutex.lock(); // lock the stack 
 			std::cout << "thread notified" << std::endl;
 			s.push(value);
+			sema_p.notify();
 			tp_mutex.unlock();
 
 			if (value == 999) {
@@ -347,7 +352,6 @@ void Thread_processor::addQueue(Queue *q){
 				std::this_thread::sleep_for(std::chrono::seconds(3));
 				exit;
 			}
-			sema_p.notify();
 			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 			s.display();
 		}
@@ -357,9 +361,6 @@ void Thread_processor::addQueue(Queue *q){
 
 
 }
-
-
-
 
 /* Driver class */
 int main() {
@@ -381,11 +382,16 @@ int main() {
 	bc.convert(&qObj);
 
 	Queue qObj2(5);
-	qObj2.enqueue(0x14);
-	qObj2.enqueue(0x08);
-	qObj2.enqueue(0x0A);
-	qObj2.enqueue(0x09);
-	qObj2.enqueue(0x3E7);
+	// qObj2.enqueue(0x14);
+	// qObj2.enqueue(0x08);
+	// qObj2.enqueue(0x0A);
+	// qObj2.enqueue(0x09);
+	// qObj2.enqueue(0x3E7);
+	qObj2.enqueue(8);
+	qObj2.enqueue(10);
+	qObj2.enqueue(3);
+	qObj2.enqueue(1);
+	qObj2.enqueue(7);
 	// std::this_thread::sleep_for(std::chrono::seconds(30));
 
 	Thread_processor tp; // create the thread processor object

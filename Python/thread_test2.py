@@ -1,31 +1,6 @@
 #!/usr/bin/python3
 #██████████████
 '''
-
-#============================================================================
-#
-# Python script for Console cable fucntional testing  setup
-#  Version     Author              Release Notes		Date
-#    1.0       H. Zhou	   			Initial Release		July 18 2018
-# 	  							
-#                               
-#============================================================================
-
-Copyright 2018 Medtronic.
-All Rights Reserved. The information contained herein is confidential
-property of Medtronic. The use, copying, transfer or disclosure of such
-information is prohibited except by written agreement with Medtronic. 
-
-TODO: 
-
-1) remote access with teamviewer.
-gnome-screensaver-command -l
-
-
-2) fix eth detect remove fixed list numbers - DONE!
-3) rename and format module 'mod_bandwith
-   - seperate all other functions if possible
-4) remove as many elements into the cfg.ini file.
 '''
 
 

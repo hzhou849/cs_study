@@ -43,11 +43,31 @@ std::thread th2(func);
 std::thread th1(func);
 std::thread th2(func);
 
-
-
-
-
 modify to put a global counter to see how many counts there are and how they chnage
+
+=============================================================================
+Structure
+
+class Semaphore {
+	std::mutex m_mutex;
+	std::condition variable cv;
+	int count=0;
+
+	void notify() {
+		std::unique_lock u_lock(m_mutex); //acquire unique lock
+		count++;						  // increment counter
+		cv.notify_one();				 // notify conditon variable u_lock
+	}
+
+	void wait() {
+		1) acquire unique lock.
+		2) while (count == 0)			// if count is 0 standby thread
+			cv.wait(u_lock);
+		count--; 						//decrement counter
+	}
+}
+
+
 */
 
 #include <iostream>

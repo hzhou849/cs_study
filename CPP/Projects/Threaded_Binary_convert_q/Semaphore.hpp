@@ -30,7 +30,7 @@ public:
 	void wait(std::thread::id tid) { 	// decrement
 		std::unique_lock<std::mutex>u_lock(sem_mutex); // attempt to acquire lock
 		while(count == 0) { 		// handles spurious wakes ups
-			synced(std::cout) << "Thread: " << tid << " waiting..." << std::endl;
+			synced(std::cout) << "Thread: " << tid << " standby..." << std::endl;
 			sem_cv.wait(u_lock);	// wait on the mutex until notify is called.
 			synced(std::cout) << "Thread: "<< tid << " lock acquired..running " << std::endl;
 		}	

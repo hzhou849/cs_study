@@ -1,0 +1,18 @@
+Re-install virtualbox-dkms package first
+or to install virtualbox...
+
+sudo apt-get autoremove virtualbox-dkms
+sudo apt-get install build-essential linux-headers-`uname -r` dkms virtualbox-dkms
+After that You can enable it manually
+
+sudo modprobe vboxdrv
+sudo modprobe vboxnetflt
+
+
+// Guest Utils addons required for addition featueres in Ubuntu host machine
+in virtual machine (guest machine) 
+main feature i need, it allows change resolution.
+
+
+open terminal
+sudo apt-get install virtualbox-guest-utils
