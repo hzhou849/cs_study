@@ -2,6 +2,6 @@
 #Ex:
 #README.txt uncommented
 #*.java
-
+*.blah
 #Ignore folder named:
 .vscode/
