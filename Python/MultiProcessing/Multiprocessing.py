@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 '''
+parallelize your work.
 Multiprocessing vs threads
 - "Heavyweight"
 - Process have their own virtual memory and address space
@@ -45,6 +46,10 @@ In this example, the global variable s_result
 will not be shared. You will need to implement some kind of
 interprocess communication (IPC) technique if you want to 
 share data between two processes.
+
+Because multiprocesses have their own address space,
+the s_result instance is not the same.
+
 '''
 
 
@@ -74,7 +79,7 @@ if __name__ == "__main__":
 	p1.join()
 
 	#outside the child process, it will not have a result.
-	print('result ' + str(s_result))
+	print('outside the process result ' + str(s_result))
 	print("Done!")
 
 

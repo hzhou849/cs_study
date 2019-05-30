@@ -72,6 +72,49 @@
  * 
  * see also TUPLE - allows fixed # of elements of anytype
  * 
+ * 
+ * // template if no args constuctor
+ * class bitConvert
+{
+private:
+	uint8_t mask;
+	std::string binaryValue;
+
+public:
+	bitConvert();
+	~bitConvert();
+	
+
+template <typename T>  ** here is the template
+	void convertHex ( T inputHex );
+	
+};
+
+#endif //_BITCONVERT_
+
+bitConvert::bitConvert()
+{
+	// initialize values
+	this->mask = 1;			
+	this->binaryValue = "";
+}
+
+bitConvert::~bitConvert()
+{
+
+}
+
+template <typename T>  ** here is the template
+void  bitConvert::convertHex ( T inputHex  )
+	{
+		int size = ( sizeof (T) * 16 ) -1;		// 2 bytes 0-15
+		std::cout << "size of T: " << size << std::endl;
+
+		T temp;
+		int counter = 0;
+		for (int i = size; i >=0; i-- )			// popping off MSB first
+		
+	}
  */ 
 
 #include <iostream>
@@ -80,7 +123,8 @@
 
 #include <iostream>
 
-template <typename T> 
+template <typename T> //  if the constuctor doesn't need args, 
+//move this line to the generic fucntion
 class Gqueue {
 private:
 	short *start;

@@ -19,6 +19,19 @@
  * 		std::cout << std::resetioflags (std::ios::showbase);
  * 		std::cout << std::resetioflags (std::ios::showpos);
  * 		std::cout << std::resetioflags (std::ios::uppercase);
+ * 
+ * 
+ * 
+ * or all flags:
+ * std::ios_base::fmtflags backupFlag( std::cout.flags() );	
+
+	
+
+
+	std::cout << std::hex << 123 << std::endl;
+
+	//restore the backed up flag
+	std::cout.flags ( backupFlag );	
  */
 
 #include <iostream>

@@ -1,0 +1,40 @@
+TO uninstall any system level bloat where on galaxy s8 andoird
+
+1. install galaxy s8 usb drivers - windows only, ubuntu already has support
+2. install adb program for OS
+3. enable developer mode on phone and enable usb debugging
+https://www.linuxbabe.com/ubuntu/how-to-install-adb-fastboot-ubuntu-16-04-16-10-14-04
+
+ubuntu 16.04
+
+1. sudo apt update
+2. sudo apt install android-tools-adb android-tools-fastboot
+
+To check ADB version, run:
+	adb version
+Sample output:
+	Android Debug Bridge version 1.0.32
+
+
+To check if ADB is working properly, connect your Android 
+device to your Ubuntu computer via USB cable. After that, 
+type the following command in your Ubuntu terminal window.
+
+	adb device
+
+you should then be prompted on phone to allow permission, click yes
+
+
+
+3. in terminal run 'adb shell'
+use the following commands and replace the package name 
+dream2qlteue:/ $ pm list packages | grep 'sprint'                              
+package:com.samsung.sprint.chameleon
+package:com.sprint.ms.smf.services
+dream2qlteue:/ $ pm uninstall -k --user 0 com.sec.omadmspr                     
+Success
+m uninstall -k --user 0 com.sec.omdmspr.syncmlphoneif                         <
+Failure [not installed for 0]
+m uninstall -k --user 0 com.sec.omadmspr.syncmlphoneif                        <
+Success
+dream2qlteue:/ $ 

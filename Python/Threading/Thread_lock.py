@@ -4,6 +4,7 @@
 Race test, if Thread2 finishes before thread1, it should wait, 
 which is achieved by locking the second thread just after it 
 finishes and force it to wait.
+
 '''
 
 import threading, time, random

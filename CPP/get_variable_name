@@ -1,0 +1,5 @@
+
+use this to return the variable name
+
+#define GET_VARIABLE_NAME(Variable) (#Variable)
+std::string var_name = GET_VARIABLE_NAME(COS_VR);

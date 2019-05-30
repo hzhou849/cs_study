@@ -1,0 +1,39 @@
+CXX = g++
+# CXXFLAGS = -Wall -Werror -Wextra -pedantic -std=c++11 -g -fsanitize=address
+CXXFLAGS = -Wall  -pedantic -std=c++11 -g -fsanitize=address
+
+LDFLAGS =  -fsanitize=address
+LBLIBS = -I /opt/ftdi/1.4.8/include  -lpthread -pthread
+
+#Other Libraries
+BOOST = /opt/boost/1.64/Linux/x86_64/release/
+FTDI = /opt/ftdi/1.4.8/include
+
+SRC = $(wildcard *.cpp)
+OBJ = $(SRC:.cpp=.o)
+OBJ = $(wildcard:.cpp=.o)
+EXEC = main
+# OBJECTS_TEST = $(SOURCES_TEST:.cpp=.o)
+# SOURCES_LIB  = $(wildcard src/htslib/cram/*.c)
+# OBJECTS_LIB  = $(SOURCES_LIB:.c=.o)
+
+
+all: $(EXEC)
+	@echo "Compile completed!"
+$(EXEC): $(OBJ)
+	# $(CXX) $(LDFLAGS) -I $(BOOST) -I $(FTDI) $(SRC) -o $@ $(OBJ) $(LBLIBS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS)  $(SRC) -o $@ $(OBJ) $(LBLIBS)
+
+clean:
+	rm -rf $(OBJ) $(EXEC)
+	@echo "Cleanup complete"
+
+
+#Makefile 
+# CC=gcc
+# CXX=g++
+# CFLAGS=-I. -lpthread -Wall -std=c++11  -pthread
+# SRCS: condition_variable2.cpp
+# 	$(CXX) $(CFLAGS)  -o main condition_variable2.cpp
+
+# .PHONY: clean

@@ -1,0 +1,28 @@
+configuring c++ include paths
+
+press ctrl+shift+p
+
+select edit c++ properties/settings
+
+it should open up c_cpp_properties.json
+
+add the include path or any other flags you prefer
+
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+				"${workspaceFolder}/**",
+				"/opt/ftdi/1.4.8/include/**"
+				
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

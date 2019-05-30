@@ -1,0 +1,35 @@
+#██████████████
+
+	0x01 ascii_char="☺"
+			elif [[ $i = '02 ' ]]; then
+				ascii_char="☻"
+			elif [[ $i = '03 ' ]]; then
+				ascii_char="♥"
+			
+			elif [[ $i = '0 ' ]]; then
+				ascii_char=" "
+			elif [[ $i = '04 ' ]]; then
+				ascii_char="♦"
+			elif [[ $i = '05 ' ]]; then
+				ascii_char="♣"
+			elif [[ $i = '06' ]]; then
+				ascii_char="♠"
+			elif [[ $i = '07' ]]; then
+				ascii_char="•"
+			elif [[ $i = '08' ]]; then
+				ascii_char="◘"
+			elif [[ $i = '09' ]]; then
+				ascii_char="○"
+			elif [[ $i = '0a ' ]]; then
+				ascii_char="◙"
+			elif [[ $i = '0b ' ]]; then
+				ascii_char="♂"
+			elif [[ $i = '0c ' ]]; then
+				ascii_char="♀"
+			elif [[ $i = '0d ' ]]; then
+				ascii_char="♪"
+			elif [[ $i = '0e ' ]]; then
+				ascii_char="♫"
+			elif [[ $i = '0f ' ]]; then
+				ascii_char="☼"
+		

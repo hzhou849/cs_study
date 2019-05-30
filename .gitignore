@@ -1,0 +1,7 @@
+#Ignore all files name:
+#Ex:
+#README.txt uncommented
+#*.java
+
+#Ignore folder named:
+.vscode/

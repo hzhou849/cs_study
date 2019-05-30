@@ -1,0 +1,1 @@
+create a '.sudo_as_admin_successful' file in the main folder
