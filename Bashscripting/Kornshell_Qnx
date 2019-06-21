@@ -1,0 +1,8 @@
+# Array syntax
+#!/usr/bin/env ksh
+
+#delcare an array
+set -A headerBytes 54 43 42 41 00 01 00 00 
+
+# Call an array
+echo ${headerBytes[2]}

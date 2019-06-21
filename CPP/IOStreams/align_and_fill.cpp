@@ -9,7 +9,7 @@
 */
 
 #include <iostream>
-#include <iomanip>
+#include <iomanip> // required
 
 int main() {
 	double num {1234.5678};

@@ -674,3 +674,12 @@ sed s'/[^ ]*: //g'
 # pad with printf - padd zeros with register address 
 printf "offset: %08x: " $addr_count
 
+
+# cat ignore # comments
+$ cat /etc/squid/squid.conf | egrep -v "(^#.*|^$)"
+Explained
+egrep -v      means leave the following out
+^#.*          means patterns that begin with a #
+|             means or
+^$            means patterns that are empty
+

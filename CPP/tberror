@@ -1,0 +1,25 @@
+Counting objects: 12, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (12/12), 2.86 KiB | 0 bytes/s, done.
+Total 12 (delta 7), reused 0 (delta 0)
+remote: Push rejected by YACC
+remote: 
+remote:   (c).-.(c)    (c).-.(c)    (c).-.(c)    (c).-.(c)    (c).-.(c) 
+remote:    / ._. \      / ._. \      / ._. \      / ._. \      / ._. \ 
+remote:  __\( Y )/__  __\( Y )/__  __\( Y )/__  __\( Y )/__  __\( Y )/__
+remote: (_.-/'-'\-._)(_.-/'-'\-._)(_.-/'-'\-._)(_.-/'-'\-._)(_.-/'-'\-._)
+remote:    || E ||      || R ||      || R ||      || O ||      || R ||
+remote:  _.' `-' '._  _.' `-' '._  _.' `-' '._  _.' `-' '._  _.' `-' '.
+remote: (.-./`-'\.-.)(.-./`-`\.-.)(.-./`-`\.-.)(.-./`-'\.-.)(.-./`-`\.-.)
+remote:  `-'     `-'  `-'     `-'  `-'     `-'  `-'     `-'  `-'     `-' 
+remote: 
+remote: 
+remote: Push rejected.
+remote: 
+remote: refs/heads/feature/EIN-12545-howard-test: bdd3b03cc8a3eabc8a9717c70905cd16a77512fb: No JIRA Issue found in commit message.
+remote: 
+remote: 
+To ssh://git@stash:7999/ein-prod/ein.git
+ ! [remote rejected] feature/EIN-12545-howard-test -> feature/EIN-12545-howard-test (pre-receive hook declined)
+error: failed to push some refs to 'ssh://git@stash:7999/ein-prod/ein.git'
