@@ -1,0 +1,69 @@
+CXX = g++
+CXXFLAGS = -Wall -Werror -Wextra -pedantic -g -fsanitize=address
+
+# Leaksanitizer tool to detect memory leak.
+LDFLAGS =  -fsanitize=address
+
+# Boost include
+#INCLUDE = -I /opt/boost/1.64/Linux/x86_64/release/include/boost/
+LBLIBS =  -lpthread -pthread -lncurses
+CVER = -std=c++11 
+#for libraries, ie libboost_program_options.so  you always leave off the leading
+# "lib" so it becomes -lboost_program_options no .so or .a
+#LPATH= -L /opt/boost/1.64/Linux/x86_64/release/lib -lboost_program_options
+
+
+#=======================================================
+# VERSION 3 build all .o-->execs
+#Experimental, still needs work
+# so far, builds all object files into
+#Src specific file names
+# SRC = 3-moving_cursors.cpp
+ODIR =obj
+SRCS = $(wildcard *.cpp)
+
+EXEC = $(patsubst %.cpp,%,$(SRCS))
+
+OBJ = $(wildcard *.o)
+_OBJ = $(patsubst %.o,$(ODIR)/%,$(OBJ))
+
+all: $(EXEC)
+#build object files, make directory if doesn't exist
+$(shell mkdir -p $(ODIR))
+
+# $< = filename.cpp
+# $@ = filename
+%: %.cpp
+	$(CXX) $(CVER)  -c $< -o $(ODIR)/$@.o
+$(ODIR)/$<: %.o
+	$(CXX) $(LDFLAGS) $(ODIR)/$< -o $@ $(OBJ) $(INCLUDE) $(LPATH) $(LBLIBS) $(CVER)
+
+clean:
+	rm -rf $(OBJ) $(EXEC) 
+	#cleans obj/ folder 
+	rm -f $(ODIR)/*.o
+	@echo "Cleanup complete"
+#===============================================================
+
+#===================================================
+# SRCS = $(wildcard *.cpp)
+
+# EXEC = $(patsubst %.cpp,%,$(SRCS))
+
+# all: $(EXEC)
+
+# %: %.cpp
+# 	$(CXX) $(LDFLAGS) $(CVER) -o $@ $< $(INCLUDE) $(LPATH) $(LBLIBS) 
+# clean: 
+# 	rm -f $(EXEC)
+#=============================================================
+
+
+#Makefile 
+# CC=gcc
+# CXX=g++
+# CFLAGS=-I. -lpthread -Wall -std=c++11  -pthread
+# SRCS: condition_variable2.cpp
+# 	$(CXX) $(CFLAGS)  -o main condition_variable2.cpp
+
+# .PHONY: clean
