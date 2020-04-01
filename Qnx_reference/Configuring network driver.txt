@@ -1,0 +1,9 @@
+/* To setup network for ethernet port */
+in /etc/rc.d/startup.sh qnx660
+
+// For VMware Ethernet driver setup
+add line: "io-pkt-v4-hc -d /lib/dll/devnp-e1000.so -ptcpip p &"
+
+for port specific (needs revision)
+run 'pci' to get the pci ethernet device device and vendor ID#
+"io-pkt-v4-hc -d /lib/dll/devnp-e1000.so did=0x123f,vid=0xXXXX-ptcpip p &

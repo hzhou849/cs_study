@@ -1,0 +1,43 @@
+
+https://stackoverflow.com/questions/150737/how-do-you-install-an-ssh-server-on-qnx
+
+/* Creating accounts */
+passwd <username>
+follow prompts
+add user to /etc/group sshd:x:6:root,<username>
+
+/* SETTING UP SSHD for QNX */
+
+If you want to start a SSH server to transfer files easily. The SSH daemon (sshd) is already installed, but the 'configuration' is missing.
+
+Create the keys (do NOT use a password):¹
+
+random -t
+ssh-keygen -t rsa -f /etc/ssh/ssh_host_key -b 1024
+ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+Create a user account different from root with a password.²
+
+Add the user to the sshd group in: /etc/group => sshd:x:6:user1
+Start by executing: /usr/sbin/sshd
+For QNX 6.6.0, you have to do in addition:
+
+Create another key
+
+ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key
+(The ECDSA key generation is only necessary for QNX 6.6.0 - see also here)
+
+Create folders accordingly to fit this path /var/chroot/sshd/
+
+If you want to use SFTP:
+
+Create/Use the file /etc/ssh/sshd_config and enable Subsystem sftp /usr/libexec/sftp-server by adding this line to the file
+Some steps are also covered here on the QNX manual about sshd command.
+
+¹ Here: the folder ssh/ was created in /etc/ and make sure the files belong to the user running the sshd!
+
+² (i.e. direct root access via ssh is disabled by default but can be enabled by specifying PermitRootLogin yes in the /etc/ssh/sshd_config) file
+
+// AFTERwards
+/var/chroot/ may need to touch sshd file and chmod 700 this file 'sshd' 
+and chown user sshd
