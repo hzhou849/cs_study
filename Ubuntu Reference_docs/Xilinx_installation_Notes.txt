@@ -1,0 +1,32 @@
+Xilinx installation notes
+
+download SDK version - webinstaller 2017.2 (newer versions will not work bc of the fsbl issue)
+
+just install and run cable driver scripts and done!
+import the xilinx project workspace and voila!
+
+install cable drivers manually. "Follow instructions for UG973 to installl linux cable drivers.
+download the pdf instructions
+
+Installing Linux Driver
+For Linux, because root or sudo access is required to install drivers, this option has been
+removed from the Linux installer beginning in Vivado 2015.4. The general Vivado installer
+Send Feedback
+Vivado Design Suite 2018.3 Release Notes 37
+UG973 (v2018.3) December 14, 2018 www.xilinx.com
+Chapter 3: Installing the Tools
+can now be run on Linux without root or sudo privileges. To install cable drivers on Linux,
+there is now a script that must be run as root or sudo post installation.
+Run these commands as root. Note replace ${vivado_install_dir} with the location
+of your vivado install location.
+
+
+${vivado_install_dir}/data/xicom/cable_drivers/lin64/install_script/install_drivers
+/install_drivers
+
+
+Uninstalling Linux Driver
+Run these commands as root:
+rm -f /etc/udev/rules.d/52-xilinx-digilent-usb.rules
+rm -f /etc/udev/rules.d/52-xilinx-ftdi-usb.rules
+rm -f /etc/udev/rules.d/52-xilinx-pcusb.rules

@@ -1,5 +1,5 @@
-#http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
-CC=g++
+
+CC=gcc
 CFLAGS=-I. -Wall -pedantic
 final_list: fork_syscall.c
 	$(CC) $(CFLAGS) -o fork_syscall fork_syscall.c

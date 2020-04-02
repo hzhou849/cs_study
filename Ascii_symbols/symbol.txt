@@ -1,6 +1,6 @@
 
 https://www.redbubble.com/people/barnsis/journal/3570534-complete-ascii-list-of-symbols
-
+#
 ALT+1 ☺
 ALT+2 ☻
 ALT+3 ♥
