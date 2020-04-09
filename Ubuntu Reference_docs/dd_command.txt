@@ -1,0 +1,15 @@
+dd- disk duplicate
+
+if = in file
+of = out file
+
+this will clone the usb (sda) drive to a file usb_backup.img at a buffer of bs=4megs
+1) sudo dd if=/dev/sda of=~/usb_backup.img bs=4M
+ or sudo dd if=/dev/sdv of=~/usb-opensuse-current.img bs=4M status=progress for progress bar
+
+copy image to file
+sudo apt install gddrescue ## debian/ubuntu and friends ##
+
+Now you can clone the disk easily:
+ddrescue /dev/INPUT /dev/OUTPUT
+sudo ddrescue /dev/sdb ~/my-usb.img

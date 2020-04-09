@@ -1,0 +1,4 @@
+after install pyserial package
+
+use this command to check for connected serial devices on USB
+python -m serial.tools.list_ports -v

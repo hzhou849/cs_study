@@ -1,0 +1,10 @@
+in order to ssh the ssh server and client packages in order for ssh to work.
+
+sudo apt-get update (may need to update repos)
+sudo apt-get install openssh-server 
+openssh-client(optional)
+
+
+
+# Taking ownership from root to user if permission issues for scp or ssh RSA key
+sudo chown -v $USER ~/.ssh/known_hosts

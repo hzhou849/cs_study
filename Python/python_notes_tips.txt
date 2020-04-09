@@ -1,0 +1,23 @@
+#importing custom modules
+to import modules from a workfolder
+
+from <folder_name> import <module_name>
+the folder with the modules may need a file called "__init__.py" inside to initialize it.
+need to confirm this.
+
+
+
+
+#----------------------------------
+PIP stuff
+#-----------------------------------
+#install
+for python3:
+pip3 install pyinstaller
+
+
+# Single file build
+'pyinstaller --clean -F fan_gui.py'
+
+#to compile:
+pyinstaller for python 3 may require the python3 version??

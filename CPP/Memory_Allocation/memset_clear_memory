@@ -1,0 +1,1 @@
+memset(buffer, 0, sizeof(buffer)); //clear memory buffer

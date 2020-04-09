@@ -1,11 +1,11 @@
 /* Dynamic memory allocation 
  *
- * 
+ * 	+1 used for null terminator if using text.
  * 	// C memory allocation 
- *	lastBinary = (char*) malloc (sizeof(char) * 8 +1);		// uses 'free' to deallocate memory
+ *	char * lastBinary = (char*) malloc (sizeof(char) * 8 +1);		// uses 'free' to deallocate memory
  *
  *	/* C++ memory allocation 
- *	lastBinary = new char[8 * (sizeof(char)) + 1];			// use 'delete[]' to deallocate memory
+ *	char * lastBinary = new char[8 * (sizeof(char)) + 1];			// use 'delete[]' to deallocate memory
  *
  * 
  * 

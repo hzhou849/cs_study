@@ -1,0 +1,55 @@
+echo $(( var3 = (( $var2 &7)))) 
+
+ (( var3 = (($var2 & 7) << 8) + $var1 ))
+        (( var4 = 1 << ((($var2 & 120)^120)+8)/8 ))
+
+
+bitwise:
+
+base conversion
+echo ((2#1001))
+echo ((2#~1001)) not 
+echo ((16#1e))
+
+typset -i var1$( echo $((2 << 1)) ) 
+
+# (( a2= 1 << ((($temp_value & 120)^120)+8)/8 ))
+
+
+DIVISION- the only way to work in ksh
+awk "BEGIN {print $var1/$var2 }"
+
+
+test() {
+	echo "arg: $1 $2"
+	typeset -i mask1=$( echo $((16#f8)) | awk '{print int($0) }')
+	typeset -i mask2=$( echo $((16#07)) | awk '{print int($0) }')
+	typeset -i mask3=$( echo $((16#1f)) | awk '{print int($0) }')
+
+	typeset -i var1=$( echo $((16#$1)) | awk '{print int($0) }')
+	
+	typeset -i var2=$( echo $((16#$2)) | awk '{print int($0) }')
+
+	# mask f8 to extract first 5 bits, then shift 3 right 
+	temp_value=$(( (var1 & mask1) >> 3 ))
+	printf 'temp_value: %x\n' $temp_value
+	echo $temp_value
+
+	# 5 bits,  so 2^4 is negative numbers
+	if [[ "$temp_value" -ge 16 ]]; then 
+		temp_value=$(( (~temp_value) & mask3 ))
+		typeset -i var3=$( echo $((~$temp_value)) | awk '{print int($0) }')
+		printf "not temp_value: %d\n" $var3 
+	fi
+	
+	temp_value2=$(( ((var1 & mask2) << 8) | var2 ))
+	printf 'hexvtest: %x \n' $temp_value2
+
+	
+	  final=$(awk "BEGIN {print (2^$var3) * $temp_value2}")
+
+	# temp_value=(($temp_value)) >> 2
+	# (( a2= 1 << ( ( ($var1 & 120)^120)+8)/8))
+	# ((temp_value = (~$temp_value)))
+	# check if greater than 128, flip the bits for two's complement
+	echo "final temp: $final"

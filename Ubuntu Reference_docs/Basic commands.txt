@@ -660,6 +660,9 @@ sed s'/^.//' - cuts the first character
 removes all ""
 sed s'/\"//g'
 
+#SED - remove whitespace
+sed 's/ //g'
+
 #SED - cut and replace character with another
 -in this case replace the ',' with a : and space
 ./acquire_ups_kickoff.sh  | sed s'/\,/\: /g'
@@ -682,4 +685,11 @@ egrep -v      means leave the following out
 ^#.*          means patterns that begin with a #
 |             means or
 ^$            means patterns that are empty
+
+#count number of delimiter  words in string
+echo "one two three wasd" | awk '{print NF}' 
+returns 4
+
+#awk dynamic print variable
+	char=$(echo "$man_id_str" | awk -v i=$counter '{print $i }')
 

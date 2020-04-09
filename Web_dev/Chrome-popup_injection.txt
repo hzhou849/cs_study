@@ -1,0 +1,12 @@
+ chrome -> f12 -> console 
+
+
+creates a timed alert
+timeAfter = new Date();
+timeBefore = new Date();
+
+while ((timeAfter - timeBefore) < 3350ms) {
+	timeAfter = new Date();
+}
+
+window.alert("testing");
