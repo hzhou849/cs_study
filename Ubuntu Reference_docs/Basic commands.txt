@@ -683,3 +683,19 @@ egrep -v      means leave the following out
 |             means or
 ^$            means patterns that are empty
 
+
+# Reading FILE and config file get values 
+file="fan.config"
+while IFS= read -r line
+do
+	# Ignore comments in config file
+	[[ $line = \#* ]] && continue
+	
+	if [[ $line == *PASS_RPM_VALUE* ]]; then
+		temp_value=$(echo $line | sed 's/[=]/ /g')
+		PASS_CRITERIA=$(echo ${temp_value} | awk '{print int($2)}' )
+		echo "Passing Value set: $PASS_CRITERIA" 
+	fi
+   
+done <"$file"
+

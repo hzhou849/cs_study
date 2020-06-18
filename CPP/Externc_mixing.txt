@@ -1,0 +1,46 @@
+30
+
+You need to use extern "C" in C++ when declaring a function that was implemented/compiled in C. The use of extern "C" tells the compiler/linker to use the C naming and calling conventions, instead of the C++ name mangling and C++ calling conventions that would be used otherwise. For functions provided by other libraries, you will almost never need to use extern "C", as well-written libraries will already have this in there for the public APIs that it exports to both C and C++. If, however, you write a library that you want to make available both in C and in C++, then you will have to conditionally put that in your headers.
+
+As for whether all C code is C++ code... no, that is not correct. It is a popular myth that C++ is a "superset of C". While C++ certainly strives to be as compatible with C as possible, there are some incompatibilities. For example, bool is valid C++ but not valid C, while _Bool exists in C99, but is not available in C++.
+
+As to whether you will ever need to use extern "C" with the system's ".h" files.... any well-designed implementation will have those in there for you, so that you do not need to use them. However, to be certain that they are provided, you should include the equivalent header file that begins with "c" and omits ".h". For example, if you include <ctype.h>, almost any reasonable system will have the extern "C" added; however, to be assured a C++-compatible header, you should instead include the header <cctype>.
+The other answers are correct, but a complete "boilerplate" example will probably help. The canonical method for including C code in C and/or C++ projects is as follows:
+https://stackoverflow.com/questions/2796796/when-to-use-extern-c-in-simple-words
+//
+// C_library.h
+//
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+//
+// ... prototypes for C_library go here ...
+//
+
+#ifdef __cplusplus
+}
+#endif
+-
+
+//
+// C_library.c
+//
+
+#include "C_library.h"
+
+//
+// ... implementations for C_library go here ...
+//
+-
+
+//
+// C++_code.cpp
+//
+
+#include "C_library.h"
+#include "C++_code.h"
+
+//
+// ... C++_code implementation here may call C functions in C_library.c ...

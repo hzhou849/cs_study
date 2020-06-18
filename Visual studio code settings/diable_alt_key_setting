@@ -1,0 +1,12 @@
+to disable alt conflict in vscode
+goto -settings-> search 'alt' 
+- disable "Enable Menu Bar Mnemonics" and close vscode
+and start it again to take effect
+
+
+may need to instal ccsm
+
+sudo apt-get install compizconfig-settings-manager
+
+ccsm -> move window -> don't disable alt+mouse, change it,
+disabling the alt key does not work.

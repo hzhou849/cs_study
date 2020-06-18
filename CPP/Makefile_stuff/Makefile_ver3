@@ -1,6 +1,9 @@
 CXX = g++
 CXXFLAGS = -Wall -Werror -Wextra -pedantic -g -fsanitize=address
 
+# -t flag traces names of input files that the linker processes
+# -Wl --verbose  usage:@gcc -Wl, -t $^ -o $@
+
 # Leaksanitizer tool to detect memory leak.
 LDFLAGS =  -fsanitize=address
 

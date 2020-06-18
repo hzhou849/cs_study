@@ -68,7 +68,7 @@
  * 
  */
 #include <iostream>
-#include <fstream>
+#include <fstream> // required for filestreams
 #include <string>
 //writing to a file
 int main() {

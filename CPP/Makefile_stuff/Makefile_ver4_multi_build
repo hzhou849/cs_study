@@ -1,0 +1,81 @@
+CXX = g++
+CXXFLAGS = -Wall -Werror -Wextra -pedantic -g
+CVER = -std=c++11
+# Leaksanitizer tool to detect memory leak.
+LDFLAGS =  -fsanitize=address # cannot be used with -static linking
+# Boost include
+#INCLUDE = -I /opt/boost/1.64/Linux/x86_64/release/include/boost/
+# LBLIBS =  -lpthread -pthread -lncurses
+
+# static linked
+LBLIBS = -lncurses -ltinfo -lgpm
+STATICLIBS = -lncurses -ltinfo -lgpm
+#for libraries, ie libboost_program_options.so  you always leave off the leading
+# "lib" so it becomes -lboost_program_options no .so or .a
+#LPATH= -L /opt/boost/1.64/Linux/x86_64/release/lib -lboost_program_options
+# default: build
+
+#===================================================
+# Version 4 multiple boot optoins
+
+# $@ variable that holds the last variable passed 'ie prog 1 or $1 bash'
+# $< holds the file name (no extensions); use $(SRC) for <filename>.cpp
+SRCS = $(wildcard *.cpp)
+# SRCS = 5-attributes_colors.cpp
+
+#Finds whitespace-separated words in TEXT that match 
+#PATTERN and replaces them with REPLACEMENT. 
+#Here PATTERN may contain a % which acts as a wildcard, 
+#matching any number of any characters within a word.
+#$(patsubst PATTERN,REPLACEMENT,TEXT)
+#EXEC - cuts the .cpp out of the file name
+EXEC = $(patsubst %.cpp,%,$(SRCS)) 
+EXEC2 = $(patsubst %.cpp,%,$(SRCS))
+
+.PHONY: static clean  prog1
+#default build option (dynamically linked)
+
+prog1: $(SRCS)
+	@echo "Prog1 - execution"
+	$(CXX) $(CVER)  $(LDFLAGS) -o $(EXEC) $<  $(INCLUDE) $(LPATH) $(LBLIBS)
+
+# Alternative build option
+static: $(SRCS)
+	@echo static
+	$(CXX) $(CVER) -o static_build-$(EXEC) $<  $(INCLUDE) $(LPATH) -static $(STATICLIBS)
+
+clean:
+	rm -f $(EXEC)
+
+
+#=======================================================
+# VERSION 3 build all .o-->execs
+#Experimental, still needs work
+# so far, builds all object files into
+#Src specific file names
+# SRC = 3-moving_cursors.cpp
+# ODIR =obj
+# SRCS = $(wildcard *.cpp)
+
+# EXEC = $(patsubst %.cpp,%,$(SRCS))
+
+# OBJ = $(wildcard *.o)
+# _OBJ = $(patsubst %.o,$(ODIR)/%,$(OBJ))
+
+# all: $(EXEC)
+# #build object files, make directory if doesn't exist
+# $(shell mkdir -p $(ODIR))
+
+# # $< = filename.cpp
+# # $@ = filename
+# %: %.cpp
+# 	$(CXX) $(CVER)  -c $< -o $(ODIR)/$@.o
+# $(ODIR)/$<: %.o
+# 	$(CXX) $(LDFLAGS) $(ODIR)/$< -o $@ $(OBJ) $(INCLUDE) $(LPATH) $(LBLIBS) $(CVER)
+
+# clean:
+# 	rm -rf $(OBJ) $(EXEC)
+# 	#cleans obj/ folder
+# 	rm -f $(ODIR)/*.o
+# 	@echo "Cleanup complete"
+#===============================================================
