@@ -699,3 +699,12 @@ do
    
 done <"$file"
 
+
+## How to remove trailing \n new line in variable stored echo
+create a variable that contains newline char
+
+just re-awk the variable again to extract the word
+fan_freq = 'blah\n'
+fan_freq=$(echo $fan_freq | awk '{print $1}')
+fan_freq is now just 'blah'
+
