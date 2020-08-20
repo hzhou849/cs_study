@@ -708,3 +708,8 @@ fan_freq = 'blah\n'
 fan_freq=$(echo $fan_freq | awk '{print $1}')
 fan_freq is now just 'blah'
 
+
+#===========================================
+SED date extract
+date | sed -e "s/:/ /" | sed -e "s/:/ /" | awk '{print $3 " " $2 " " $8 " " $4 " " $5 " " $6}' > currentdate.txt
+
