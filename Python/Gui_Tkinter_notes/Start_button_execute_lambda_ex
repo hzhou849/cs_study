@@ -1,0 +1,2 @@
+self.start_button=Button(self.frame5, text="Start",command = \
+			lambda: self.start_serial_test(1,1), style='start_button.TButton')

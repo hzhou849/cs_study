@@ -1,0 +1,5 @@
+
+Netowrk not working, no IP on custom specific VMNET netork
+I exited and ran as admin mode and selected the VMnet1 (host only)
+not auto-bridging and everything worked.
+

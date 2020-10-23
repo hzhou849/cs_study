@@ -1,0 +1,53 @@
+
+Python installer PIP
+sudo pip install - python2
+sudo pip3 install - for python3
+sudo pip uninstall package
+
+====================================================
+PYinstaller
+#install
+for python3:
+pip3 install pyinstaller
+
+
+# Single file build
+'pyinstaller --clean -F fan_gui.py'
+
+#to compile:
+pyinstaller for python 3 may require the python3 version??
+
+==================================================
+Pyserial
+(Requires Pip3 or pip)
+installs from pip
+python -m pip install pyserial
+
+if not working and import serial module cannot be found,
+try pip install pyserial 
+or pip3 install pyserial
+
+I found i had to follow instructions to upgrade pip
+and re-ran pip install pyserial command and my applicaiton worked
+
+==================================================
+To install Tkinter on ubuntu
+If you want to install python 3 then enter the following. If you are a newbie, I would recommend python 2 instead of python 3. Python 2 is still very popular and many apps are made on it. On ubuntu python2 is still the default
+sudo apt-get install python3
+Finally, Install Tkinter
+
+sudo apt-get install python-tk
+for python 3
+
+sudo apt-get install python3-tk
+==================================================
+To display jpgs images on TKinter
+For Debian/Ubuntu:
+
+Python 2
+if ImportError: cannot import name 'ImageTk'
+sudo apt-get install python-imaging python-pil.imagetk
+Python 3
+
+sudo apt-get install python3-pil python3-pil.imagetk
+

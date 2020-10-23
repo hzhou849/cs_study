@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+#new and best way to print multiple values
+print("value: {} {} {}".format(value1, value2, value3)
+print("Replacement values: {0} {1}, {2}, {3}".format(value, value2, value3, 677))
+
 # noinspection PyUnresolvedReferences
 '''
 Convert byte to Ascii

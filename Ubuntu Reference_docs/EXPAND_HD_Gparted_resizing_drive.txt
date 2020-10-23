@@ -1,0 +1,122 @@
+https://askubuntu.com/questions/220506/how-to-increase-the-disk-space-of-an-ubuntu-vmware-guest-without-the-cd
+
+
+
+Extend Ubuntu Disk Volume with GParted after Resizing Hard Drive
+by babarehner
+https://www.youtube.com/watch?v=cDgUwWkvuIY
+
+Download gparted_live iso for debian or windows, then:
+
+
+HZ simpilied instructions:
+
+first expand the space on the VM settings 
+
+1) On VM set to load the ubuntu install iso on cd-rom drive or whatever peripheral
+
+2) boot the VM and press (f2 for bios) or esc? or f10 for boot menu( need to confirm)
+
+3) run the try ubuntu and open Gparted
+
+4) click to select the "linux-swap" partition and select menu partition>"swap-off"
+5)click to select the extended partion and then resize/move and drag the selector
+ to consume the entire unallocated space then hit "resize/move" button
+
+6) Next, click linux-swap partition resize move, now MOVE this partition all the way to the end on the right side. 
+ 	- Now you will see a warning about moving the partition might cause your
+	  OS to fail. Just hit ok and ignore.
+
+7) select extended partion -> resize/move and decrease it to the smalles possible size by sliding the slider bar to the right.
+
+
+8) Now select the main partition /dev/sda1  and resize/move
+   - move the slider to consume the entire unallocated space and voila
+
+9) Now Edit->Apply operations and it will no execute all the steps above
+
+10) once done, shutdownt the live cd, unmount the cd-rom and reboot VM 
+
+
+
+Use VM Workstation to expand the VMs disk: Settings > Hard Disk > Utilities > Expand (Disk Capacity) Start VM
+
+On linux
+
+sudo df -h
+sudo fdisk -l
+
+1) From the above you should see the Disk size has increased to the 
+   value you chose in VM Workstation, but the linux VM does not know how to use it yet.
+
+2) Download GParted (linux gui disk utility) download the iso 
+   (for me gparted-live-0.19.1-4-amd64.iso) burn a bootable disk from this iso
+
+3) Make sure your VM connects to the CD/DVD you are going to place the bootable 
+   dvd back into your drive bay, but you need the VM to connect to it. 
+   In Workstation right click on a running VM and you will see removeable devices. 
+   Unfortunately, the VM needs to be running before you can see the removeable
+   devices option. your-vm > removeable devices > CD/DVD > connect 
+   now your vm connects to the dvd, but you still have to boot from it.
+
+4) Use VM Workstation to boot to bios Select your VM (NOT running) > Power On > Power Odn to Bios 
+   When bios menu comes up go over to Boot option Select the CD/DVD drive and hit (+) to move it up, 
+   but (+) doesn’t work!! Use the (-) on the other options to move them down below CD/DVD F10 save/quit
+
+5) Now you are booting from GParted I picked defaults, but still had to pick a keyboard, 
+   US English We are now at the GUI for GParted You should see your current drive on the left, 
+   followed by Extended>Swap, followed by the expanded-unallocated disk space you added
+
+	
+6) Select the linux-swap drive, then go the top menu select Partition > Swap Off (may not be needed)
+
+   Using GParted Expand the Extended>Swap First Select which ever partition is adjacent 
+   to the unallocated portion. In my case this was the Extended>Swap Partition. 
+   
+   NOTE: Make sure you selected the Extended, NOT the Swap! 
+   Swap is inside the Extended. 
+   
+   Hit Move/Resize You should see the Extended partition 
+   with unallocated space to the right. Expand the partition to consume all / most of 
+   the unallocated space. Apply the change ( you probably can do multiple operations at once, 
+   i did not) after a bit gparted shows the changed
+   
+   
+	 
+
+7) Move the Swap to the far right of Extended Partition You can see where this is going... 
+   Select the swap, move to the right, now unallocated is on the left of it. Hit apply 
+   Now select Extended and shrink it now unallocated is between the partition you want to 
+   increase and extended. (Slide the left slider all the way to the left side 
+   till you meet swap). apply 
+   
+   
+
+8) now the main partition you want to extend shoudl be next to unallocation. increase the main as desired.
+
+
+Simplified.
+   i) select the Extended parent group attached to swap, click Resize and grow it to consume
+      the entire unallocated space. -> Apply Changes 
+	
+   ii) Select the swap partition wiht mouse and click Resize again, now move the swap partiont
+       all the way to the end (far right) of the unallocated space. --> apply
+	   Warning msg will pop up, click ok to ignore.
+	   
+	iii) now click on Resize again and shrink the unallocated to the left til it reaches the 
+	     Swap partition
+		 warning msg will pop-up, click ok to ignore.
+		 
+	iv) now expand the sda1(main partition) to consume the unallocated. apply and voila
+
+Increase your Partition Unfortunately, its like one of those puzzles you have to slide all the parts until you get to the one you want.
+
+Shutdown GParted
+
+Select you VM > Power> Power On to Bios, move CD/DVD down below HD
+
+Now your VM is up and running with more space
+
+Eject GParted DVD and/or Removeable Devices> Disconnect CD/DVD
+
+You should be good to go!

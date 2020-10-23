@@ -1,0 +1,150 @@
+/*==========================================================
+	System setup (troubleshoots)
+	
+==============================================================*/
+1) Boot up error
+- for this error in starting up ubuntu:
+" Error: unknown filesystem.
+grub rescue>
+
+enter the following commands
+set root=(hd0, 6)
+set prefix=(hd0,6) /boot/grub
+insmod normal
+normal
+
+/* install vm tools */
+if needed???
+) sudo apt-get autoremove open-vm-tools
+
+2) Install VMware Tools by following the usual method (Virtual Machine --> Reinstall VMWare Tools)
+
+3) Reboot the VM
+
+4) sudo apt-get install open-vm-tools-desktop
+
+/* apt options */
+'&&' runs subsequent command only after the previous finished without error.
+apt-get auto-remove && apt-get clean && apt-get update && apt-get upgrade
+
+other options examples:
+sudo apt-get autoclean
+sudo apt-get clean
+sudo apt-get update 
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+sudo apt-get -f install
+sudo dpkg --configure -a
+
+then on startup
+sudo update-grub
+sudo grub-install /dev/sda
+/*
+	Apps for ubuntu
+*/
+
+/*--Numlock on when bootup--*/
+try this first, if doesn't work then install numlockx.
+method 1)edit /etc/rc.local
+add this snippet:
+
+#numloc on for the TTYs:
+for tty in /dev/tty[1-6]; do
+	/usr/bin/setleds -D +num < $tty
+done
+
+-restart vm or system.
+
+-google instructions for numlockx
+1)download the package apt-get numlockx?
+
+2) gedit the conf file requried by adding the line 
+3) save and reboot.
+
+/*--Indicator CPU - for power management icon and frequency selector--*/
+
+1) install: sudo apt-get install indicator-cpufreq
+	o run: indicator-cpufreq after
+2) disable intel powerstep technology so you can manually controll the clock speed of cpu
+	o terminal: cd /etc/default
+	o sudo cp grub grub.backup //to backup grub file
+	o sudo nano grub // to edit the file
+	o find the line "GRUB-CMDLINE_LINUX_DEFAULT = "blah blah intel_pstate=disable" // append the intel disable statement like so
+	o ctrl+o to write
+	o ctrl+x to exit
+	o sudo update-grub
+	osudo reboot
+
+
+//REDSHIFT - Screen colour filter
+1) install: sudo apt-get install redshift redshift-gtk
+2) redshift -O 4500 // capital 'O', lowercase will not work
+	redshift -o //will automatically find coordinates and set colour
+3) redshift -x // reset
+
+*not tested***redshift -l 55.7:12.6 -t 5700:3600 -g 0.8 -m randr -v
+
+//set default brightness on boot
+1) go to /sys/class/backlight/intel_backlight with file manager app
+  check the actual_brightness number on the setting you want (hp laptop 2700 )
+
+2) goto terminal and type:
+	o sudo -i
+	o gedit /etc/rc.local
+
+insert this line before exit:
+"echo 2700 > /sys/class/backlight/intel_backlight/brightness
+
+
+//Bluetooth - Disable by default
+
+TURN OFF BLUETOOTH BY DEFAULT IN UBUNTU 14.04:
+
+Open a terminal and use the following command to install gksu, if you dot have it installed it already.
+
+(Required, skip if already have gksu)
+0) sudo apt-get install gksu
+
+	-gksu is used to enter password while running a program as root. 
+	-Once you have gksu installed, use the command below:
+
+1) gksudo gedit /etc/rc.local
+	- It will open the rc.local file. Just add the following line just before exit 0.
+
+2) rfkill block bluetooth
+
+
+/*Videocard GPU black screen boot up fix*/
+- I encounterd this problem when I accidently activated the nvidia drivers on my hp envy by mistake
+1) press ctrl+??+function key???
+-this put me into console mode.
+2) purge and remove the nvidia gpu drivers + other video drivers (google for the command)
+3) reinstall drivers
+4) reboot 
+
+
+/*Terminal default cursor prompt no color fix*/
+user@ubuntu> if doesn't have color
+edit the .bashrc and uncomment this line:
+"force_color_prompt=yes" in ~/.bashrc
+
+
+
+/* Disable Alt launcher menu key */
+to disable the alt hot-key for ubuntu new installs:
+
+1)sudo apt-get install compizconfig-settings-manager
+2)run ccsm after installation hotkey + c+c+s+m
+3) goto "ubuntu unity plugin" ->behaviour->"hide launcher" to replace the alt key with super+alt or whatever
+
+settings->keyboard->launcher->key to show the hud
+cmmand line optio:
+DESCRIPTION
+       gsettings offers a simple commandline interface to GSettings.It lets you get, set or monitor an individual key for changes.
+To get current key run following command in terminal:
+
+$ gsettings get org.compiz.integrated show-hud
+['<Alt>']
+To change key (let Alt+Super) run following command in terminal:
+
+gsettings set org.compiz.integrated show-hud "['<Alt><Super>']"
