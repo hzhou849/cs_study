@@ -1,0 +1,24 @@
+https://stackoverflow.com/questions/43976570/how-use-qt-in-visual-studio-code
+
+You should give a chance for this extension: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+
+With this, you can configure include paths for better IntelliSense results.
+
+Configuring includePath
+
+One way to configure e.g the QtCore module.
+
+Ctrl + Shift + p to open command palette
+Search for: C/Cpp: Edit Configurations
+You should have a new tab called: c_cpp_properties.json
+In configurations array you should edit the Linux section
+Add your paths in the includePath setting e.g: /usr/include/x86_64-linux-gnu/qt5/QtCore
+For more check this: https://github.com/Microsoft/vscode-cpptools/blob/master/Documentation/Getting%20started.md
+
+IntelliSense engines
+
+We recommend using the "Default" engine for the best IntelliSense experience. However, it is possible to explicitly choose the IntelliSense engine by editing your user or workspace settings. The setting you should modify is C_Cpp.intelliSenseEngine
+
+Default - Visual Studio's IntelliSense engine, which is the default engine that provides semantic-aware IntelliSense features
+Tag Parser - the "fuzzy" IntelliSense engine that provides quick but "fuzzy" results, is used to provide the fallback experience if the default engine is
+More details about it: https://github.com/Microsoft/vscode-cpptools/blob/master/Documentation/LanguageServer/IntelliSense%20engine.md

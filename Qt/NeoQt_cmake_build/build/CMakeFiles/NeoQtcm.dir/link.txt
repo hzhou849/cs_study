@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/NeoQtcm.dir/main.cpp.o CMakeFiles/NeoQtcm.dir/mainwidget.cpp.o CMakeFiles/NeoQtcm.dir/NeoQtcm_autogen/moc_compilation.cpp.o  -o NeoQtcm /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.5.1 /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.5.1 /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.5.1 

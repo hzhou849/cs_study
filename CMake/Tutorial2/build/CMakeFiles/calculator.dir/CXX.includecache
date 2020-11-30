@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/howardz/Documents/cs_study/CMake/Tutorial2/logger.cpp
+iostream
+-
+logger.h
+/home/howardz/Documents/cs_study/CMake/Tutorial2/logger.h
+
+/home/howardz/Documents/cs_study/CMake/Tutorial2/logger.h
+
+/home/howardz/Documents/cs_study/CMake/Tutorial2/main.cpp
+iostream
+-
+logger.h
+/home/howardz/Documents/cs_study/CMake/Tutorial2/logger.h
+

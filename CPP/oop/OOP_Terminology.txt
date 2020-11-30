@@ -1,0 +1,9 @@
+Class: template for creating objects. All objects created using the same class will have the same characteristics
+
+Object: an instance of a class
+
+Instantiate: Create an instance of a class
+
+Method: a function defined in a class
+
+Attribute: a variable bound to an instance of a class. 

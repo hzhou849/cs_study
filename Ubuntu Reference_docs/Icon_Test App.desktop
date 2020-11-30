@@ -1,0 +1,11 @@
+
+[Desktop Entry]
+Type=Application
+Name[en_US]=Icon_Test App
+Name=Test_Application_v1
+Version=1.0
+# If Requires terminal?: Terminal=false
+Terminal=true
+Exec=/home/howardz/Desktop/test.sh
+Comment=test-some comment
+Icon=/home/howardz/Documents/Icons_img/entry.png
