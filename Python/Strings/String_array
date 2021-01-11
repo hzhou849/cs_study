@@ -1,0 +1,12 @@
+data = "blahblah"
+
+you can iterate through the characters like so:
+
+to get first 2 characters
+data[:2].decode("utf-8)
+
+to get after 2 characters
+data[2:]
+
+to read the whole string
+data[:]

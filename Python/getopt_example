@@ -1,0 +1,29 @@
+
+def main():
+
+	self.argVar = None
+	a1 = sys.argv[1:]
+
+	try:
+		#short list only
+		opts, args = getopt.getopt(sys.argv[1:], "ch")
+		# Long option with arguments example
+		opts, args = getopt.getopt(sys.argv[1:], "cho:", ["option1", "help","output=")
+		print("__init__ Argument list2: {}".format(sys.argv))
+
+	except getopt.GetoptError as e:
+		print("Option Error -print help/usage{}".format(e))
+		usage()		
+		exit()
+	
+
+	
+	
+	for opt, arg in opts:
+		if opt in ['-h']:
+			print("****H found")
+			self.argVar = opt
+		elif opt in ['-c']:
+			print("*** C found")
+			self.argVar = opt
+			self.initUI(main)
