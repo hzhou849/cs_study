@@ -1,8 +1,17 @@
 HZ
  
-My internet stopped working on my VMware and this seems to have fixed it
+01/13/2021:
+- It seems the pulse secure VPN is overwritting the resolvconf files so that my internet only
+  works with the VPN. That is why you may need to reset the resolveconf and relink to default
+  if you want internet to work without pulse secure. Otherwise, just log on to pulse secure
+ and use internet.
+
+01/11/2021:
+ - My internet stopped working on my VMware and this seems to have fixed it
 I was not able to connect to any website despite changing the vmware network settings
-01/11/2021 
+ 
+
+
 
 from what I can gather there is a sybolic link error that mustve gotten corrupted. All
 I did was delete and recreate it and my internet worked again!
