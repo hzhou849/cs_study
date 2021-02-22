@@ -32,6 +32,8 @@ def main():
 	d5 ={"key5": "value5"}
 
 	# Create three Threadpools for multi-tasking
+	# execution in threadpool is non-blocking (atomic)
+	# unless you call the future.result() - that will block
 	executor = ThreadPoolExecutor(5)
 	future1 =  executor.submit(task, ("task1"), (d1) )
 	future2 =  executor.submit(task, ("task2"), (d2) )
@@ -40,6 +42,7 @@ def main():
 		print("future.done(): {}; ".format(future1.done()))
 		# print("future.done(): {}; {} ".format(future1.done(), future1.result()))
 		sleep(0.5)
+	print("block testing...")
 	print("future.done(): {}; {} ".format(future1.done(), future1.result()))
 	
 	temp = future1.result()
