@@ -397,4 +397,24 @@ Think of revert as an "UNDO" of the selected hash timeline.
   - this will do a full rewind and delete all changes upto desired point.
 
 
+ ** you can try to immediately restore after a reset hard
+ git flog - will show a transaction log with hash and 
+ do a git reset --hard <hash>
+
+ a1e9b29 HEAD@{0}: reset: moving to a1e9b29
+76450c8 HEAD@{1}: reset: moving to 76450c8
+a9fb3e2 HEAD@{2}: revert: Revert "commit version 0.0.3"
+76450c8 HEAD@{3}: reset: moving to 76450c8
+cf71e5b HEAD@{4}: revert: Revert "added newfile1; testing"
+76450c8 HEAD@{5}: reset: moving to 76450c8
+b30864f HEAD@{6}: checkout: moving from a1e9b29b12be7ae6875af95c1ffd99df7f24e360 to master
+a1e9b29 HEAD@{7}: checkout: moving from master to a1e9b29
+b30864f HEAD@{8}: revert: Revert "commit version 0.0.3"
+76450c8 HEAD@{9}: commit: added newfile2
+eafea22 HEAD@{10}: commit: added newfile1; testing
+a1e9b29 HEAD@{11}: reset: moving to a1e9b29
+7041462 HEAD@{12}: revert: Revert "bad update"
+7e84f7a HEAD@{13}: reset: moving to 7e84f7a
+
+ex: git reset --hard a9fb3e2 - will hopefully restore that log entry point
 
