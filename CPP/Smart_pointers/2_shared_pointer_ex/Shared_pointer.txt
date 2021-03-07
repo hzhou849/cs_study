@@ -1,0 +1,19 @@
+# Shared Pointers:
+
+Usage:
+#include <memory>
+	{
+		std::shared_ptr<int> p1 {new int {100} };
+
+		p1.use_count() // shows how many shared ownership it has
+
+		p1.reset(); decrement the count; p1 is now null
+	}
+	// automatically deleted.
+
+works like normal smart pointers.
+- Allows shared references, multiple pointers to same heap data
+- CAN be assigned, copied and moved.
+- will auto delete only when all shared references are out of scope.
+- Does not support managing arrays by default.
+

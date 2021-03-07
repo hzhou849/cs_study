@@ -1,0 +1,6 @@
+
+algorithm to extract a word from sentence space seperated
+
+day_date[i]=temp_str.substr(0, temp_str.find_first_of(" ")+1);
+			temp_str=temp_str.substr(temp_str.find_first_of(" ")+1);
+

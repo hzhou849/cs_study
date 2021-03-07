@@ -1,0 +1,3 @@
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+
+put on top of cpp file to ignore specific flags

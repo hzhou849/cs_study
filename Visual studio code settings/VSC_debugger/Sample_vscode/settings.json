@@ -1,0 +1,14 @@
+{
+	"files.associations": {
+		"*.*": "shellscript",
+		"*": "shellscript",
+		"*.cpp": "cpp",
+		"*.hpp": "cpp",
+		"*.cppbak": "cpp",
+		"*.c": "c",
+		"*.h": "c",
+		"*.cbak": "c",
+		"*.py": "python",
+		"iostream": "cpp"
+	}
+}

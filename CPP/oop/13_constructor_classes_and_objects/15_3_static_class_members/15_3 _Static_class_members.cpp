@@ -1,6 +1,16 @@
 /* Static class members
  *
+ * 
  *  NOTE: static functions only have access to static variables
+ * 
+ * Class data members can be delcalred as static
+ *  - A single data member that belongds to the class not the object instances
+ *  - Useful to store class-wide information
+ * 	 ie: say you want to keep track of how many instances of class objects you have created 
+ * 
+ *  Class functions can be declared as static
+ *  - independent of any objects
+ *  - can be called using the class name.
  */
 
 #include <iostream>
@@ -8,7 +18,7 @@
 
 class Device {
 private:
-    static int num_devices;
+    static int num_devices; // static memory this will count the number of class instances
     std::string dev_name;
     int reg_number;
 public:
@@ -19,7 +29,7 @@ public:
     void set_reg_number(int reg_number_val);
     
     // getters
-    static int get_number_devices() { return num_devices; }; // static functions only have access to static variables.
+    static int get_number_devices() { return num_devices; }; // ^^static functions only have access to static variables.
     std::string get_dev_name() { return dev_name; }
     int get_reg_number() { return reg_number;}
 

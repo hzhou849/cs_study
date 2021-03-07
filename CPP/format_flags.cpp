@@ -22,7 +22,9 @@
  * 		std::cout.setf(std::ios::showpos);
  * 
  * Reset to default:
- * 		std::cout << std::resetioflags (std::ios::basefield); - set it back to decimal
+ * 		std::cout << std::resetioflags (std::ios::basefield); - set it back to default decimal
+
+
  * 		std::cout << std::resetioflags (std::ios::showbase);
  * 		std::cout << std::resetioflags (std::ios::showpos);
  * 		std::cout << std::resetioflags (std::ios::uppercase);

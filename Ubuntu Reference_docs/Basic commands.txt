@@ -686,10 +686,54 @@ egrep -v      means leave the following out
 |             means or
 ^$            means patterns that are empty
 
+
+
+# Reading FILE and config file get values 
+file="fan.config"
+while IFS= read -r line
+do
+	# Ignore comments in config file
+	[[ $line = \#* ]] && continue
+	
+	if [[ $line == *PASS_RPM_VALUE* ]]; then
+		temp_value=$(echo $line | sed 's/[=]/ /g')
+		PASS_CRITERIA=$(echo ${temp_value} | awk '{print int($2)}' )
+		echo "Passing Value set: $PASS_CRITERIA" 
+	fi
+   
+done <"$file"
+
+
+## How to remove trailing \n new line in variable stored echo
+create a variable that contains newline char
+
+just re-awk the variable again to extract the word
+fan_freq = 'blah\n'
+fan_freq=$(echo $fan_freq | awk '{print $1}')
+fan_freq is now just 'blah'
+
+
+#===========================================
+SED date extract
+---------------------
+date | sed -e "s/:/ /" | sed -e "s/:/ /" | awk '{print $3 " " $2 " " $8 " " $4 " " $5 " " $6}' > currentdate.txt
+
+
+
+
+#============================================================================
+# Networking stuff
+#============================================================================
+Retrieve name of connected hosts and ip
+sudo cat /etc/hosts
+
+
+
 #count number of delimiter  words in string
 echo "one two three wasd" | awk '{print NF}' 
 returns 4
 
 #awk dynamic print variable
 	char=$(echo "$man_id_str" | awk -v i=$counter '{print $i }')
+
 

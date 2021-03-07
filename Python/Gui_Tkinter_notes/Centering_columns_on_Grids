@@ -1,0 +1,6 @@
+Remeber if you want to center a text or something on a grid 
+ie 6x6
+
+make sure you use the columnspan attribute to consume the neighboring columns 
+to help make centering easier and adjust padding accordingly
+ie .grid(row=0,column=0, pady=5, padx=10, columnspan=3

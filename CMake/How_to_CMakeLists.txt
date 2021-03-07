@@ -1,0 +1,17 @@
+# How to build with Cmake
+# Modify this file Project name and add cpp files
+
+# 1) mkdir build or debug,  
+  2) go into the new directory then run 'cmake ..' to generate makefiles in the new folder
+
+# 2)then run make to compile.
+
+
+# for debug build use this command
+#cmake -DCMAKE_BUILD_TYPE=Debug .
+
+cmake_minimum_required(VERSION 3.8)
+
+project(Calculator_Project VERSION 1.0.0)
+
+add_executable(calculator main.cpp logger.cpp)

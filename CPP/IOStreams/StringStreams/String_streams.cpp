@@ -19,7 +19,24 @@
  *  2) Declare a string stream object
  *  3) connect it to a std::string variable
  *  4) read/write data from/to the string stream using formated I/O
+
+
+MEMORY leak in loops be careful. Similar to +=.
+use oss.str("") to reset the memory otherwise memory leak!!!!
+	std::string string_value;
+	std::stringstream oss;
+	while (!s_interrupted)
+	{
+		oss.str(""); // reset string stream to prevent memory leak.
+		m_disp.reset_cursor_pos();
+
+
+	oss.clear() // clears and resets any flags ie std::hex etc..
  */
+
+
+
+
 
 #include <iostream>
 #include <sstream>

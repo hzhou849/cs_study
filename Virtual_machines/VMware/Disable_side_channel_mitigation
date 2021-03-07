@@ -1,0 +1,5 @@
+To Disable Side-Channel Mitigations
+https://www.reddit.com/r/vmware/comments/j2fyfl/how_to_disable_side_channel_mitigations_with/
+Add this line to your .vmx file:
+
+ulm.disableMitigations="TRUE"

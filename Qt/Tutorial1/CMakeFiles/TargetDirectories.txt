@@ -1,0 +1,4 @@
+/home/howardz/Documents/cs_study/Qt/Tutorial1/CMakeFiles/rebuild_cache.dir
+/home/howardz/Documents/cs_study/Qt/Tutorial1/CMakeFiles/edit_cache.dir
+/home/howardz/Documents/cs_study/Qt/Tutorial1/CMakeFiles/main.dir
+/home/howardz/Documents/cs_study/Qt/Tutorial1/CMakeFiles/main_autogen.dir

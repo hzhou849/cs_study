@@ -1,0 +1,62 @@
+HZ
+ 
+01/13/2021:
+- It seems the pulse secure VPN is overwritting the resolvconf files so that my internet only
+  works with the VPN. That is why you may need to reset the resolveconf and relink to default
+  if you want internet to work without pulse secure. Otherwise, just log on to pulse secure
+ and use internet.
+
+01/11/2021:
+ - My internet stopped working on my VMware and this seems to have fixed it
+I was not able to connect to any website despite changing the vmware network settings
+ 
+
+
+
+from what I can gather there is a sybolic link error that mustve gotten corrupted. All
+I did was delete and recreate it and my internet worked again!
+
+1) run this command to delete the old link rm -f /etc/resolv.conf # Delete actual file/symlink
+
+2) I was not able to use the instruction of the original post, did not work so I had to manually
+ recreate the resolvconf file and add the command in manually with sudo gedit
+
+go to /etc/default/ and touch/create file 'resolvconf'
+
+3) sudo gedit resolveconf and add the line ' REPORT_ABSENT_SYMLINK="no" ', save the file
+
+4) Recreate the symbolic link again by:
+ln -s /run/resolvconf/resolv.conf /etc/resolv.conf # recreate the symlink
+
+VOILA! went to chrome and my browser worked!
+
+
+original post:
+https://askubuntu.com/questions/872614/how-to-execute-resolvconf-without-warning
+First of all that is a WARNING.
+Here is the approach for your question from the resolvconf man page:
+
+Normally  the  resolvconf  program is run only by network interface configuration programs
+such as ifup(8),  ifdown,  NetworkManager(8),  dhclient(8),  and  pppd(8);  and  by  local
+nameservers  such  as  dnsmasq(8).  These programs obtain nameserver information from some
+source and push it to resolvconf.
+...
+To  make  the  resolver  use  this  dynamically  generated resolver configuration file the
+administrator   should   ensure   that   /etc/resolv.conf   is   a   symbolic   link    to
+/run/resolvconf/resolv.conf.   This  link  is  normally  created  on  installation  of the
+resolvconf package.  The link is never modified by the resolvconf program itself.  If  you
+find  that  /etc/resolv.conf is not being updated, please check to make sure that the link
+is intact.
+So what you need to do in order to get rid of the WARNING is to recreate the symbolik link you have 2 options:
+
+Either you recreate the symlink acording to man page with
+
+
+
+rm -f /etc/resolv.conf # Delete actual file/symlink 
+ln -s /run/resolvconf/resolv.conf /etc/resolv.conf # recreate the symlink
+You need to point to the correct file: /run/resolvconf/resolv.conf, not to /var/run/NetworkManager/resolv.conf.
+
+Tell resolvconf not to show you WARNING using REPORT_ABSENT_SYMLINK option:
+
+echo 'REPORT_ABSENT_SYMLINK="no"' >> /etc/default/resolvconf

@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/howardz/Documents/cs_study/CPP/oop/16_Polymorphism/Polymorphism_abstract_pure_virtual_classes_ex_notes/Abstract_class.cpp
+Abstract_class.h
+/home/howardz/Documents/cs_study/CPP/oop/16_Polymorphism/Polymorphism_abstract_pure_virtual_classes_ex_notes/Abstract_class.h
+
+/home/howardz/Documents/cs_study/CPP/oop/16_Polymorphism/Polymorphism_abstract_pure_virtual_classes_ex_notes/Abstract_class.h
+iostream
+-
+
+/home/howardz/Documents/cs_study/CPP/oop/16_Polymorphism/Polymorphism_abstract_pure_virtual_classes_ex_notes/main.cpp
+iostream
+-
+Abstract_class.h
+/home/howardz/Documents/cs_study/CPP/oop/16_Polymorphism/Polymorphism_abstract_pure_virtual_classes_ex_notes/Abstract_class.h
+

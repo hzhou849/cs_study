@@ -1,0 +1,4 @@
+to remove '\n' character from string.. or delete anyother characters
+
+std::string form_dt_str = q_log.front().first;
+		form_dt_str.erase(std::remove(form_dt_str.begin(), form_dt_str.end(), '\n'), form_dt_str.end());

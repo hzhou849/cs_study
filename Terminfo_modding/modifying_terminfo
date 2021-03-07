@@ -1,0 +1,22 @@
+https://static.zumasys.com/jbase/r99/knowledgebase/howto/general/common/CreateTerminfo/modify.htm
+
+commands:
+infocmp xterm - reads/compares terminal emulators and extracts source code for modding
+tic - compiler for terminal emualtor source files
+
+
+The mechanism for modifying an existing terminfo definition is quite simple.
+
+Create a source definition for the terminal.
+Edit the source definition for the terminal.
+Compile the source definition for the terminal into a binary entry in the terminfo database.
+These 3 simple steps are shown below for the vt100 definition (Note the 'vi' editor commands not shown).
+
+% cd $HOME/source
+% pwd
+/home/slipper/source
+% infocmp vt100 > vt100.ti
+% vi vt100.ti
+% su -
+Password:
+# tic /home/slipper/source/vt100.ti

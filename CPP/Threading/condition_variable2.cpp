@@ -49,6 +49,21 @@ void Application::mainTask() {
 }
 
 void Application::loadData () {
+	/* If not using boolean with condition variable, this sleep is necessary to avoid deadlock 
+         * Reason is this function must run AFTER the thread is created, otherwise, the workerthread
+         * will miss this notify call and hang.
+	
+	 If you don't want to use sleep, you can use a try_lock while loop to retry until lock is acquired.
+	while (!tp_mutex.try_lock())
+			{
+			std::cout << "trying to acquire lock" << std::endl;
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+	*/
+	// Test and notice w/o this sleep, code will fail.
+
+	
+
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 	// lock_guard is used for single instance RAII, 

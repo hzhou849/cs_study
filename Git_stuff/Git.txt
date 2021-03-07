@@ -104,6 +104,7 @@ rm -rf new_project/
 
 'git pull origin master'
 or just 'git pull'
+force pull overwrite - git reset --hard; then git pull
 
 
 /* SHOW TRACKED FILES */
@@ -276,6 +277,145 @@ git merge <branch_name> --no-ff
 
 
 
+To view log
+git log --oneline 
+git log (full verbose)
+
+git branch --delete <branch_name>
 
 
+-------------------------------------------------------
+# Staging: Add
+-------------------------------------------------------
+git add -A stages all changes
+
+git add . stages new files and modifications, without deletions (on the current directory and its subdirectories).
+
+git add -u stages modifications and deletions, without new files
+
+
+git add -A (all files)
+or 
+git add <name.file> for individual files
+
+# To unstage a file that you added by accident
+git rm --cached index.html
+
+-------------------------------------------------------
+# COMMIT
+commit saves the snapshot of the current code in the log
+-------------------------------------------------------
+git commit -m "my message version x.x.1"
+
+
+
+------------------------------------------------------
+# PUSH
+------------------------------------------------------
+git push -u origin master
+or
+git push 
+
+
+------------------------------------------------------
+# Rolling back
+------------------------------------------------------
+ Three methods of reverting with different saftey levels
+
+ 1) Checkout (Low danger)
+  - git checkout <hash_code) to checkout a timeline from the log
+  - Note: This is read only mode
+  - When done, just checkout the master branch to go back to current state
+
+ 2) Revert (safe but can be misued)
+ * Git Revert is not a full revert in the desired has timeline.
+ it will the changes in that hash_code
+
+Think of revert as an "UNDO" of the selected hash timeline.
+
+ example1.
+
+ log weragff "bad commit"
+ log abcdefg "commit1"
+
+ BOTH DO THE SAME
+ to use, git revert HEAD - will automatically undo all current changes in the current timeline
+ or type git revert weragff - will undo all the bad changes in this timeline by rolling back to timeline previous, in this case abcdefg timeline will be restored
+
+ git revert <hash_code>
+
+ this will add/copy a new commit with the hash-timeline you want to the
+ top of the log.
+
+ example 2:
+		 76450c8 added newfile2
+		 eafea22 added newfile1; testing
+		 a1e9b29 commit version 0.0.3
+		 4556f0e commit version 0.0.2
+		 c88e92a commit version 0.0.1
+		 116e29e commit 2
+		 97ea974 initial commit
+		 18bea9b Initial commit
+
+
+
+ if we are in the most current timeline of 76450c8:
+ i) git revert eafea22 - will delete the adding of newfile1 and testing  and create a new 	timeline (cf71e5b)
+ added-->cf71e5b Revert "added newfile1; testing"
+		76450c8 added newfile2
+	  * eafea22 added newfile1; testing
+		a1e9b29 commit version 0.0.3
+		4556f0e commit version 0.0.2
+		c88e92a commit version 0.0.1
+		116e29e commit 2
+		97ea974 initial commit
+		18bea9b Initial commit
+
+ ii) git revert a1ee9b29 - will delete version 0.0.3 changes and restore v.0.0.2 (timeline 4556f0e) but will keep everything after v003(a1e9b29) - think, everything before and after hash is kept,  so a1ee9b29 v003 will be removed.
+
+ or you can think of it as git "delete all changes of a1e9b29" from the timeline 
+ 
+	git revert a1e9b29, version 0.0.2 4
+	--> a9fb3e2 Revert "commit version 0.0.3"
+		76450c8 added newfile2
+		eafea22 added newfile1; testing
+	  * a1e9b29 commit version 0.0.3
+		4556f0e commit version 0.0.2
+		c88e92a commit version 0.0.1
+		116e29e commit 2
+		97ea974 initial commit
+		18bea9b Initial commit
+
+
+
+
+ 3) Reset
+ git reset <hash_code>
+  - this will delete all timelines after this hash_code, but will keep 
+    all the most current code, so you can commit the code if you want.
+
+ git reset <hash_code> --hard
+  - this will do a full rewind and delete all changes upto desired point.
+
+
+ ** you can try to immediately restore after a reset hard
+ git flog - will show a transaction log with hash and 
+ do a git reset --hard <hash>
+
+ a1e9b29 HEAD@{0}: reset: moving to a1e9b29
+76450c8 HEAD@{1}: reset: moving to 76450c8
+a9fb3e2 HEAD@{2}: revert: Revert "commit version 0.0.3"
+76450c8 HEAD@{3}: reset: moving to 76450c8
+cf71e5b HEAD@{4}: revert: Revert "added newfile1; testing"
+76450c8 HEAD@{5}: reset: moving to 76450c8
+b30864f HEAD@{6}: checkout: moving from a1e9b29b12be7ae6875af95c1ffd99df7f24e360 to master
+a1e9b29 HEAD@{7}: checkout: moving from master to a1e9b29
+b30864f HEAD@{8}: revert: Revert "commit version 0.0.3"
+76450c8 HEAD@{9}: commit: added newfile2
+eafea22 HEAD@{10}: commit: added newfile1; testing
+a1e9b29 HEAD@{11}: reset: moving to a1e9b29
+7041462 HEAD@{12}: revert: Revert "bad update"
+7e84f7a HEAD@{13}: reset: moving to 7e84f7a
+
+ex: git reset --hard a9fb3e2 - will hopefully restore that log entry point
 
