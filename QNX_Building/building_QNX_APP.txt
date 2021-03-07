@@ -1,0 +1,16 @@
+copy the source in the folder
+
+~/PTHW_Projects/Development/QNX_zynq_sdk_builder/<project_folder/
+
+To Build Source Code:
+1. run the followning command: 'source /opt/qnx/6.6.0/qnx-660-env.sh'
+2. make clean 
+3. make (to build)
+
+
+
+Steps to use this application.
+1. scp enable_pins.sh and qnx_pwm_driver_release-1.0.0 files to cart controller board
+2. run the enable_pins.sh script first to initialize required gpios
+3. connect brake 
+4. execute qnx_pwm_driver_release-1.0.0 application.

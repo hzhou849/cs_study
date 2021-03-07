@@ -1,0 +1,13 @@
+You should add more details about your distribution, for example under Ubuntu the right way to do this is to add a custom .conf file to /etc/ld.so.conf.d, for example
+
+
+#you can add your own library links to a custom file
+
+in this case add "/opt/ftid/lib" to this file and run the ldconfig line to update the libraries
+sudo gedit /etc/ld.so.conf.d/randomLibs.conf
+inside the file you are supposed to write the complete path to the directory that contains all the libraries that you wish to add to the system, for example
+
+/home/linux/myLocalLibs
+remember to add only the path to the dir, not the full path for the file, all the libs inside that path will be automatically indexed.
+
+Save and run sudo ldconfig to update the system with this libs.

@@ -1,7 +1,35 @@
 to make the bootable persistant USB run this command at termianl
 
 during process, select quit and let default selection for uefi and gpt
+
 sudo -H mkusb ubuntu-16.04.2-desktop-amd64.iso p
 
 method 2
 download etcher from windows - download flash iso -tested works ok
+
+
+method 3 - actually install entire OS on usb
+http://ubuntuhandbook.org/index.php/2014/11/install-real-ubuntu-os-usb-drive/
+
+1) create an installation Ubuntu usb
+2) connect a second destination USB drive
+3) boot into the installation mode
+once see the ubuntu menu, disconnect all oterh ssd
+4) disconnect any other connected HDD drives
+
+5) manual mode, select the USB ie "/dev/sdc5" 
+
+6) create a FAT16 area for regular storage files ie 1-5gb (optional if you want a seperate multi os area)
+	name it /UDISK for example. **required for some reason? possible for BOOT record?
+- create a swap space to make the installation yell one less thing at you
+7) create a second partition with the leftover space
+   as ext4 and mount point "/"
+
+8) select the device for bootloader as destination usb drive
+9) ok!
+
+10) if prompted select "erase everything and install"
+
+
+NOTES:
+If asked to force UEFI install, click 'go back' and then use the first option "clean installation" (make sure HDD is removed)

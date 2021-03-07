@@ -1,0 +1,4 @@
+c++
+- If can't see prototypes member functions decalared in private,
+  press escape to clear old list  and use shift+space to refresh the auto-list.
+  should appear now.

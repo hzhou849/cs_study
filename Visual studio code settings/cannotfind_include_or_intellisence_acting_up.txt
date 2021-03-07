@@ -1,0 +1,4 @@
+if intellisense is acting up or cannot find include folders
+
+check settings -> for intellisense "tag parser" enabled. (not tag parser mode) 
+and intellisense engine switchback -> enabled

@@ -1,0 +1,8 @@
+# Add repo
+sudo add-apt-repository ppa:nathan-renniewaldock/flux
+
+#remove repo
+sudo add-apt-repository -r ppa:nathan-renniewaldock/flux
+
+#uninstall
+sudo apt-get remove <package_name>

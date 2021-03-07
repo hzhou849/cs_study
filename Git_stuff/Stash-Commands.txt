@@ -46,3 +46,8 @@ git rm --cached <path to submodule/folder>
 
 /push branch 
  git push -u origin feature/test_standAlone_ver  //* -u necessary
+
+
+** UNDO LAST COMMIT
+----------------------------------------
+git reset HEAD~1 OR 2...N

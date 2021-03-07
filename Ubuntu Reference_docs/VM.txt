@@ -16,3 +16,12 @@ main feature i need, it allows change resolution.
 
 open terminal
 sudo apt-get install virtualbox-guest-utils
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+/* VMWARE */
+download bundle package install
+
+sudo apt-get -y install gcc make linux-headers-$(uname -r) dkms to download dependencies
+
+./<installerpackage>

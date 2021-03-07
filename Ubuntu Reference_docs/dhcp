@@ -1,14 +1,18 @@
 sudo service isc-dhcp-server
 
-
-
 Devices selection:
 /etc/default/isc-dhcp-server change "INTERFACES="eth[x]" ie eth0, eth1...
 
-
 3) Configure the ethx device to have an subnet ip ie 192.168.1.9 (outside client range 10-255)
+==============================================================================================
+# Make sure you set the dhcp server for the right interface.
+/etc/default/isc-dhcp-server
+INTERFACE ='eth0' or whatever interface
 
-leases are stored in /var/lib/dhcp
+#leases are stored in /var/lib/dhcp
 
-to check leases:
+#to check leases:
 dhcp-lease-list --lease /var/lib/dhcp/dhcpd.leases
+
+/* Add interfaces */
+/etc/default/isc-dhcp-server
