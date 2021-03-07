@@ -1,3 +1,10 @@
+/*
+ *Const keyword. the Idea is to protect as much of the passing data as possible.
+ * Good practice to use as often as possible.
+ * use on any function  you need to pass data through unmodified.
+ */
+
+
 #include <iostream>
 #include <string>
 

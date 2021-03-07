@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+				"/opt/qt/5.8.0/5.8/Linux/x86_64/include/QtCore/**",
+				"/opt/qt/5.8.0/5.8/Linux/x86_64/include/**",
+				"/opt/qt/5.8.0/5.8/Linux/x86_64/include/QtWidgets/",
+
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

@@ -6,6 +6,8 @@
  *  1) difference is that Const needs to be defined aboved main
  * 
  * 2)before c11 you could not call a function where a Const was expected
+ * 3) Constexpr lets the compiler know something exist so when you call it during compile
+      it will know what you are referring to .
  * 
  */
 

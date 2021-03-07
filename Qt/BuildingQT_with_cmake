@@ -1,9 +1,13 @@
 
 This is a sample tested version of of my cmake file that builds with Qt
+
+1) copy this into a CMakeLists.txt file
+2) run 'cmake .' for current directory
+3) run 'make' to build the project
 ================================================
 cmake_minimum_required(VERSION 3.1.0)
 
-project(NeoQtcm)
+project(project_name)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -23,5 +27,6 @@ set(Qt5widgets_DIR "/opt/qt/5.8.0/5.8/gcc_64/lib/cmake/Qt5Widgets")
 set(QT_QMAKE_EXECUTABLE "/opt/qt/5.8.0/5.8/gcc_64/bin/qmake")
 
 
-add_executable(NeoQtcm main.cpp mainwidget.cpp)
-qt5_use_modules(NeoQtcm Core Gui Widgets)
+add_executable(project_name main.cpp mainwidget.cpp)
+qt5_use_modules(project_name Core Gui Widgets)
+

@@ -1,0 +1,55 @@
+To overload an operator
+Definition of the overload function must be in the cpp file
+if you put it in the header file, that means the defintion 
+will appear in every translation unit during compile violating 
+the ONE DEFINITION RULE (meaning you will define operator<< in every
+object module, so the linker will not know which is the 'right one'.
+
+
+headfile
+
+// Interface Class
+class I_interface
+{
+private:
+	// Note this deinfition of overload must be int he cpp file
+	friend std::ostream &operator<< (std::ostream &os, const I_interface &inputObj);
+
+public:
+	virtual ~I_interface();
+	virtual void print(std::ostream &os) const = 0; // pure virtual function
+};
+
+
+
+cpp file - Implementation must be in this file to comiple
+
+// Definition for this overload operator must be in the cpp file
+std::ostream &operator<< (std::ostream &os, const I_interface &inputObj)
+{
+	//using interface virtual override methods
+	inputObj.print(os);
+
+	// method 2 - straight code
+	os << inputObj.name << "; " << inputObj.amount;
+}
+	return os;
+}
+
+
+Example 2:
+#include "I_interface.h"
+
+// I_interface class
+I_interface::~I_interface()
+{
+	std::cout << "I_interface destructed!!" << std::endl;
+}
+
+// Definition for this overload operator must be in the cpp file
+std::ostream &operator<< (std::ostream &os, const I_interface &inputObj)
+{
+	os << inputObj.name << "; " << inputObj.amount;
+	return os;
+}
+

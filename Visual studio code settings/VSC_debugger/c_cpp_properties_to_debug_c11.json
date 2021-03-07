@@ -1,0 +1,20 @@
+// Ubuntu settings you may need to compile and debug
+//1) change the cppstandard  to 'c++11' if intellisense is not working syntax issues.
+  2) change teh compilerPath to from gcc to g++ to help debugger issues.
+
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "gnu11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

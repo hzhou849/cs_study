@@ -1,0 +1,33 @@
+Compile-time / early binding / static binding
+Runtime / late binding / dynamic binding
+
+#ONe of the reasons to use pointers when creating an object is because of 
+c++ default static binding - meaning binding of method calls based on compile time.
+this is efficient, but has limitations when using derived methods.
+
+#Static binding
+ex if Base b is a base object and b.method() is called, it will call the base method.
+or if Derived d is a derived object it will only know to call derived method.
+
+
+#Dynamic binding, the binding will take place on run time.
+- tells compiler to defer binding to run time.
+  
+Base *objPtr = new Derived(); // create a Derived object on the heap and assign it to the objPtr.
+objPtr->method() 	this will call //Base::method because compiler doesn't konw what objPtr is pointer to 
+                        and thinks it s a base object. You will need virtual overrides to make this work properly?
+
+
+
+When would i use dynamic binding? So we need virtual 
+
+say we have:
+
+Base::say hello()
+
+Derived::say hello()
+
+void greetings(cosnt Base &obj)--> even if we pass a derived obj, the compile will think it is a base due to static binding
+{
+	obj.say_hello() // we want this function call to call based on which object passed automatically
+}

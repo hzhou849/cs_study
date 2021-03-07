@@ -104,6 +104,7 @@ rm -rf new_project/
 
 'git pull origin master'
 or just 'git pull'
+force pull overwrite - git reset --hard; then git pull
 
 
 /* SHOW TRACKED FILES */

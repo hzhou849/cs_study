@@ -1,0 +1,10 @@
+ 
+How to initialize object 
+
+#method 1
+baseClass *enemy(nullptr);
+ enemy = new baseClass;
+
+#method 2
+    baseClass *objPtr = new baseClass(); // Proper Object Pointer Initialization
+    objPtr->speak("this is a message");

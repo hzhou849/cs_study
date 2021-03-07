@@ -1,0 +1,11 @@
+qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it was found.
+
+This application failed to start because no Qt platform plugin could be initialized. 
+Reinstalling the application may fix this problem.
+
+Available platform plugins are: eglf...
+
+# If qt not running due to error shown above
+try 
+1) in terminal -> 'export QT_DEBUG_PLUGINS=1'
+2) sudo apt install libxcb-xinerama0 or whatever the missing package is asking for 

@@ -1,5 +1,24 @@
 Smart pointers
 
+Requires #include <memory> header file
+- wrapper around a raw pointer
+- CANNOT do pointer arithmetic on smart pointers like you can with raw pointers (ie ++, --, etc.)
+- The idea is to write code without 'new' or deletes
+  so that C++ can delete the pointers and handle the heap automatically 
+
+usage: 
+	std::smart_pointer<class_type> ptr =
+	ptr->method();
+
+	and will be destroyed automatically out of scope.
+
+-lifetime management
+- avoid wild pointers
+- prevent memeory leaks
+- dangling pointers, pointers that point to storage that have already been 
+	deallocated, but still store and are called. BIG PROBLEM
+
+
 - can only point to heap allocated memory
 - automatically call delete when no longer needed
 - adhere to RAII principles
@@ -9,8 +28,8 @@ features:
 - have custom deleters
 
 C++ smart pointers
-- Unique pointers(unique_ptr)
-- Shared pointers( shared_ptr)
+- Unique pointers(unique_ptr) - not shared
+- Shared pointers( shared_ptr) - share common heap storage
 - Weak pointers (weak_ptr)
 - Auto pointers (auto_ptr) *depricated 
 
@@ -21,8 +40,32 @@ RAII - Resource Aquisition is Initialization
 - idiom or pattern used in software design based on container object lifetime
 - RAII objects are allocated on the stack
 - RAII examples:
-	- open a file; allocate memory; acquire a lock etc...
+	- open a file; 
+	- allocate memory; 
+        - acquire a lock etc...
 
 - The resource is acquired in a constructor or the acquisition of a resource will initialize the object
 
 Destructor - Close the file, deallocate memory, release the lock
+
+
+Smart pointers:
+- are objects
+- Can only point to heap-allocated memory
+- Automatically call delete when no longer needed
+- Adhere to RAII principles
+
+- Requires #include <memory> header file
+
+
+
+Unique Pointers:
+- Points to object of type T on the heap
+- It is unique- only one unique pointer<T> pointing to an object on the heap
+- Owns what it points too
+- CANNOT be reassinged or copied
+- Can be moved
+- When the pointer is destroyed, what it points to is automatically destroyed too
+
+
+
