@@ -1,1 +1,0 @@
-cmd_/home/howardz/Development/Ubuntu_x86/KernelModule/kontron_driver.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/howardz/Development/Ubuntu_x86/KernelModule/kontron_driver.ko /home/howardz/Development/Ubuntu_x86/KernelModule/kontron_driver.o /home/howardz/Development/Ubuntu_x86/KernelModule/kontron_driver.mod.o

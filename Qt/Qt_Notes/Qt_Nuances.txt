@@ -1,0 +1,27 @@
+QT Nuances
+
+META OBJECT COMPILER
+
+# Classes
+- YOU CANNOT COPY a queue object. see qobject.h (Q_DISABLE_COPY prevents this)
+- Qt does NOT allow multiple inheritances (Interfaces is ok, bc no constructor)
+- QObjects does not have a copy constructor or an assignment operator by design.
+	- meaning  you are not supposed to copy QT objects, since they are
+   	 non-copyable by design.
+
+
+int main (int argc, char *argv[])
+{
+	QCoreApplication a(argc, argv);
+
+	// '0' is used because this is not a q object. 
+	ObjClass obj(0, "blah");  		// one way of declaring object.
+	ObjClass obj2(NULL, "blah"); 		// you can use null as well
+
+	// When QCoreAPPlication gets destroyed, this will get cleaned up too. 
+	// (In this instance, it will get cleaned up anyways bc we declared
+	// these objects in the stack.
+
+	ObjClass obj3(&a, "blah");		// BEST METHOD! Recommended, by passing the QCoreApp &a, it will be tied when garbage collection occurs 
+	
+}

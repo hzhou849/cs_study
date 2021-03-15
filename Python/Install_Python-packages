@@ -1,8 +1,16 @@
 
+# packages are installed to the instance of the python verison you are using.
+
+
+
+
 Python installer PIP
 sudo pip install - python2
 sudo pip3 install - for python3
 sudo pip uninstall package
+
+
+
 
 ====================================================
 PYinstaller
@@ -47,7 +55,12 @@ For Debian/Ubuntu:
 Python 2
 if ImportError: cannot import name 'ImageTk'
 sudo apt-get install python-imaging python-pil.imagetk
-Python 3
+Python 3.5
 
 sudo apt-get install python3-pil python3-pil.imagetk
+
+** PIL is deprecated for 3.7 use pillow now.
+new package for 3.7 is now pillow-pil * may nee dto good this.
+python -m pip3 install pillow
+python -m pip3 install pillow-pil
 

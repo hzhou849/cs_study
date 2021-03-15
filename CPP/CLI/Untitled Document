@@ -1,0 +1,8 @@
+
+System::String^ path = "filename.txt"
+
+System::IO::Streamwriter? sw = gcnew  sw(path, bool append_option); // ie sw(path, true) for file append write.
+
+- as far as I know, there is no combined variable text + variable write.
+sw->Write("text\n");
+sw->Write(System::DateTime::now); to write strings

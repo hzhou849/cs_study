@@ -1,9 +1,3 @@
-sudo pip install - python2
-sudo pip3 install - for python3
-sudo pip uninstall package
-
-
-// You made need to remap your python3 definition so pip3 will install using that version python
 i kept getting errors trying to install pip packages
 I think you need this package to install distribution packages
 I was trying to install PIL image package and pillow

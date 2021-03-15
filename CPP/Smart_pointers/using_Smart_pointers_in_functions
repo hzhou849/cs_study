@@ -1,0 +1,9 @@
+void assignPrint(std::unique_ptr<BaseClass> objType)
+{
+    objType->printOut();
+}
+
+
+# Note if you are using Unique_ptrs, you have to move ownership on function call
+ie:
+	assignPrint( move(<unique_ptr_var>) );

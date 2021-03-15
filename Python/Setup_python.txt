@@ -1,0 +1,15 @@
+To setup python
+
+sudo apt update
+sudo apt install python3.x
+
+
+2) Add Python Alternatives to python3 - note the priorty arg passed at the end 1; 2
+$ sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
+$ sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2
+
+
+3)By default, Python 3.<prev> is pointed to Python 3. That means when we run python3 it will execute as python3.<prev> binary but we want to execute this as python3.<new>.
+$ sudo update-alternatives --config python3
+
+select the python you want 

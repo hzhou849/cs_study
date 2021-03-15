@@ -1,0 +1,9 @@
+QtCreator for linux may have some problems.
+
+If you try to compile your project and get 'error usr/bin/ld cannot find -IGL'
+
+
+try:
+ sudo apt-get install mesa-common-dev
+ sudo apt-get install libglu1-mesa-dev
+
