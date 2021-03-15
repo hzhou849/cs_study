@@ -1,3 +1,0 @@
-gcc -g -Wall device_tester.c -o mapper.x
-
-gcc *.c lib/*.c -o output.c -lm
