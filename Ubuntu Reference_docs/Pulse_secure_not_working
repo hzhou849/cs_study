@@ -1,0 +1,6 @@
+Pulse secure not starting up after installation
+if app is found after installation in:
+ls -lh /usr/share/applications and you can sudo apt remove pulse, but can't start, it is installed correctly, but 
+
+After installing pulse secure, if it does not start, it is likely bc of missing package:
+do sudo apt-get install libwebkitgtk-1.0

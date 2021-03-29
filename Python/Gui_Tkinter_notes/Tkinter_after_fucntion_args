@@ -1,0 +1,12 @@
+To handle tkinter self.after() with args
+
+
+self.after(<time_ms>, <function>, *args1,*args2 etc..)
+
+
+**DO NOT DO THIS
+
+self.after(1000, func(arg))
+- it will try to pass the return of func() immeddiately and schedule the return value every 1000ms, 
+	but the function call is immediate.
+- this will result in a lambda recursive call and stack overflow

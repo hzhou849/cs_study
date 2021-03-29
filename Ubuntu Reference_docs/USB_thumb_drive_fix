@@ -1,0 +1,15 @@
+Cannot write to usb drive
+Cause may be a dirty bit caused by not closing the drive properly and pulling out.
+
+When you attach your USB key to your laptop:
+
+optional:
+1)-run sudo -i (so that you won't type your password all the time)
+
+2) run df -Th(to see where your USB stick is mounted)
+
+3) -unmount your USB stick
+
+4) run dosfsck on the device you saw from your previous command. Example: dosfsck /dev/sdc1
+
+5)remove and reattach your USB stick Problem should be solved now.
