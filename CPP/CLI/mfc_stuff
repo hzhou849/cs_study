@@ -1,0 +1,8 @@
+2 ways of opening a dialog window,
+
+1) create the object
+	Dialog1 *objDialog = new Dialog1();
+	objDialog->show() //
+
+2) modal option. Modal makes the previous window inactive to protect against clicks
+	MainDialog  *object invoke modal() 

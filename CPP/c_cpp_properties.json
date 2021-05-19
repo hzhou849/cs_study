@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+				"${workspaceFolder}/**",
+				"/opt/ftdi/1.4.8/**",
+				"/opt/ftdi/1.4.8/include",
+				"/opt/boost/1.64/Linux/x86_64/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,105 @@
+# CStrings for MFC
+notes: vectors stores them as std::vector<CString> [0] = L"blah"
+
+#--------------------------------------------------------------------------------
+# CString to double
+
+double d_temp;
+GetDlgItem->CStringItem
+
+d_temp = _tcstod(CStringItem, NULL); // tested seems to keep precision well
+
+#--------------------------------------------------------------------------------
+# Convert CString --> std::string
+CString cs("hello");
+
+// conversion macro from MFC?
+CT2A convertedVar(cs);
+std::string stdStrVar(convertedVar);
+
+#alternative method, I have not used:
+CString cs ("Hello");
+// Convert a TCHAR string to a LPCSTR
+CT2CA pszConvertedAnsiString (cs);
+// construct a std::string using the LPCSTR input
+std::string strStd (pszConvertedAnsiString);
+#--------------------------------------------------------------------------------
+
+
+# CSTRING to---> LPCSTR MFC Dialog input
+# Convert c++ infile read from file->CString to LPCSTR format CLI dialog compatible
+int bufferSize = 128;
+char dataStr[bufferSize; // buffer
+
+//input can come from file read input or reading from dialog input box
+
+// input method1
+std::getline(infile, line);
+
+//or input from dialog box
+((CEdit*))->GetDlgItem(IDC_EDIT_INPUT_BOX))->GetDlgItem(inValue)
+
+sprintf_s(dataStr, bufferSize, inValue.c_str()); // or line.c_str() 
+
+int wSize = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)dataStr, -1, 0,0);
+LPWSTR output = new WCHAR(wSize);
+
+MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, (LPCSTR)dataStr, -1, output, wSize);
+
+// Print to dialog output
+this->GetDlgItem(IDC_EDIT_OUTPUT_BOX)->SetWindowTextW(output);
+
+infile.close()
+
+
+
+
+//-------------------------------Untested methods-----------------------------------------------------------
+# Writing out put strings
+System::String^ path = "filename.txt"
+
+System::IO::Streamwriter? sw = gcnew  sw(path, bool append_option); // ie sw(path, true) for file append write.
+
+- as far as I know, there is no combined variable text + variable write.
+sw->Write("text\n");
+sw->Write(System::DateTime::now); to write strings
+
+
+# Converting System::string^ to std::string and vice-versa
+
+#include <stdlib.h>
+#include <string.h>
+#include <msclr\marshal_cppstd.h> // need this library
+//..
+using namespace msclr::interop;
+//..
+System::String^ clrString = (TextoDeBoton);
+std::string stdString = marshal_as<std::string>(clrString); //String^ to std
+//System::String^ myString = marshal_as<System::String^>(MyBasicStirng); //std to String^
+prueba.CopyInfo(stdString); //MyMethod
+//..
+//Where: String^ = TextoDeBoton;
+//and stdString is a "normal" string;
+
+# LPCWSTR conversion
+System::String^  initMsg = L"Initial message"; // Create Start message
+	std::string stdString = msclr::interop::marshal_as<std::string>(initMsg);
+
+	std::string blah = "blah";
+	//std::wstring wsStrVar = ( blah.begin(), blah.end() );
+
+	std::string input = "whatever";
+////computing wchar size:
+int wSize = MultiByteToWideChar (CP_ACP, 0, (LPCSTR) input.c_str (), -1, 0, 0);
+
+//allocating memory for wchar:
+LPWSTR output = new WCHAR[wSize];
+
+//conversion from string to LPWSTR:
+MultiByteToWideChar (CP_ACP, MB_PRECOMPOSED , (LPCSTR) input.c_str (), -1, output, wSize);
+
+LPCWSTR stemp;
+stemp = output;
+
+
+dlg->SetDlgItemTextW(IDD_DIALOG1, stemp );

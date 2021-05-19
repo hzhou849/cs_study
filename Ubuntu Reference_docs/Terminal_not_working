@@ -1,0 +1,11 @@
+If terminal is not working. when clicking it does not load:
+this fix worked for me. HZ
+
+I had the same problem. After updating python to version 3.7 some applications like jupyter notebook, meld and the terminal did not launch.
+
+The solution: Symbolic link to python3.4" was lost:
+
+sudo apt-get --reinstall install python3-minimal
+
+
+

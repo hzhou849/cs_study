@@ -1,0 +1,33 @@
+# To launch thread and get back return value from a afx thread VSc++
+
+
+UINT function(LPVOID tcParam)
+{
+	UINT returnVal = 0;
+
+	// Do something
+	if (error) { returnVal = -1;}
+	
+	AfxEndThread(returnVal);
+	return (returnVal);    // not sure if both are needed. Use debugger to experiment	
+}
+
+
+DWORD threadRetVal = 0;
+
+CWinThread *testThread = AfxBeginThread(<function()>, NULL, THREAD_PRIORITY_NORMAL,0,0, NULL);
+testThread->m_bAutoDelete = FALSE; // required to prevent auto gc to kill thread before reading return value
+
+if (testThread)
+{
+	// Wait for thread to finish
+	WaitForSingleObject(testThread->m_hThread, INFINITE);
+	
+	System::String^ tempStr;	
+
+	BOOL threadStatus = GetExitCodeThread(testThread->m_hThread, &threadRetVal);
+	tempStr->Format("If I want this val: %u", threadRetVal);
+	
+}
+
+

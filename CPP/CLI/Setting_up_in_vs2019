@@ -1,0 +1,11 @@
+# Enable CLI for Visual Studio project.
+
+- In order to use CLI code in a VS project, you have to enable it in the settngs 
+- Open you MFC (or any other c++ project) click on tools->project properties
+- under the General->advanced tab look for field 
+ 	- 'Common Language Runtime' select: "Common Language Runtime Support (/clr)
+- Apply and click OK.
+
+
+create a new class using the solution tab
+test writing CLI syntax. ie "System::String^ str" and intellisense should work.
