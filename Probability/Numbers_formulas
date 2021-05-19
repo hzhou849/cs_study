@@ -1,0 +1,9 @@
+Calculate number of integers in range:
+
+Number of integers in range from x to y INCLUSIVE:
+y-x + 1
+ex. numbers from 42 to 92 inclusive =  92-42 + 1 = 51 numbers
+
+If looking for the number of even to odd numbers, we know we have more
+even numbers bc it starts with 42 so 26-even and 25-odd = 51 total numbers
+

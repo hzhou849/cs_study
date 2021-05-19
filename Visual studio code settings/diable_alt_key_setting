@@ -8,5 +8,7 @@ may need to instal ccsm
 
 sudo apt-get install compizconfig-settings-manager
 
-ccsm -> move window -> don't disable alt+mouse, change it,
+ccsm -> move window -> don't disable alt+mouse,just change it add super or whatever,
 disabling the alt key does not work.
+
+this moving window feature is whats causing the conflict

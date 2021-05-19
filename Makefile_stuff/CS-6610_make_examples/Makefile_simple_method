@@ -1,0 +1,34 @@
+# This make file Example 1: simple way
+
+# Symbols Definition / Automatic variables:
+# 	Target name uses $@
+# 	Dependancies $*^
+
+
+# # METHOD 1: manually typed but hard to use when using large projects.
+# # -------------Makefile for C projects  -------------
+# # Object files expected
+# OBJS = numbers.o mytools.o
+
+# # Compiler to use
+# CC = gcc
+
+# # Optional flags to be used
+# # 'O' letter for optimization 1. This does some flow analysis an dthe comments provided 
+# # may be helpful in debugging logic errors
+# CFLAGS=-g -Wall -O1 
+
+# # ------------- Linking Commands ------------------
+# numbers: $(OBJS)
+# 	$(CC) -o numbers $(OBJS)
+
+# # ------------- Compilations commands ------------------
+# mytools.o:  mytools.h mytools.c
+# 	$(CC) -c $(CFLAGS) numbers.c
+
+# numbers.o: numbers.h numbers.c 
+# 	$(CC) -c $(CFLAGS) numbers.c
+
+# # ------------- Cleanup Commands ------------------
+# clean:
+# 	rm -f $(OBJS) numbers

@@ -1,0 +1,84 @@
+#----------------------- Makefile for C projects ---------------------
+#Expected object files
+OBJS = paral_arrays.o
+
+# Compiler used:
+CC = gcc
+
+# Optional flags:
+#'O' optimization level 1. For flow analysis and debug comments
+CFLAGS=-g -Wall -O1
+
+#--------------------- Linking Commands ----------------------------------
+# Automatic variables 
+# Example: all: library.cpp main.cpp
+# $@ = name of target (evaluates 'all')
+# $< = prerequisite required to create output file (evaluates library.cpp)
+# $^ = filename of all pre-reqs seperated by spaces (evaluations library.cpp main.cpp )
+paral_arrays: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+#--------------------- Compilations commands -----------------------------
+#Optional Short hand to combine files
+# %.o: %.c
+	# $(CC) $(CFLAGS) -c $^
+
+paral_arrays: paral_arrays.c
+	$(CC) -c $(CFLAGS) paral_arrays.c
+
+#-------------------- Clean up commands -----------------------------------
+clean:
+	rm -f $(OBJS) paral_arrays
+
+
+
+
+
+=================================================================================
+
+# Method 2 - Using automatic variables to trim the filesize: 
+# $@ = main.c ( Target)
+# $^ = obj1.o obj2.o etc... (Dependancies)
+
+# % - wildcard symbol (think *.* for terminal)
+
+# -------------Makefile for C projects  -------------
+# Object files expected
+OBJS = numbers.o mytools.o
+
+# Compiler to use
+CC = gcc
+
+# Optional flags to be used
+# 'O' letter for optimization 1. This does some flow analysis an dthe comments provided 
+# may be helpful in debugging logic errors
+CFLAGS=-g -Wall -O1 
+
+# ------------- Linking Commands ------------------
+numbers: $(OBJS)
+	# $(CC) -o numbers $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# ------------- Compilations commands ------------------
+# we can even go shorter and just do:
+# This tells make all object files are made with the corresponding .c and .h files with the same name
+# **DO NOT declare %.h here, unless you want pre-compiled headers and create .h.gch files
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $^
+
+# mytools.o:  mytools.h mytools.c
+# 	# $(CC) -c $(CFLAGS) numbers.c
+# 	$(CC) -c $(CFLAGS) $^ - we can do this as well
+
+# numbers.o: numbers.h numbers.c 
+# 	# $(CC) -c $(CFLAGS) numbers.c
+# 	$(CC) -c $(CFLAGS) $^ - we can do this as well
+
+
+# ------------- Cleanup Commands ------------------
+clean:
+	rm -f $(OBJS) numbers *.h.gch
+
+
+
+
